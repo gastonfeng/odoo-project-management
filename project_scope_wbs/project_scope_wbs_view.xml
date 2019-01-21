@@ -17,7 +17,7 @@
             	<field name="name" position="after">
             			<field name="complete_wbs_name" string="WBS Path name"/>    
             			<field name="complete_wbs_code" string="WBS Path code"/>              			 
-						<field name="class" string="Class"/>       
+						<field name="class_" string="Class"/>
 						<field name="lifecycle_stage" string="Stage" attrs="{'readonly':[('class','in',['deliverable', 'work_package'])]}"/>     			         				            		
             	</field>
             </field>
@@ -34,7 +34,7 @@
                 <field name="name" position="after">
             		<field name="complete_wbs_name" string="WBS Path name"/>
             		<field name="complete_wbs_code" string="WBS Path code"/> 
-            		<field name="class" string="Class"/>   
+            		<field name="class_" string="Class"/>
             		<field name="lifecycle_stage" string="Stage"/>     			            			            				            		
             	</field>            	                                         
             </field>
@@ -48,7 +48,7 @@
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
             	<field name="name" position="after">
-            		<field name="class" string="Class"/>
+            		<field name="class_" string="Class"/>
             		<field name="lifecycle_stage" string="Stage"/>            		             		
             		<field name="code" string="Code"/>
             		<field name="complete_wbs_code" string="WBS Path code" readonly="1"/>            				            		
@@ -74,10 +74,10 @@
             <field name="model">account.analytic.account</field>
             <field name="type">tree</field>
             <field eval="8" name="priority"/>
-            <field name="inherit_id" ref="account.view_account_analytic_account_list"/>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_list"/>
             <field name="arch" type="xml">
                 <field name="code" position="after">            		
-            		<field name="class" string="Class"/>   
+            		<field name="class_" string="Class"/>
             		<field name="lifecycle_stage" string="Stage"/>     			            			            				            		
             	</field>                     	
             </field>
@@ -87,12 +87,12 @@
             <field name="name">account.analytic.account.search</field>
             <field name="model">account.analytic.account</field>
             <field name="type">search</field>
-            <field name="inherit_id" ref="account.view_account_analytic_account_search"/>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_search"/>
             <field name="arch" type="xml">
             	<field name="name" position="after">  
             		<field name="complete_wbs_name" string="WBS Path name"/>  
             		<field name="complete_wbs_code" string="WBS Path code"/>       			 
-					<field name="class" string="Class"/>            	
+					<field name="class_" string="Class"/>
 					<field name="lifecycle_stage" string="Stage"/>		         				            		
             	</field>               	   
             </field>
@@ -103,14 +103,14 @@
             <field name="model">account.analytic.account</field>
             <field name="type">tree</field>
             <field name="field_parent">child_complete_ids</field>
-            <field name="inherit_id" ref="account.view_account_analytic_account_tree"/>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_list"/>
             <field name="arch" type="xml">         	    
-            	<field name="name" position="after"> 
+            	<field name="display_name" position="after">
             		<field name="complete_wbs_name" string="WBS Path name"/> 	
             	</field>  	  
             	<field name="code" position="after">  
             		<field name="complete_wbs_code" string="WBS Path code"/>              			 
-					<field name="class" string="Class"/>         
+					<field name="class_" string="Class"/>
 					<field name="lifecycle_stage" string="Stage"/>   			         				            		
             	</field>           
             </field>
@@ -123,7 +123,7 @@
             <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
             <field name="arch" type="xml">
             	<field name="name" position="after">
-            		<field name="class" string="Class"/>            		
+            		<field name="class_" string="Class"/>
             		<field name="lifecycle_stage" string="Stage"/>
             		<field name="complete_wbs_code" string="WBS Path code" readonly="1"/>
             	</field>            				            		            	              

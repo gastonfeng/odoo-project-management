@@ -18,25 +18,20 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import models, fields
 
-from openerp.osv import fields, osv
 
-    
-class project_lifecycle(osv.osv):
-    
+class project_lifecycle(models.Model):
     _name = "project.lifecycle"
     _description = 'Lifecycle Stage'
     _order = 'sequence'
-    
-    _columns = {        
-        'name': fields.char('Stage Name', size=32, required=True, translate=True),
-        'sequence': fields.integer('Sequence'),                                  
-    }
+
+    name = fields.Char('Stage Name', size=32, required=True, translate=True)
+    sequence = fields.Integer('Sequence')
 
     _defaults = {
         'sequence': 1
-    }    
+    }
 
 
 project_lifecycle()
-

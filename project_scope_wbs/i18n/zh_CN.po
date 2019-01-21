@@ -1,0 +1,235 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* project_scope_wbs
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2011-11-19 04:27+0000\n"
+"PO-Revision-Date: 2019-01-20 20:45+0800\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.2.1\n"
+"Last-Translator: \n"
+"Language: zh_CN\n"
+
+#. module: project_scope_wbs
+#: help:project.task,project_complete_wbs_code:0
+msgid "Project Complete WBS path code"
+msgstr "项目完整的 wbs 路径代码"
+
+#. module: project_scope_wbs
+#: view:account.analytic.account:0 view:project.project:0
+msgid "WBS Path code"
+msgstr "WBS路径代码"
+
+#. module: project_scope_wbs
+#: help:project.task,project_complete_wbs_name:0
+msgid "Project Complete WBS path name"
+msgstr "项目完整的 wbs 路径名"
+
+#. module: project_scope_wbs
+#: constraint:project.task:0
+msgid "Error ! Task end-date must be greater then task start-date"
+msgstr "错误！任务结束日期必须大于任务开始日期"
+
+#. module: project_scope_wbs
+#: view:project.lifecycle:0
+msgid "Project Lifecycle"
+msgstr "项目生命周期"
+
+#. module: project_scope_wbs
+#: view:project.project:0
+msgid "Administration"
+msgstr "系统管理"
+
+#. module: project_scope_wbs
+#: field:project.task,project_complete_wbs_code:0
+msgid "WBS path code"
+msgstr "WBS 路径代码"
+
+#. module: project_scope_wbs
+#: field:account.analytic.account,complete_wbs_code:0
+msgid "Full WBS Code"
+msgstr "完整的 wbs 代码"
+
+#. module: project_scope_wbs
+#: field:project.project,project_child_complete_ids:0
+msgid "Project Hierarchy"
+msgstr "项目层次结构"
+
+#. module: project_scope_wbs
+#: help:project.task,predecessor_names_str:0
+msgid "Predecessor tasks ids"
+msgstr "前置任务 id"
+
+#. module: project_scope_wbs
+#: selection:account.analytic.account,class:0
+msgid "Subproject"
+msgstr "子项目"
+
+#. module: project_scope_wbs
+#: constraint:project.project:0
+msgid "Error! project start-date must be lower then project end-date."
+msgstr "错误！ 项目开始日期必须低于项目结束日期。"
+
+#. module: project_scope_wbs
+#: constraint:project.task:0
+msgid "Error ! You cannot create recursive tasks."
+msgstr "错误！ 您无法创建递归任务。"
+
+#. module: project_scope_wbs
+#: model:ir.actions.act_window,help:project_scope_wbs.action_project_lifecycle_tree
+msgid "Define the project lifecycle stages."
+msgstr "定义项目生命周期阶段。"
+
+#. module: project_scope_wbs
+#: field:project.lifecycle,name:0
+msgid "Stage Name"
+msgstr "阶段名称"
+
+#. module: project_scope_wbs
+#: model:ir.module.module,description:project_scope_wbs.module_meta_information
+msgid ""
+"Extensions for the Project management module.     \n"
+"    "
+msgstr "项目管理模块的扩展. "
+
+#. module: project_scope_wbs
+#: constraint:project.project:0
+msgid "Error! You cannot assign escalation to the same project!"
+msgstr "错误！ 您无法将升级分配给同一个项目！"
+
+#. module: project_scope_wbs
+#: selection:account.analytic.account,class:0
+msgid "Phase"
+msgstr "阶段"
+
+#. module: project_scope_wbs
+#: help:account.analytic.account,class:0
+msgid ""
+"The classification allows you to create a proper project Work Breakdown "
+"Structure"
+msgstr "分类允许您创建适当的项目工作分解结构"
+
+#. module: project_scope_wbs
+#: model:ir.ui.menu,name:project_scope_wbs.menu_project_lifecycle_config
+msgid "Lifecycle"
+msgstr "生命周期"
+
+#. module: project_scope_wbs
+#: view:account.analytic.account:0 view:project.project:0
+msgid "Stage"
+msgstr "阶段"
+
+#. module: project_scope_wbs
+#: field:project.task,predecessor_names_str:0
+msgid "Predecessor tasks"
+msgstr "前置任务"
+
+#. module: project_scope_wbs
+#: view:account.analytic.account:0 view:project.project:0 view:project.task:0
+msgid "WBS Path name"
+msgstr "WBS路径名称"
+
+#. module: project_scope_wbs
+#: help:account.analytic.account,complete_wbs_code:0
+msgid ""
+"The full WBS code describes the full path of this component within the "
+"project WBS hierarchy"
+msgstr "完整的WBS代码描述了项目WBS层次结构中此组件的完整路径"
+
+#. module: project_scope_wbs
+#: model:ir.model,name:project_scope_wbs.model_project_task
+msgid "Task"
+msgstr "任务"
+
+#. module: project_scope_wbs
+#: field:project.task,project_complete_wbs_name:0
+msgid "WBS path name"
+msgstr "WBS路径名称"
+
+#. module: project_scope_wbs
+#: help:account.analytic.account,complete_wbs_name:0
+msgid "Full path in the WBS hierarchy"
+msgstr "WBS层次的完整路径"
+
+#. module: project_scope_wbs
+#: field:account.analytic.account,complete_wbs_name:0
+msgid "Full WBS path"
+msgstr "完整WBS路径"
+
+#. module: project_scope_wbs
+#: selection:account.analytic.account,class:0
+msgid "Deliverable"
+msgstr "交付"
+
+#. module: project_scope_wbs
+#: field:account.analytic.account,child_projects:0 view:project.project:0
+msgid "WBS Components"
+msgstr "WBS部件"
+
+#. module: project_scope_wbs
+#: constraint:account.analytic.account:0
+msgid ""
+"Error! The currency has to be the same as the currency of the selected "
+"company"
+msgstr "错误！ 货币必须与所选公司的货币相同"
+
+#. module: project_scope_wbs
+#: model:ir.module.module,shortdesc:project_scope_wbs.module_meta_information
+msgid "Project Management"
+msgstr "项目管理"
+
+#. module: project_scope_wbs
+#: selection:account.analytic.account,class:0
+#: model:ir.model,name:project_scope_wbs.model_project_project
+msgid "Project"
+msgstr "项目"
+
+#. module: project_scope_wbs
+#: view:project.project:0
+msgid "Code"
+msgstr "代码"
+
+#. module: project_scope_wbs
+#: field:project.lifecycle,sequence:0
+msgid "Sequence"
+msgstr "顺序"
+
+#. module: project_scope_wbs
+#: view:account.analytic.account:0 field:account.analytic.account,class:0
+#: view:project.project:0
+msgid "Class"
+msgstr "类"
+
+#. module: project_scope_wbs
+#: model:ir.model,name:project_scope_wbs.model_account_analytic_account
+msgid "Analytic Account"
+msgstr "分析账户"
+
+#. module: project_scope_wbs
+#: model:ir.actions.act_window,name:project_scope_wbs.action_project_lifecycle_tree
+#: model:ir.ui.menu,name:project_scope_wbs.menu_project_lifecycle_view
+msgid "Lifecycle stages"
+msgstr "生命周期阶段"
+
+#. module: project_scope_wbs
+#: selection:account.analytic.account,class:0
+msgid "Work Package"
+msgstr "工作包"
+
+#. module: project_scope_wbs
+#: field:account.analytic.account,lifecycle_stage:0
+#: model:ir.model,name:project_scope_wbs.model_project_lifecycle
+msgid "Lifecycle Stage"
+msgstr "生命周期阶段"
+
+#. module: project_scope_wbs
+#: constraint:account.analytic.account:0
+msgid "Error! You can not create recursive analytic accounts."
+msgstr "错误！ 您无法创建递归分析帐户。"
