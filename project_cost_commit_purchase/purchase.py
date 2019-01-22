@@ -21,74 +21,76 @@
 
 
 
-from openerp.osv import osv, fields
-
 #
 # Model definition
 #
-class purchase_order(osv.osv):
+from odoo import models, fields
+
+
+class purchase_order(models.Model):
 
     _inherit = 'purchase.order'
     #TODO: implement messages system
-    _columns = {
-        'order_line': fields.one2many('purchase.order.line', 'order_id', 'Order Lines', states={'confirmed':[('readonly',True)],'approved':[('readonly',True)],'done':[('readonly',True)]}),    
-    }
-    def wkf_confirm_order(self, cr, uid, ids, context=None):
-        purch_order_line = self.pool.get('purchase.order.line') 
-        
-        res = super(purchase_order, self).wkf_confirm_order(cr, uid, ids, context)
-        
-        for po in self.browse(cr, uid, ids, context=context):
-            purch_order_line.create_analytic_lines_commit(cr, uid, [line.id for line in po.order_line], context)
+    order_line = fields.One2many('purchase.order.line', 'order_id', 'Order Lines',
+                                 states={'confirmed': [('readonly', True)], 'approved': [('readonly', True)],
+                                         'done': [('readonly', True)]})
+
+    def wkf_confirm_order(self, ids, context=None):
+        purch_order_line = self.env.get('purchase.order.line')
+
+        res = super(purchase_order, self).wkf_confirm_order(ids, context)
+
+        for po in self.browse(ids, context=context):
+            purch_order_line.create_analytic_lines_commit([line.id for line in po.order_line], context)
 
         return res
 
-    def wkf_purchase_cancel(self, cr, uid, ids, context=None):
+    def wkf_purchase_cancel(self, ids, context=None):
 
-        self.write(cr,uid,ids,{'state':'cancel'})
-        
-        obj_commitment_analytic_line = self.pool.get('account.analytic.line.commit')
-        
-        for purchase in self.browse(cr, uid, ids, context=context):
+        self.write(ids, {'state': 'cancel'})
+
+        obj_commitment_analytic_line = self.env.get('account.analytic.line.commit')
+
+        for purchase in self.browse(ids, context=context):
             for po_lines in purchase.order_line:
                 for ana_lines in po_lines.analytic_lines_commit:
-                    obj_commitment_analytic_line.unlink(cr,uid,ana_lines.id)
+                    obj_commitment_analytic_line.unlink(ana_lines.id)
                       
         return True
 
+    def action_cancel(self, ids, context=None):
 
-    def action_cancel(self, cr, uid, ids, context=None):
+        super(purchase_order, self).action_cancel(ids, context)
 
-        super(purchase_order, self).action_cancel(cr, uid, ids, context)
-        
-        obj_commitment_analytic_line = self.pool.get('account.analytic.line.commit')
-        
-        for purchase in self.browse(cr, uid, ids, context=context):
+        obj_commitment_analytic_line = self.env.get('account.analytic.line.commit')
+
+        for purchase in self.browse(ids, context=context):
             for po_lines in purchase.order_line:
                 for ana_lines in po_lines.analytic_lines_commit:
-                    obj_commitment_analytic_line.unlink(cr,uid,ana_lines.id)
+                    obj_commitment_analytic_line.unlink(ana_lines.id)
                       
         return True
 
 
 purchase_order()
 
-class purchase_order_line(osv.osv):
+
+class purchase_order_line(models.Model):
     
     _inherit = 'purchase.order.line'     
           
     _columns = {
             'analytic_lines_commit': fields.one2many('account.analytic.line.commit', 'purchase_line_id', 'Commitment Analytic lines'),
     }
-    
-    def create_analytic_lines_commit(self, cr, uid, ids, context=None):
-        acc_ana_line_obj = self.pool.get('account.analytic.line.commit')
-        journal_obj = self.pool.get('account.analytic.journal.commit')
-        journal_id = journal_obj.search(cr, uid, [('type', '=', 'purchase')], context=None)
+
+    def create_analytic_lines_commit(self, ids, context=None):
+        acc_ana_line_obj = self.env.get('account.analytic.line.commit')
+        journal_obj = self.env.get('account.analytic.journal.commit')
+        journal_id = journal_obj.search([('type', '=', 'purchase')], context=None)
         journal_id = journal_id and journal_id[0] or False
-        cur_obj=self.pool.get('res.currency')
-        
-        for obj_line in self.browse(cr, uid, ids, context=context):
+        cur_obj = self.env.get('res.currency')
+
+        for obj_line in self.browse(ids, context=context):
             cur = obj_line.order_id and obj_line.order_id.pricelist_id and obj_line.order_id.pricelist_id.currency_id
             
             if obj_line.account_analytic_id:                
@@ -106,9 +108,9 @@ class purchase_order_line(osv.osv):
                     'user_id': uid,
                     'purchase_line_id': obj_line.id,
                     'currency_id': cur.id,
-                    'amount_currency': -1 * cur_obj.round(cr, uid, cur, obj_line.price_subtotal), 
+                    'amount_currency': -1 * cur_obj.round(cur, obj_line.price_subtotal),
                 }
-                acc_ana_line_obj.create(cr, uid, vals_lines)
+                acc_ana_line_obj.create(vals_lines)
         return True
 
                  

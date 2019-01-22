@@ -143,7 +143,7 @@
             <field eval="2" name="priority"/>
             <field name="inherit_id" ref="project.view_task_gantt"/>
             <field name="arch" type="xml">
-            	<xpath expr="//gantt[@string='Tasks']" position="replace">
+                <xpath expr="//gantt[@name='Tasks']" position="replace">
                 	<gantt color="user_id" date_start="date_early_start" date_close="date_late_finish" string="Tasks">
                     	<level object="project.project" link="project_id" domain="[]">
                         	<field name="name"/>
@@ -161,7 +161,7 @@
             <field eval="2" name="priority"/>
             <field name="inherit_id" ref="project.view_task_calendar"/>
             <field name="arch" type="xml">
-            	<xpath expr="//calendar[@string='Tasks']" position="replace">
+                <xpath expr="//calendar[@name='Tasks']" position="replace">
 	                <calendar color="user_id" date_start="date_early_start" date_stop="date_late_finish" string="Tasks">
 	                    <field name="name"/>
 	                    <field name="project_complete_wbs_name"/>
@@ -179,7 +179,8 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
-            	<xpath expr="/form/notebook/page[@string='Administration']/group/button[@name='set_template']" position="after">
+                <xpath expr="/form/notebook/page[@name='Administration']/group/button[@name='set_template']"
+                       position="after">
         			<button name="set_ready" states="draft" string="Ready to start" type="object" icon="gtk-ok"/>        			
         		</xpath>   
 				<xpath expr="//button[@name='set_cancel']" position="attributes">

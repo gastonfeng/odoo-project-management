@@ -30,7 +30,6 @@
                 "crm",
                 "account",
                 "analytic",
-                "hr_timesheet_invoice",
                 "project_time_schedule",
                 "project_time_sequence",
                 "project_time_milestone",

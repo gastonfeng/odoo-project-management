@@ -20,63 +20,71 @@
 ##############################################################################
 
 import time
+
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
-from openerp.osv import fields, osv
 
-class account_analytic_line_commit(osv.osv):
+from odoo import models, fields
+
+
+class account_analytic_line_commit(models.Model):
     _name = 'account.analytic.line.commit'
     _description = 'Analytic Line Commitment'
-    
-    
-    
-    def _get_period(self, cr, uid, context=None):
-        periods = self.pool.get('account.period').find(cr, uid)
+
+    def _get_period(self, context=None):
+        periods = self.env.get('account.period').find()
         if periods:
             return periods[0]
         return False
 
-    _columns = {
-        'name': fields.char('Description', size=256, required=True),
-        'date': fields.date('Date', required=True, select=True),
-        'amount': fields.float('Amount', required=True, help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.', digits_compute=dp.get_precision('Account')),
-        'unit_amount': fields.float('Quantity', help='Specifies the amount of quantity to count.'),
-        'account_id': fields.many2one('account.analytic.account', 'Analytic Account', required=True, ondelete='cascade', select=True, domain=[('type','<>','view')]),
-        'user_id': fields.many2one('res.users', 'User'),
-        'company_id': fields.related('account_id', 'company_id', type='many2one', relation='res.company', string='Company', store=True, readonly=True),                
-        'product_uom_id': fields.many2one('product.uom', 'UoM'),
-        'product_id': fields.many2one('product.product', 'Product'),            
-        'general_account_id': fields.many2one('account.account', 'General Account', required=False, ondelete='restrict'),
-        'move_id': fields.many2one('account.move.line', 'Move Line', ondelete='restrict', select=True),
-        'journal_id': fields.many2one('account.analytic.journal.commit', 'Commitment Analytic Journal', required=True, ondelete='restrict', select=True),
-        'code': fields.char('Code', size=8),
-        'ref': fields.char('Ref.', size=64),
-        'currency_id': fields.many2one('res.currency', 'Currency'),
-        'amount_currency': fields.float('Amount Currency', help="The amount expressed in an optional other currency if it is a multi-currency entry.", digits_compute=dp.get_precision('Account')),
-        'period_id': fields.many2one('account.period', 'Period', required=True, select=2),
+    name = fields.Char('Description', size=256, required=True)
+    date = fields.Date('Date', required=True, select=True)
+    amount = fields.Float('Amount', required=True,
+                          help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.',
+                          digits_compute=dp.get_precision('Account'))
+    unit_amount = fields.Float('Quantity', help='Specifies the amount of quantity to count.')
+    account_id = fields.Many2one('account.analytic.account', 'Analytic Account', required=True, ondelete='cascade',
+                                 select=True, domain=[('type', '<>', 'view')])
+    user_id = fields.Many2one('res.users', 'User')
+    company_id = fields.Many2one(related='account_idcompany_id', type='many2one', relation='res.company',
+                                 string='Company', store=True, readonly=True)
+    product_uom_id = fields.Many2one('product.uom', 'UoM')
+    product_id = fields.Many2one('product.product', 'Product')
+    general_account_id = fields.Many2one('account.account', 'General Account', required=False, ondelete='restrict')
+    move_id = fields.Many2one('account.move.line', 'Move Line', ondelete='restrict', select=True)
+    journal_id = fields.Many2one('account.analytic.journal.commit', 'Commitment Analytic Journal', required=True,
+                                 ondelete='restrict', select=True)
+    code = fields.Char('Code', size=8)
+    ref = fields.Char('Ref.', size=64)
+    currency_id = fields.Many2one('res.currency', 'Currency')
+    amount_currency = fields.Float('Amount Currency',
+                                   help="The amount expressed in an optional other currency if it is a multi-currency entry.",
+                                   digits_compute=dp.get_precision('Account'))
+    period_id = fields.Many2one('account.period', 'Period', required=True, select=2)
                         
-    }
+
 
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d'),
-        'company_id': lambda self,cr,uid,c: self.pool.get('res.company')._company_default_get(cr, uid, 'account.analytic.line', context=c),
+        'company_id': lambda self, cr, uid, c: self.env.get('res.company')._company_default_get('account.analytic.line',
+                                                                                                context=c),
         'amount': 0.00,
         'period_id': _get_period, 
     }
     _order = 'date desc'
 
-    def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None, count=False):
+    def search(self, args, offset=0, limit=None, order=None, context=None, count=False):
         if context is None:
             context = {}
         if context.get('from_date',False):
             args.append(['date', '>=', context['from_date']])
         if context.get('to_date',False):
             args.append(['date','<=', context['to_date']])
-        return super(account_analytic_line_commit, self).search(cr, uid, args, offset, limit,
-                order, context=context, count=count)
+        return super(account_analytic_line_commit, self).search(args, offset, limit,
+                                                                order, context=context, count=count)
 
-    def _check_company(self, cr, uid, ids, context=None):
-        lines = self.browse(cr, uid, ids, context=context)
+    def _check_company(self, ids, context=None):
+        lines = self.browse(ids, context=context)
         for l in lines:
             if l.move_id and not l.account_id.company_id.id == l.move_id.account_id.company_id.id:
                 return False
@@ -84,36 +92,36 @@ class account_analytic_line_commit(osv.osv):
 
     # Compute the cost based on the price type define into company
     # property_valuation_price_type property
-    def on_change_unit_amount(self, cr, uid, id, prod_id, quantity, company_id,
-            unit=False, journal_id=False, context=None):
+    def on_change_unit_amount(self, id, prod_id, quantity, company_id,
+                              unit=False, journal_id=False, context=None):
         
         res={}
         
         if context==None:
             context={}
-            
-        product_obj = self.pool.get('product.product')
+
+        product_obj = self.env.get('product.product')
         
         if prod_id:
-            prod = product_obj.browse(cr, uid, prod_id, context=context)
+            prod = product_obj.browse(prod_id, context=context)
             res['value']={ }
 #                          'product_uom_id': prod.uom_id.id,
 #                          'unit_amount': quantity or 1.0
 #                          }
                                 
         if not journal_id:
-            j_ids = self.pool.get('account.analytic.journal.commit').search(cr, uid, [('type','=','purchase')])
+            j_ids = self.env.get('account.analytic.journal.commit').search([('type', '=', 'purchase')])
             journal_id = j_ids and j_ids[0] or False
         if not journal_id or not prod_id:
             return res
-        
-        analytic_journal_obj =self.pool.get('account.analytic.journal.commit')
-        product_price_type_obj = self.pool.get('product.price.type')
-        j_id = analytic_journal_obj.browse(cr, uid, journal_id, context=context)
+
+        analytic_journal_obj = self.env.get('account.analytic.journal.commit')
+        product_price_type_obj = self.env.get('product.price.type')
+        j_id = analytic_journal_obj.browse(journal_id, context=context)
         
         result = 0.0
 
-        if j_id.type <> 'sale':
+        if j_id.type != 'sale':
             a = prod.product_tmpl_id.property_account_expense.id
             if not a:
                 a = prod.categ_id.property_account_expense_categ.id
@@ -134,14 +142,14 @@ class account_analytic_line_commit(osv.osv):
 
         flag = False
         # Compute based on pricetype
-        product_price_type_ids = product_price_type_obj.search(cr, uid, [('field','=','standard_price')], context=context)
-        pricetype = product_price_type_obj.browse(cr, uid, product_price_type_ids, context=context)[0]
+        product_price_type_ids = product_price_type_obj.search([('field', '=', 'standard_price')], context=context)
+        pricetype = product_price_type_obj.browse(product_price_type_ids, context=context)[0]
         if journal_id:
-            journal = analytic_journal_obj.browse(cr, uid, journal_id, context=context)
+            journal = analytic_journal_obj.browse(journal_id, context=context)
             if journal.type == 'sale':
-                product_price_type_ids = product_price_type_obj.search(cr, uid, [('field','=','list_price')], context)
+                product_price_type_ids = product_price_type_obj.search([('field', '=', 'list_price')], context)
                 if product_price_type_ids:
-                    pricetype = product_price_type_obj.browse(cr, uid, product_price_type_ids, context=context)[0]
+                    pricetype = product_price_type_obj.browse(product_price_type_ids, context=context)[0]
         # Take the company currency as the reference one
         if pricetype.field == 'list_price':
             flag = True
@@ -151,7 +159,7 @@ class account_analytic_line_commit(osv.osv):
             # to return a default price for those units
             ctx['uom'] = unit
         amount_unit = prod.price_get(pricetype.field, context=ctx)[prod.id]
-        prec = self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')
+        prec = self.env.get('decimal.precision').precision_get('Account')
         amount = amount_unit * quantity or 1.0
         result = round(amount, prec)
             
@@ -177,4 +185,3 @@ class account_analytic_line_commit(osv.osv):
             return res
         return False
 
-account_analytic_line_commit()

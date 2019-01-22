@@ -18,26 +18,19 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import models, fields
 
-from openerp.osv import fields, osv
 
-
-    
-class project(osv.osv):
+class project(models.Model):
     
     _inherit = "project.project"
- 
-    _columns = {                                       
-            'crm_meetings': fields.one2many('calendar.event','project_id','Meetings'),                        
-    }
 
-    
-class calendar_event(osv.osv):
+    crm_meetings = fields.One2many('calendar.event', 'project_id', 'Meetings')
+
+
+class calendar_event(models.Model):
     """ CRM Meeting Cases """
 
     _inherit = 'calendar.event'
 
-    _columns = {    
-        'project_id':fields.many2one('project.project', 'Project'),
-    }
-
+    project_id = fields.Many2one('project.project', 'Project')

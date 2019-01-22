@@ -21,77 +21,74 @@
 
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
-from openerp.osv import fields, osv
+
+from odoo import models, fields
+from odoo.osv import osv
 
 
-class account_analytic_line_plan(osv.osv):
+class account_analytic_line_plan(models.Model):
 
     _inherit = 'account.analytic.line.plan'
 
-        
-    _columns = {
+    employee_id = fields.Many2one('hr.employee', 'Employee', requrired=False)
+    time_amount = fields.Float('Time Amount', required=True, digits_compute=dp.get_precision('Amount'))
 
-        'employee_id': fields.many2one('hr.employee', 'Employee', requrired=False),
-        'time_amount': fields.float('Time Amount', required=True, digits_compute= dp.get_precision('Amount')),
-                
-    }
-
-    def on_change_time_amount(self, cr, uid, id, time_amount, context=None):
+    def on_change_time_amount(self, id, time_amount, context=None):
         
         result = {'amount': -1 * time_amount }
         
-        return {'value': result}    
-    
+        return {'value': result}
 
-    def product_uom_change_time(self, cr, uid, ids, product, company_id, qty, uom, price, journal_id,
-        employee_id):
-        
-        res = self.product_id_change_time(cr, uid, ids, product, company_id, qty, uom, price, journal_id,
-                employee_id)
+    def product_uom_change_time(self, ids, product, company_id, qty, uom, price, journal_id,
+                                employee_id):
+
+        res = self.product_id_change_time(ids, product, company_id, qty, uom, price, journal_id,
+                                          employee_id)
         
         if 'product_uom_id' in res['value']:
             if uom and (uom != res['value']['product_uom_id']) and res['value']['product_uom_id']:
-                seller_uom_name = self.pool.get('product.uom').read(cr, uid, [res['value']['product_uom_id']], ['name'])[0]['name']
+                seller_uom_name = self.env.get('product.uom').read([res['value']['product_uom_id']], ['name'])[0][
+                    'name']
                 res.update({'warning': {'title': _('Warning'), 'message': _('The selected supplier only sells this product by %s') % seller_uom_name }})
             del res['value']['product_uom_id']
 
-        return res    
-    
-    def on_change_employee_id(self, cr, uid, ids, product, company_id, qty, uom, price, journal_id,
-                employee_id, context=None):
+        return res
+
+    def on_change_employee_id(self, ids, product, company_id, qty, uom, price, journal_id,
+                              employee_id, context=None):
 
         result = {}
         if context is None:
             context = {}
-        
-        lang_dict = self.pool.get('res.users').read(cr,uid,uid,['context_lang'])
+
+        lang_dict = self.env.get('res.users').read(uid, ['context_lang'])
         
         context.update({'lang': lang_dict.get('context_lang')})
                         
         if employee_id:
-            emp = self.pool.get('hr.employee').browse(cr, uid, employee_id, context)        
+            emp = self.env.get('hr.employee').browse(employee_id, context)
             if emp.product_id:
-                result = self.product_id_change_time(cr, uid, ids, emp.product_id.id, company_id, qty, uom, price, journal_id,
-                employee_id, context)
+                result = self.product_id_change_time(ids, emp.product_id.id, company_id, qty, uom, price, journal_id,
+                                                     employee_id, context)
                 
         return result
 
-    def product_id_change_time(self, cr, uid, ids, product, company_id, qty, uom, price, journal_id,
-            employee_id, context=None):
+    def product_id_change_time(self, ids, product, company_id, qty, uom, price, journal_id,
+                               employee_id, context=None):
 
         res = {}
         if not product:
             return res
-        
-        prod = self.pool.get('product.product').browse(cr, uid, product, context)
+
+        prod = self.env.get('product.product').browse(product, context)
         prod_uom_po = prod.uom_po_id.id
         if not uom:
             uom = prod_uom_po
        
         qty = qty or 1.0
         prod_name = prod.name
-        
-        result = self.on_change_unit_amount_time(cr, uid, id, product, qty, company_id, uom, journal_id, context=None)
+
+        result = self.on_change_unit_amount_time(id, product, qty, company_id, uom, journal_id, context=None)
         
  
         res.update({'value': {
@@ -108,36 +105,36 @@ class account_analytic_line_plan(osv.osv):
 
     # Compute the cost based on the price type define into company
     # property_valuation_price_type property
-    def on_change_unit_amount_time(self, cr, uid, id, prod_id, quantity, company_id,
-            unit=False, journal_id=False, context=None):
+    def on_change_unit_amount_time(self, id, prod_id, quantity, company_id,
+                                   unit=False, journal_id=False, context=None):
         
         res={}
         
         if context==None:
             context={}
-            
-        product_obj = self.pool.get('product.product')
+
+        product_obj = self.env.get('product.product')
         
         if prod_id:
-            prod = product_obj.browse(cr, uid, prod_id, context=context)
+            prod = product_obj.browse(prod_id, context=context)
             res['value']={ }
 #                          'product_uom_id': prod.uom_id.id,
 #                          'unit_amount': quantity or 1.0
 #                          }
                                 
         if not journal_id:
-            j_ids = self.pool.get('account.analytic.journal.plan').search(cr, uid, [('type','=','general')])
+            j_ids = self.env.get('account.analytic.journal.plan').search([('type', '=', 'general')])
             journal_id = j_ids and j_ids[0] or False
         if not journal_id or not prod_id:
             return res
-        
-        analytic_journal_obj =self.pool.get('account.analytic.journal.plan')
-        product_price_type_obj = self.pool.get('product.price.type')
-        j_id = analytic_journal_obj.browse(cr, uid, journal_id, context=context)
+
+        analytic_journal_obj = self.env.get('account.analytic.journal.plan')
+        product_price_type_obj = self.env.get('product.price.type')
+        j_id = analytic_journal_obj.browse(journal_id, context=context)
         
         result = 0.0
 
-        if j_id.type <> 'sale':
+        if j_id.type != 'sale':
             a = prod.product_tmpl_id.property_account_expense.id
             if not a:
                 a = prod.categ_id.property_account_expense_categ.id
@@ -158,14 +155,14 @@ class account_analytic_line_plan(osv.osv):
 
         flag = False
         # Compute based on pricetype
-        product_price_type_ids = product_price_type_obj.search(cr, uid, [('field','=','standard_price')], context=context)
-        pricetype = product_price_type_obj.browse(cr, uid, product_price_type_ids, context=context)[0]
+        product_price_type_ids = product_price_type_obj.search([('field', '=', 'standard_price')], context=context)
+        pricetype = product_price_type_obj.browse(product_price_type_ids, context=context)[0]
         if journal_id:
-            journal = analytic_journal_obj.browse(cr, uid, journal_id, context=context)
+            journal = analytic_journal_obj.browse(journal_id, context=context)
             if journal.type == 'sale':
-                product_price_type_ids = product_price_type_obj.search(cr, uid, [('field','=','list_price')], context)
+                product_price_type_ids = product_price_type_obj.search([('field', '=', 'list_price')], context)
                 if product_price_type_ids:
-                    pricetype = product_price_type_obj.browse(cr, uid, product_price_type_ids, context=context)[0]
+                    pricetype = product_price_type_obj.browse(product_price_type_ids, context=context)[0]
         # Take the company currency as the reference one
         if pricetype.field == 'list_price':
             flag = True
@@ -175,7 +172,7 @@ class account_analytic_line_plan(osv.osv):
             # to return a default price for those units
             ctx['uom'] = unit
         amount_unit = prod.price_get(pricetype.field, context=ctx)[prod.id]
-        prec = self.pool.get('decimal.precision').precision_get(cr, uid, 'Account')
+        prec = self.env.get('decimal.precision').precision_get('Account')
         amount = amount_unit * quantity or 1.0
         result = round(amount, prec)
             

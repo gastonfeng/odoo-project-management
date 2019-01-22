@@ -18,31 +18,29 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import models, fields
 
-from openerp.osv import fields, osv
 
-
-    
-class account_analytic_journal_plan(osv.osv):
+class account_analytic_journal_plan(models.Model):
     
     _name = 'account.analytic.journal.plan'
     _description = 'Analytic Journal Plan'
-    _columns = {
-        'name': fields.char('Planning Journal Name', size=64, required=True),
-        'code': fields.char('Planning Journal Code', size=8),
-        'active': fields.boolean('Active', help="If the active field is set to False, it will allow you to hide the analytic journal without removing it."),
-        'type': fields.selection([('sale','Sale'), ('purchase','Purchase'), ('cash','Cash'), ('general','General'), ('situation','Situation')], 'Type', size=32, required=True, help="Gives the type of the analytic journal. When it needs for a document (eg: an invoice) to create analytic entries, OpenERP will look for a matching journal of the same type."),
-        'line_ids': fields.one2many('account.analytic.line.plan', 'journal_id', 'Lines'),
-        'company_id': fields.many2one('res.company', 'Company', required=True),
-        'analytic_journal': fields.many2one('account.analytic.journal', 'Actual Analytic journal', required=False),
-        
-    }
+
+    name = fields.Char('Planning Journal Name', size=64, required=True)
+    code = fields.Char('Planning Journal Code', size=8)
+    active = fields.Boolean('Active',
+                            help="If the active field is set to False, it will allow you to hide the analytic journal without removing it.")
+    type = fields.Selection([('sale', 'Sale'), ('purchase', 'Purchase'), ('cash', 'Cash'), ('general', 'General'),
+                             ('situation', 'Situation')], 'Type', size=32, required=True,
+                            help="Gives the type of the analytic journal. When it needs for a document (eg: an invoice) to create analytic entries, OpenERP will look for a matching journal of the same type.")
+    line_ids = fields.One2many('account.analytic.line.plan', 'journal_id', 'Lines')
+    company_id = fields.Many2one('res.company', 'Company', required=True)
+    analytic_journal = fields.Many2one('account.analytic.journal', 'Actual Analytic journal', required=False)
+
     _defaults = {
         'active': True,
         'type': 'general',
         'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,        
     }
 
-
-account_analytic_journal_plan()
 

@@ -29,15 +29,15 @@
     "depends": [
                 "account",
                 "analytic",
-                "hr_timesheet_invoice",
+        #                "hr_timesheet_invoice",
                 "project_time_schedule",
                 "project_time_sequence",
                 "project_time_milestone",
                 "project_scope_wbs",
                 "project_cost",
                 "project_procurement",
-                "project",               
-                "email_template",             
+                "project",
+        #                "email_template",
                 ],
     "description": """Extensions for the Project management module.     
     """,

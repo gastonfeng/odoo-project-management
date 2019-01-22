@@ -20,16 +20,15 @@
 ##############################################################################
 import time
 
-from openerp.osv import osv, fields
+from odoo import fields, models
 
-class account_analytic_journal_plan_report(osv.osv_memory):
+
+class account_analytic_journal_plan_report(models.TransientModel):
     _name = 'account.analytic.journal.plan.report'
     _description = 'Account Analytic Planning Journal'
 
-    _columns = {
-        'date1': fields.date('Start of period', required=True),
-        'date2': fields.date('End of period', required=True),
-    }
+    date1 = fields.Date('Start of period', required=True)
+    date2 = fields.Date('End of period', required=True)
 
     _defaults = {
         'date1': lambda *a: time.strftime('%Y-01-01'),
@@ -52,5 +51,3 @@ class account_analytic_journal_plan_report(osv.osv_memory):
             'datas': datas,
             }
 
-account_analytic_journal_plan_report()
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

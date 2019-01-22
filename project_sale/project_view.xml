@@ -16,7 +16,8 @@
 		      <field name="type">form</field>
 		      <field name="inherit_id" ref="project.edit_project"/>
 		      <field name="arch" type="xml">
-                  <xpath expr="//notebook/page[@string='Other Info']/group[@name='misc']/field[@name='active']" position='after'>
+                  <xpath expr="//notebook/page[@name='settings']/group[@name='misc']/field[@name='sequence']"
+                         position='after'>
                     <field name="order_count"/>
                 </xpath>
       		  </field>

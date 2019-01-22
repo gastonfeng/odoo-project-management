@@ -18,19 +18,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp.osv import fields, osv
-
+from odoo import models, fields
 
 
-class project(osv.osv):
+class project(models.Model):
     
-    _inherit = "project.project" 
-    _columns = {        
-            'purchase_orders': fields.one2many('purchase.order','project_id','Purchase orders'),
-            'purchase_requisitions': fields.one2many('purchase.requisition','project_id','Purchase requisitions'),                                           
-    }
-    
- 
-        
-project()
+    _inherit = "project.project"
+
+    purchase_orders = fields.One2many('purchase.order', 'project_id', 'Purchase orders')
+    purchase_requisitions = fields.One2many('purchase.requisition', 'project_id', 'Purchase requisitions')

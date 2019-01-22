@@ -18,37 +18,35 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import models, fields
 
-from openerp.osv import fields, osv
 
-class purchase_order(osv.osv):
+class purchase_order(models.Model):
     
     _inherit = "purchase.order"
-    
-    _columns = {
-        'project_id':fields.many2one('project.project', 'Project', states={'confirmed':[('readonly',True)],'approved':[('readonly',True)],'done':[('readonly',True)]}),   
-        'project_manager': fields.related('project_id', 'user_id', readonly=True, string='Project Manager', type='many2one', relation="res.users", store=True),
-    }
-    
-    def onchange_project_id(self, cr, uid, ids, project_id):
+
+    project_id = fields.Many2one('project.project', 'Project',
+                                 states={'confirmed': [('readonly', True)], 'approved': [('readonly', True)],
+                                         'done': [('readonly', True)]})
+    project_manager = fields.Many2one(related='project_id.user_id', readonly=True, string='Project Manager',
+                                      type='many2one', relation="res.users", store=True)
+
+    def onchange_project_id(self, ids, project_id):
 
         analytic_account_id = ''
         
         if project_id:            
             project_obj = self.pool.get('project.project')
             #Read the project's analytic account
-            analytic_account_id = project_obj.read(cr, uid, project_id,'analytic_account_id')['analytic_account_id']
+            analytic_account_id = project_obj.read(project_id, 'analytic_account_id')['analytic_account_id']
             
         lines=self.pool.get('purchase.order.line')
-                
-        for po in self.browse(cr, uid, ids, context=None):            
+
+        for po in self.browse(ids, context=None):
         #Get the order lines       
-            for line in po.order_line:                
-                lines.write(cr, uid, line.id, {                                                            
+            for line in po.order_line:
+                lines.write(line.id, {
                         'account_analytic_id': analytic_account_id,                                                              
                 })
                                     
         return {}
-        
-    
-purchase_order()                

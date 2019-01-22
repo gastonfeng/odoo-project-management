@@ -20,13 +20,12 @@
 ##############################################################################
 
 
-
-from openerp.osv import osv, fields
+from openerp.osv import fields
 
 #
 # Model definition
 #
-class sale_order(osv.osv):
+class sale_order(models.Model):
 
     _inherit = 'sale.order'
     
@@ -56,7 +55,8 @@ class sale_order(osv.osv):
 
 sale_order()
 
-class sale_order_line(osv.osv):
+
+class sale_order_line(models.Model):
     
     _inherit = 'sale.order.line'     
           

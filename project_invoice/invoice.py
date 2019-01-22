@@ -20,10 +20,13 @@
 ##############################################################################
 
 
-from openerp.osv import fields, osv
+
 from openerp import tools
 
-class account_invoice(osv.osv):
+from odoo import models, fields
+
+
+class account_invoice(models.Model):
     _inherit = "account.invoice"
 
     def _line_analytic_accounts_get(self, cr, uid, ids, field_name, arg, context={}):
@@ -82,13 +85,6 @@ class account_invoice(osv.osv):
         
         return [('id', 'in', ids)]
 
-
- 
-                    
-    
-    _columns = {        
-        'line_analytic_accounts':fields.function(_line_analytic_accounts_get,fnct_search=_line_analytic_accounts_search, method=True, type="char", size=512, string="Analytic Accounts"),        
-    }
-       
-account_invoice()
-
+    line_analytic_accounts = fields.Char(compute='_line_analytic_accounts_get',
+                                         fnct_search=_line_analytic_accounts_search, method=True, type="char", size=512,
+                                         string="Analytic Accounts")

@@ -20,32 +20,31 @@
 ##############################################################################
 
 from openerp import tools
-from openerp.osv import fields, osv
 from openerp.tools.translate import _
 
-class task(osv.osv):
+from odoo import models, fields
+from odoo.osv import osv
+
+
+class task(models.Model):
     _inherit = 'project.task'
     _description = "Activity"
-                                
- 
 
-            
-    _columns = {
-        'name': fields.char('Summary', size=128, required=True),
-        'state': fields.selection([('draft', 'Draft'),('ready','Ready to Start'),('open', 'In Progress'),('pending', 'Pending'), ('cancelled', 'Cancelled'), ('done', 'Done')], 'State', readonly=True, required=True,
-                                  help='If the task is created the state is \'Draft\'.\n If the task is ready to start started, the state becomes \'Ready to Start\'.\n If the task is started, the state becomes \'In Progress\'.\n If review is needed the task is in \'Pending\' state.\
-                                  \n If the task is over, the states is set to \'Done\'.'),                     
-        }
+    name = fields.Char('Summary', size=128, required=True)
+    state = fields.Selection(
+        [('draft', 'Draft'), ('ready', 'Ready to Start'), ('open', 'In Progress'), ('pending', 'Pending'),
+         ('cancelled', 'Cancelled'), ('done', 'Done')], 'State', readonly=True, required=True,
+        help='If the task is created the state is \'Draft\'.\n If the task is ready to start started, the state becomes \'Ready to Start\'.\n If the task is started, the state becomes \'In Progress\'.\n If review is needed the task is in \'Pending\' state.\
+                              \n If the task is over, the states is set to \'Done\'.')
 
-
-    def do_ready(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {'state': 'ready'})
-        self.send_ready(cr, uid, ids)
+    def do_ready(self, ids, *args):
+        self.write(ids, {'state': 'ready'})
+        self.send_ready(ids)
         return True
-    
-    def send_ready(self, cr, uid, ids):
 
-        task_br = self.browse(cr,uid,ids)
+    def send_ready(self, ids):
+
+        task_br = self.browse(ids)
         for t in task_br:
             project = t.project_id
 #            subject = _("Task '%s' is ready to start") % t.name
@@ -75,33 +74,34 @@ class task(osv.osv):
 #                raise osv.except_osv(_('Error'), _("Couldn't send mail! Check the email ids and smtp configuration settings"))
             
 #            msg_dict = {'new': 'Send', 'reply': 'Reply', 'forward': 'Forward'}
-            
- #           self.history(cr, uid,[t], _(msg_dict['new']), history=True,email=to_adr, details=body,subject=subject, email_from=from_adr, message_id=None, references=None, attach=None)
-            email_template_ids = self.pool.get('email.template').search(cr,uid,[('object_name.name','=','Task'),('name','=','Project task ready to start')],context=None)
+
+            #           self.history([t], _(msg_dict['new']), history=True,email=to_adr, details=body,subject=subject, email_from=from_adr, message_id=None, references=None, attach=None)
+            email_template_ids = self.pool.get('email.template').search(
+                [('object_name.name', '=', 'Task'), ('name', '=', 'Project task ready to start')], context=None)
             for email_template_id in email_template_ids:
-                self.pool.get('email.template').generate_mail(cr,uid,email_template_id,ids,context=None)
+                self.pool.get('email.template').generate_mail(email_template_id, ids, context=None)
             
-        return {}    
-    
-    def write(self, cr, uid, ids, vals, *args, **kwargs):
+        return {}
+
+    def write(self, ids, vals, *args, **kwargs):
         if isinstance(ids, (int, long)):
             ids = [ids]
         if vals.get('user_id', False):
-            data_task = self.browse(cr, uid, ids)
+            data_task = self.browse(ids)
             for tsk in data_task:
                 old_user_id = tsk.user_id.id
                 new_user_id = vals['user_id']
-                if old_user_id <> new_user_id:
-                    self.send_onchange_user_id(cr, uid, ids, vals['user_id'])
-         
-        return super(task,self).write(cr, uid, ids, vals, *args, **kwargs)
+                if old_user_id != new_user_id:
+                    self.send_onchange_user_id(ids, vals['user_id'])
 
-    def send_onchange_user_id(self, cr, uid, ids, user_id):
+        return super(task, self).write(ids, vals, *args, **kwargs)
+
+    def send_onchange_user_id(self, ids, user_id):
         
         user_obj=self.pool.get('res.users')
-        user_br = user_obj.browse(cr,uid,[user_id])
+        user_br = user_obj.browse([user_id])
         for usr in user_br:
-            task_br = self.browse(cr,uid,ids)
+            task_br = self.browse(ids)
             for t in task_br:
                 project = t.project_id
                 subject = _("Task '%s' has been assigned to you") % t.name
@@ -131,25 +131,26 @@ class task(osv.osv):
                     raise osv.except_osv(_('Error'), _("Couldn't send mail! Check the email ids and smtp configuration settings"))
                 
                 msg_dict = {'new': 'Send', 'reply': 'Reply', 'forward': 'Forward'}
-                
-                self.history(cr, uid,[t], _(msg_dict['new']), history=True,email=to_adr, details=body,subject=subject, email_from=from_adr, message_id=None, references=None, attach=None)
-                
-        return {}    
 
-    def do_close(self, cr, uid, ids, context=None):
+                self.history([t], _(msg_dict['new']), history=True, email=to_adr, details=body, subject=subject,
+                             email_from=from_adr, message_id=None, references=None, attach=None)
+                
+        return {}
+
+    def do_close(self, ids, context=None):
         """
         Close Task
         """
-        res = super(task,self).do_close(cr, uid, ids, context)
+        res = super(task, self).do_close(ids, context)
         
         project_task_obj=self.pool.get('project.task')
-        
-        l_task =self.browse(cr, uid, ids, context=context)
+
+        l_task = self.browse(ids, context=context)
         for t in l_task:
             for child in t.child_ids:
-                child_task_br = project_task_obj.browse(cr, uid, child.id, context=context)
+                child_task_br = project_task_obj.browse(child.id, context=context)
                 if child_task_br.state == 'draft':
-                    project_task_obj.do_ready(cr, uid, [child.id])
+                    project_task_obj.do_ready([child.id])
                 
         return True
 

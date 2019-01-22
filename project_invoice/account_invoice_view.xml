@@ -7,7 +7,7 @@
             <field name="inherit_id" ref="account.invoice_tree"/>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-            	<xpath expr="//tree[@string='Invoice']//field[@name='number']" position="after">
+                <xpath expr="//tree[@name='Invoice']//field[@name='number']" position="after">
             		<field name="line_analytic_accounts"/>
             	</xpath>	
             </field>
@@ -19,7 +19,7 @@
             <field name="type">search</field>
             <field name="inherit_id" ref="account.view_account_invoice_filter"/>
             <field name="arch" type="xml">
-            	<xpath expr="//search[@string='Search Invoice']//field[@name='number']" position="after">
+                <xpath expr="//search[@name='Search Invoice']//field[@name='number']" position="after">
             		<field name="line_analytic_accounts"/>
             	</xpath>
             </field>

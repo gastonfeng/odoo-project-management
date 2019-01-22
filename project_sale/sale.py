@@ -18,30 +18,27 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import models, fields
 
 
-from openerp.osv import fields, osv
-
-class sale_order(osv.osv):
+class sale_order(models.Model):
     
     _inherit = "sale.order"
-    
 
-    _columns = {
-        'project': fields.many2one('project.project', 'Project', readonly=True, states={'draft': [('readonly', False)]}, help="The project related to a sales order."),
-        'project_manager': fields.related('project', 'user_id', readonly=True, string='Project Manager', type='many2one', relation="res.users", store=True),
-    }
-    
-sale_order()
+    project = fields.Many2one('project.project', 'Project', readonly=True, states={'draft': [('readonly', False)]},
+                              help="The project related to a sales order.")
+    project_manager = fields.Many2one(related='project.user_id', readonly=True, string='Project Manager',
+                                      type='many2one', relation="res.users", store=True)
 
-class sale_order_line(osv.osv):
+
+class sale_order_line(models.Model):
     
     _inherit = 'sale.order.line'
-    
-    _columns = {
-        'order_project': fields.related('order_id', 'project', type='many2one', relation='project.project', store=True, string='Project'),
-        'order_project_manager': fields.related('order_project', 'user_id', readonly=True, string='Project Manager', type='many2one', relation="res.users", store=True),
-    }
+
+    order_project = fields.Many2one(related='order_id.project', type='many2one', relation='project.project', store=True,
+                                    string='Project')
+    order_project_manager = fields.Many2one(related='order_project.user_id', readonly=True, string='Project Manager',
+                                            type='many2one', relation="res.users", store=True)
 
     def _prepare_order_line_invoice_line(self, cr, uid, line, account_id=False, context=None):
         res = super(sale_order_line, self)._prepare_order_line_invoice_line(cr, uid, line, account_id, context)
@@ -50,7 +47,7 @@ class sale_order_line(osv.osv):
         return res
 
 
-class project(osv.osv):
+class project(models.Model):
     _inherit = "project.project"
     
     def _get_sale_project_id(self, cr, uid, ids, context=None):
@@ -66,13 +63,12 @@ class project(osv.osv):
             order_count = order_ids and len(order_ids) or 0
             res[id] = order_count
         return res
-    
-    _columns = {
-                'order_count': fields.function(_order_count, method=True, type='integer', string='Associated Sale Order(s)',
-#                                               store={
-#                                                     'sale.order' : (_get_sale_project_id, ['project'],5),
-#                                                     }, help="Gives the number of sale order associated with the project"
-                ),
-                }
+
+    order_count = fields.Integer(compute='_order_count', method=True, type='integer', string='Associated Sale Order(s)',
+                                 #                                               store={
+                                 #                                                     'sale.order' : (_get_sale_project_id, ['project'],5),
+                                 #                                                     }, help="Gives the number of sale order associated with the project"
+                                 )
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

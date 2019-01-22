@@ -18,10 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import models, fields
 
-from openerp.osv import fields, osv
 
-class purchase_requisition_line(osv.osv):
+class purchase_requisition_line(models.Model):
     
     _inherit = "purchase.requisition.line"
 
@@ -38,15 +38,6 @@ class purchase_requisition_line(osv.osv):
                     
         else:
             return {}
-    
-    _columns = {                    
-            'account_analytic_id': fields.function(_account_analytic_id, method=True, string='Account Analytic id',
-            type='many2one', relation='account.analytic.account'),
-                    
-    }
-    
-    
 
-    
-    
-purchase_requisition_line()
+    account_analytic_id = fields.Many2one(compute='_account_analytic_id', method=True, string='Account Analytic id',
+                                          type='many2one', relation='account.analytic.account')

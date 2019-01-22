@@ -25,7 +25,7 @@
     "author": "Jordi Ballester (Eficent)",
     "website": "http://www.eficent.com",
     "category": "Generic Modules/Projects & Services",
-    "depends": ["project_cost", "project_sale", "sale", "account_payment"],
+    "depends": ["project_cost", "project_sale", "sale", "account"],
     "description": """Maintain analytic planned costs associated to sales orders         
     """,
     "init_xml": [],

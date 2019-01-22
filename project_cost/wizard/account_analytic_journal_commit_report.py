@@ -20,27 +20,27 @@
 ##############################################################################
 import time
 
-from openerp.osv import osv, fields
+from odoo import fields, models
 
-class account_analytic_journal_commit_report(osv.osv_memory):
+
+class account_analytic_journal_commit_report(models.TransientModel):
     _name = 'account.analytic.journal.commit.report'
     _description = 'Account Analytic Commitment Journal'
 
-    _columns = {
-        'date1': fields.date('Start of period', required=True),
-        'date2': fields.date('End of period', required=True),
-    }
+    date1 = fields.Date('Start of period', required=True)
+    date2 = fields.Date('End of period', required=True)
+    
 
     _defaults = {
         'date1': lambda *a: time.strftime('%Y-01-01'),
         'date2': lambda *a: time.strftime('%Y-%m-%d')
     }
 
-    def check_report(self, cr, uid, ids, context=None):
+    def check_report(self, ids, context=None):
         datas = {}
         if context is None:
             context = {}
-        data = self.read(cr, uid, ids)[0]
+        data = self.read(ids)[0]
         datas = {
              'ids': context.get('active_ids',[]),
              'model': 'account.analytic.journal.commit',
@@ -52,5 +52,3 @@ class account_analytic_journal_commit_report(osv.osv_memory):
             'datas': datas,
             }
 
-account_analytic_journal_commit_report()
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

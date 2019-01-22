@@ -19,10 +19,11 @@
 #
 ##############################################################################
 
-from openerp.osv import fields,osv
 from openerp import tools
+from openerp.osv import fields
 
-class report_account_analytic_resource_usage_product(osv.osv):
+
+class report_account_analytic_resource_usage_product(models.Model):
     _name = "report.account.analytic.resource.usage.product"
     _description = "Resource Usage Analysis by Product"
     _auto = False

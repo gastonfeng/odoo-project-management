@@ -18,15 +18,15 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import models, fields
+from odoo.osv import osv
 
-from openerp.osv import fields, osv
 
-    
-class analytic_account_category(osv.osv):
-    def name_get(self, cr, uid, ids, context=None):
+class analytic_account_category(models.Model):
+    def name_get(self, ids, context=None):
         if not len(ids):
             return []
-        reads = self.read(cr, uid, ids, ['name','parent_id'], context=context)
+        reads = self.read(ids, ['name', 'parent_id'], context=context)
         res = []
         for record in reads:
             name = record['name']
@@ -35,7 +35,7 @@ class analytic_account_category(osv.osv):
             res.append((record['id'], name))
         return res
 
-    def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
+    def name_search(self, name, args=None, operator='ilike', context=None, limit=100):
         if not args:
             args=[]
         if not context:
@@ -43,28 +43,26 @@ class analytic_account_category(osv.osv):
         if name:
             # Be sure name_search is symetric to name_get
             name = name.split(' / ')[-1]
-            ids = self.search(cr, uid, [('name', operator, name)] + args, limit=limit, context=context)
+            ids = self.search([('name', operator, name)] + args, limit=limit, context=context)
         else:
-            ids = self.search(cr, uid, args, limit=limit, context=context)
-        return self.name_get(cr, uid, ids, context)
+            ids = self.search(args, limit=limit, context=context)
+        return self.name_get(ids, context)
 
-
-    def _name_get_fnc(self, cr, uid, ids, prop, unknow_none, context=None):
-        res = self.name_get(cr, uid, ids, context=context)
+    def _name_get_fnc(self, ids, prop, unknow_none, context=None):
+        res = self.name_get(ids, context=context)
         return dict(res)
 
     _description='Analytic account & project Categories'
     _name = 'analytic.account.category'
-    _columns = {
-        'name': fields.char('Category Name', required=True, size=64, translate=True),
-        'parent_id': fields.many2one('analytic.account.category', 'Parent Category', select=True, ondelete='cascade'),
-        'complete_name': fields.function(_name_get_fnc, method=True, type="char", string='Full Name'),
-        'child_ids': fields.one2many('analytic.account.category', 'parent_id', 'Child Categories'),
-        'active' : fields.boolean('Active', help="The active field allows you to hide the category without removing it."),
-        'parent_left' : fields.integer('Left parent', select=True),
-        'parent_right' : fields.integer('Right parent', select=True),
-        'account_ids': fields.many2many('account.analytic.account', 'analytic_account_category_rel', 'category_id', 'account_id', 'Categories'),
-    }
+    name = fields.Char('Category Name', required=True, size=64, translate=True)
+    parent_id = fields.Many2one('analytic.account.category', 'Parent Category', select=True, ondelete='cascade')
+    complete_name = fields.Char(compute='_name_get_fnc', method=True, type="char", string='Full Name')
+    child_ids = fields.One2many('analytic.account.category', 'parent_id', 'Child Categories')
+    active = fields.Boolean('Active', help="The active field allows you to hide the category without removing it.")
+    parent_left = fields.Integer('Left parent', select=True)
+    parent_right = fields.Integer('Right parent', select=True)
+    account_ids = fields.Many2many('account.analytic.account', 'analytic_account_category_rel', 'category_id',
+                                   'account_id', 'Categories')
     _constraints = [
         (osv.osv._check_recursion, 'Error ! You can not create recursive categories.', ['parent_id'])
     ]

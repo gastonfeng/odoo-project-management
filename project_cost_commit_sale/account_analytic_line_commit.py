@@ -18,13 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import models, fields
 
-from openerp.osv import fields, osv
 
-class account_analytic_line_commit(osv.osv):
+class account_analytic_line_commit(models.Model):
     _inherit = 'account.analytic.line.commit'
-    
-    _columns = {
-        'sale_line_id': fields.many2one('sale.order.line', 'Sale Order Line', ondelete='cascade', select=True),
-    }
-account_analytic_line_commit()
+
+    sale_line_id = fields.Many2one('sale.order.line', 'Sale Order Line', ondelete='cascade', select=True)

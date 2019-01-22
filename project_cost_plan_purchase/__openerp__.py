@@ -25,7 +25,7 @@
     "author": "Eficent",
     "website": "http://www.eficent.com",
     "category": "Generic Modules/Projects & Services",
-    "depends": ["project_cost", "project_procurement", "purchase", "account_payment"],
+    "depends": ["project_cost", "project_procurement", "purchase", "account"],
     "description": """Eficent Project Management. Maintain analytic planned costs associated to purchase orders         
     """,
     "init_xml": [],

@@ -18,31 +18,23 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
+from odoo import fields, models
 
 
-
-from openerp.osv import fields
-from openerp.osv import osv
-
-
-
-class account_analytic_line(osv.osv):
+class account_analytic_line(models.Model):
 
     _inherit = 'account.analytic.line'
     
     def _get_period(self, cr, uid, context=None):
-        periods = self.pool.get('account.period').find(cr, uid)
+        periods = self.env.get('account.period').find(cr, uid)
         if periods:
             return periods[0]
         return False
-    
-    _columns = {        
-        'period_id': fields.many2one('account.period', 'Period', required=True, select=2),        
-    }
+
+    period_id = fields.Many2one('account.period', 'Period', required=True, select=2),
 
     _defaults = {
         'period_id': _get_period, 
     }
 
 
-account_analytic_line()

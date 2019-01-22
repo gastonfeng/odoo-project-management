@@ -19,69 +19,70 @@
 #
 ##############################################################################
 
-from openerp.osv import fields, osv
+
 from openerp.tools.translate import _
 
-    
-class project(osv.osv):
+from odoo import models, fields
+from odoo.osv import osv
+
+
+class project(models.Model):
     _name = "project.project"
     _inherit = "project.project"
- 
-    _columns = {        
-        'predecessor_ids': fields.many2many('project.project', 'projects_relationships', 'project_id', 'predecessor_id', 'Predecessor Project'),
-        'successor_ids': fields.many2many('project.project', 'projects_relationships', 'predecessor_id', 'project_id', 'Successor Project'),                                                  
-    }
-    
 
-     
-    def set_restart(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {'state': 'open'})        
-        return True
-    
-    def set_reopen(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {'state': 'open'})        
-        return True
-    
-    def set_ready(self, cr, uid, ids, *args):
-        self.write(cr, uid, ids, {'state': 'ready'})
-        self.send_ready(cr, uid, ids)
-        return True
-    
-    
-    def send_ready(self, cr, uid, ids):
+    predecessor_ids = fields.Many2many('project.project', 'projects_relationships', 'project_id', 'predecessor_id',
+                                       'Predecessor Project')
+    successor_ids = fields.Many2many('project.project', 'projects_relationships', 'predecessor_id', 'project_id',
+                                     'Successor Project')
 
-        project_br = self.browse(cr,uid,ids)
+    def set_restart(self, ids, *args):
+        self.write(ids, {'state': 'open'})
+        return True
+
+    def set_reopen(self, ids, *args):
+        self.write(ids, {'state': 'open'})
+        return True
+
+    def set_ready(self, ids, *args):
+        self.write(ids, {'state': 'ready'})
+        self.send_ready(ids)
+        return True
+
+    def send_ready(self, ids):
+
+        project_br = self.browse(ids)
         for p in project_br:
             
             if p.user_id and p.user_id.address_id and p.user_id.address_id.email:
                 to_adr = p.user_id.address_id.email
             else:
                 raise osv.except_osv(_('Error'), _("Couldn't send mail because the project manager email address is not configured!"))
-            
-            email_template_ids = self.pool.get('email.template').search(cr,uid,[('object_name.name','=','Project'),('name','=','Project status change')],context=None)
+
+            email_template_ids = self.env.get('email.template').search(
+                [('object_name.name', '=', 'Project'), ('name', '=', 'Project status change')], context=None)
             for email_template_id in email_template_ids:
-                self.pool.get('email.template').generate_mail(cr,uid,email_template_id,ids,context=None)
+                self.env.get('email.template').generate_mail(email_template_id, ids, context=None)
                         
             
-        return {}    
-    
+        return {}
 
-    def set_done(self, cr, uid, ids, *args):
-        
-        res = super(project,self).set_done(cr, uid, ids, *args)
-        
-        project_obj=self.pool.get('project.project')
-        projects=self.browse(cr, uid, ids, context=None)
+    def set_done(self, ids, *args):
+
+        res = super(project, self).set_done(ids, *args)
+
+        project_obj = self.env.get('project.project')
+        projects = self.browse(ids)
         
         for p in projects:
             for successor in p.successor_ids:
-                successor_project_br = project_obj.browse(cr, uid, successor.id, context=None)
+                successor_project_br = project_obj.browse(successor.id)
                 if successor_project_br.state == 'draft':
-                    project_obj.set_ready(cr, uid, [successor.id])
+                    project_obj.set_ready([successor.id])
                     
         for proj in projects:
-            purchase_order_obj=self.pool.get('purchase.order')
-            purchase_order_ids = purchase_order_obj.search(cr, uid, [('project_id', '=', proj.id),('state','not in',['cancel','done','approved'])], context=None)
+            purchase_order_obj = self.env.get('purchase.order')
+            purchase_order_ids = purchase_order_obj.search(
+                [('project_id', '=', proj.id), ('state', 'not in', ['cancel', 'done', 'approved'])])
             
             if purchase_order_ids:                    
                 raise osv.except_osv(_('User Error'), _('You must complete all active purchase orders related to this project before closing it.'))
