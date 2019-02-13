@@ -29,9 +29,9 @@ from odoo import models, fields
 class account_invoice(models.Model):
     _inherit = "account.invoice"
 
-    def _line_analytic_accounts_get(self, cr, uid, ids, field_name, arg, context={}):
+    def _line_analytic_accounts_get(self,  ids, field_name, arg, context={}):
         result = {}
-        for inv in self.browse(cr, uid, ids, context):
+        for inv in self.browse( ids, context):
             str_data = ''
             analytic_accounts =[]
             for line in inv.invoice_line:
@@ -49,7 +49,7 @@ class account_invoice(models.Model):
         return result  
 
 
-    def _line_analytic_accounts_search(self, cr, uid, obj, name, args, domain=None, context=None):
+    def _line_analytic_accounts_search(self,  obj, name, args, domain=None, context=None):
         if not args:
             return []
 
@@ -60,12 +60,12 @@ class account_invoice(models.Model):
         while i < len(args):
             fargs = args[i][0].split('.', 1)
             if len(fargs) > 1:
-                args[i] = (fargs[0], 'in', analytic_account_obj.search(cr, uid,
+                args[i] = (fargs[0], 'in', analytic_account_obj.search(
                     [(fargs[1], args[i][1], args[i][2])]))
                 i += 1
                 continue
             if isinstance(args[i][2], basestring):
-                analytic_account_ids = analytic_account_obj.name_search(cr, uid, args[i][2], [],
+                analytic_account_ids = analytic_account_obj.name_search( args[i][2], [],
                         args[i][1])
                 args[i] = (args[i][0], 'in', [x[0] for x in analytic_account_ids])
             i += 1
@@ -77,8 +77,8 @@ class account_invoice(models.Model):
             for acc_id in analytic_account_ids:
                 account_ids.append(acc_id[0])
                 
-            line_ids = account_invoice_line_obj.search(cr, uid, [('account_analytic_id', 'in', account_ids)])
-            lines = account_invoice_line_obj.browse(cr, uid, line_ids, context)
+            line_ids = account_invoice_line_obj.search( [('account_analytic_id', 'in', account_ids)])
+            lines = account_invoice_line_obj.browse( line_ids, context)
             for line in lines:
                 if line.invoice_id and line.invoice_id.id not in ids:
                     ids.append(line.invoice_id.id)

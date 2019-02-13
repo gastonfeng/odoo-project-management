@@ -25,14 +25,14 @@ class purchase_requisition_line(models.Model):
     
     _inherit = "purchase.requisition.line"
 
-    def _account_analytic_id(self, cr, uid, ids, name, arg, context=None):                
+    def _account_analytic_id(self,  ids, name, arg, context=None):                
         purchase_requisition_obj = self.pool.get('purchase.requisition')
-        for preq in purchase_requisition_obj.browse(cr, uid, ids, context=context):       
+        for preq in purchase_requisition_obj.browse( ids, context=context):       
             proj_id = preq.project_id
                 
         if proj_id:            
-            project_obj = self.pool.get('project.project').browse(cr, uid, proj_id.id, context=context)
-            analytic_account_obj = self.pool.get('account.analytic.account').browse(cr, uid, project_obj.analytic_account_id.id, context=context)                           
+            project_obj = self.pool.get('project.project').browse( proj_id.id, context=context)
+            analytic_account_obj = self.pool.get('account.analytic.account').browse( project_obj.analytic_account_id.id, context=context)                           
             value = {'account_analytic_id': analytic_account_obj}
             return {'value': value}                          
                     

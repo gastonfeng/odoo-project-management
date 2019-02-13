@@ -27,7 +27,7 @@ class purchase_requisition_partner(osv.osv_memory):
     _inherit = "purchase.requisition.partner"
     
 
-    def create_order(self, cr, uid, ids, context=None):
+    def create_order(self,  ids, context=None):
         """
              To Create a purchase orders .
 
@@ -43,8 +43,8 @@ class purchase_requisition_partner(osv.osv_memory):
             context = {}
         record_ids = context and context.get('active_ids', False)
         if record_ids:
-            data =  self.read(cr, uid, ids)
-            company = self.pool.get('res.users').browse(cr, uid, uid, context).company_id
+            data =  self.read( ids)
+            company = self.pool.get('res.users').browse( uid, context).company_id
             order_obj = self.pool.get('purchase.order')
             order_line_obj = self.pool.get('purchase.order.line')
             partner_obj = self.pool.get('res.partner')
@@ -58,13 +58,13 @@ class purchase_requisition_partner(osv.osv_memory):
             project_obj = self.pool.get('project.project')
 
 
-            supplier_data = partner_obj.browse(cr, uid, partner_id, context=context)
+            supplier_data = partner_obj.browse( partner_id, context=context)
 
-            address_id = partner_obj.address_get(cr, uid, [partner_id], ['delivery'])['delivery']
+            address_id = partner_obj.address_get( [partner_id], ['delivery'])['delivery']
             list_line=[]
             purchase_order_line={}
             
-            for tender in tender_obj.browse(cr, uid, record_ids, context=context):
+            for tender in tender_obj.browse( record_ids, context=context):
                 
                 #Added
                 project_id = tender.project_id.id                
@@ -85,9 +85,9 @@ class purchase_requisition_partner(osv.osv_memory):
 
                     partner = partner_rec and partner_rec.name or supplier_data
                     pricelist_id = partner.property_product_pricelist_purchase and partner.property_product_pricelist_purchase.id or False
-                    price = pricelist_obj.price_get(cr, uid, [pricelist_id], line.product_id.id, line.product_qty, False, {'uom': uom_id})[pricelist_id]
-                    product = prod_obj.browse(cr, uid, line.product_id.id, context=context)
-                    location_id = self.pool.get('stock.warehouse').read(cr, uid, [tender.warehouse_id.id], ['lot_input_id'])[0]['lot_input_id'][0]
+                    price = pricelist_obj.price_get( [pricelist_id], line.product_id.id, line.product_qty, False, {'uom': uom_id})[pricelist_id]
+                    product = prod_obj.browse( line.product_id.id, context=context)
+                    location_id = self.pool.get('stock.warehouse').read( [tender.warehouse_id.id], ['lot_input_id'])[0]['lot_input_id'][0]
 
                     purchase_order_line= {
                             'name': product.partner_ref,
@@ -99,12 +99,12 @@ class purchase_requisition_partner(osv.osv_memory):
                             'notes': product.description_purchase,
                     }
                     taxes_ids = line.product_id.product_tmpl_id.supplier_taxes_id
-                    taxes = acc_pos_obj.map_tax(cr, uid, partner.property_account_position, taxes_ids)
+                    taxes = acc_pos_obj.map_tax( partner.property_account_position, taxes_ids)
                     purchase_order_line.update({
                             'taxes_id': [(6,0,taxes)]
                         })
                     list_line.append(purchase_order_line)
-                purchase_id = order_obj.create(cr, uid, {
+                purchase_id = order_obj.create( {
                             'origin': tender.purchase_ids and tender.purchase_ids[0].origin or tender.name,
                             'partner_id': partner_id,
                             'partner_address_id': address_id,

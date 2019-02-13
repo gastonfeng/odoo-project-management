@@ -40,8 +40,8 @@ class sale_order_line(models.Model):
     order_project_manager = fields.Many2one(related='order_project.user_id', readonly=True, string='Project Manager',
                                             type='many2one', relation="res.users", store=True)
 
-    def _prepare_order_line_invoice_line(self, cr, uid, line, account_id=False, context=None):
-        res = super(sale_order_line, self)._prepare_order_line_invoice_line(cr, uid, line, account_id, context)
+    def _prepare_order_line_invoice_line(self,  line, account_id=False, context=None):
+        res = super(sale_order_line, self)._prepare_order_line_invoice_line( line, account_id, context)
         res['account_analytic_id'] = line.order_id.project and line.order_id.project.analytic_account_id \
                                     and line.order_id.project.analytic_account_id.id or res['account_analytic_id']
         return res
@@ -50,13 +50,13 @@ class sale_order_line(models.Model):
 class project(models.Model):
     _inherit = "project.project"
     
-    def _get_sale_project_id(self, cr, uid, ids, context=None):
+    def _get_sale_project_id(self,  ids, context=None):
         project_id = []
         for sale_order_obj in self.pool.get('sale.order').browse(cr,uid,ids,context=context):
             project_id.append(sale_order_obj.project.id)
         return project_id
     
-    def _order_count(self, cr, uid, ids, field_name, arg, context=None):
+    def _order_count(self,  ids, field_name, arg, context=None):
         res = {}
         for id in ids:
             order_ids = self.pool.get('sale.order').search(cr,uid,[('project.id','=',id)],context=context)

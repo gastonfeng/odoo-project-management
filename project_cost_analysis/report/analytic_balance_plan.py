@@ -27,8 +27,8 @@ from openerp.report import report_sxw
 # Use period and Journal for selection or resources
 #
 class account_analytic_balance_plan(report_sxw.rml_parse):
-    def __init__(self, cr, uid, name, context):
-        super(account_analytic_balance_plan, self).__init__(cr, uid, name, context=context)
+    def __init__(self,  name, context):
+        super(account_analytic_balance_plan, self).__init__( name, context=context)
         self.localcontext.update( {
             'time': time,
             'get_objects': self._get_objects,

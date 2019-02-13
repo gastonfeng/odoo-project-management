@@ -25,7 +25,7 @@ from openerp.tools.translate import _
 class project_purchase_plan_make_purchase(osv.osv_memory):
     _name = "project.purchase.plan.make.purchase"
     _description = "Project purchase plan make purchase"
-    def make_purchase_orders(self, cr, uid, ids, context=None):
+    def make_purchase_orders(self,  ids, context=None):
         """
              To make purchases.
 
@@ -44,7 +44,7 @@ class project_purchase_plan_make_purchase(osv.osv_memory):
         record_ids = context and context.get('active_ids', False)
         if record_ids:            
             pur_plan_obj = self.pool.get('account.analytic.line.plan')
-            #company = self.pool.get('res.users').browse(cr, uid, uid, context).company_id
+            #company = self.pool.get('res.users').browse( uid, context).company_id
             order_obj = self.pool.get('purchase.order')
             order_line_obj = self.pool.get('purchase.order.line')
             partner_obj = self.pool.get('res.partner')                                            
@@ -62,7 +62,7 @@ class project_purchase_plan_make_purchase(osv.osv_memory):
             account_id = False
             purchase_id = False
             price_unit = 0.0
-            for line in pur_plan_obj.browse(cr, uid, record_ids, context=context):
+            for line in pur_plan_obj.browse( record_ids, context=context):
                                                         
                     uom_id = line.product_uom_id
                     
@@ -79,7 +79,7 @@ class project_purchase_plan_make_purchase(osv.osv_memory):
                         supplier_data = line.supplier_id
                         
                         
-                    address_id = partner_obj.address_get(cr, uid, [supplier_data.id], ['delivery'])['delivery']
+                    address_id = partner_obj.address_get( [supplier_data.id], ['delivery'])['delivery']
                     newdate = datetime.today()
                     partner = supplier_data
                     pricelist_id = partner.property_product_pricelist_purchase and partner.property_product_pricelist_purchase.id or False                                        
@@ -101,7 +101,7 @@ class project_purchase_plan_make_purchase(osv.osv_memory):
                         account_id = line_account_id
                     
                     
-                    project_ids = project_obj.search(cr, uid, [('analytic_account_id','=',account_id)],limit=1)                    
+                    project_ids = project_obj.search( [('analytic_account_id','=',account_id)],limit=1)
                     project_id = False                    
                     if project_ids:
                         project_id = project_ids[0]
@@ -111,9 +111,9 @@ class project_purchase_plan_make_purchase(osv.osv_memory):
                         _('No project has been defined for the analytic account.'))                        
                         
                     warehouse_obj = self.pool.get('stock.warehouse')
-                    warehouse_ids = warehouse_obj.search(cr, uid, [('company_id', '=', company_id),])
+                    warehouse_ids = warehouse_obj.search( [('company_id', '=', company_id),])
                     if warehouse_ids:
-                        warehouses = warehouse_obj.browse(cr, uid, warehouse_ids, context=context)
+                        warehouses = warehouse_obj.browse( warehouse_ids, context=context)
                         location_ids = []
                         for lot_stock_ids in warehouses:
                             location_ids.append(lot_stock_ids.lot_stock_id.id)
@@ -124,7 +124,7 @@ class project_purchase_plan_make_purchase(osv.osv_memory):
                     #Partner bank                         
                     partner_bank_obj = self.pool.get('res.partner.bank')
                     args = [('partner_id', '=', line.supplier_id.id), ('default_bank', '=', 1)]
-                    bank_account_ids = partner_bank_obj.search(cr, uid, args)
+                    bank_account_ids = partner_bank_obj.search( args)
                     
                     bank_account_id = False
                     
@@ -145,7 +145,7 @@ class project_purchase_plan_make_purchase(osv.osv_memory):
                     taxes = False
                     if line.product_id:
                         taxes_ids = line.product_id.product_tmpl_id.supplier_taxes_id
-                        taxes = acc_pos_obj.map_tax(cr, uid, partner.property_account_position, taxes_ids)
+                        taxes = acc_pos_obj.map_tax( partner.property_account_position, taxes_ids)
                     
                     if taxes:
                         purchase_order_line.update({
@@ -154,7 +154,7 @@ class project_purchase_plan_make_purchase(osv.osv_memory):
                     list_line.append(purchase_order_line)
                     
                     if purchase_id is False:
-                        purchase_id = order_obj.create(cr, uid, {
+                        purchase_id = order_obj.create( {
                             'origin': '',
                             'partner_id': supplier_data.id,
                             'partner_address_id': address_id,
@@ -179,7 +179,7 @@ class project_purchase_plan_make_purchase(osv.osv_memory):
                         })
                     
                     order_line_id = order_line_obj.create(cr,uid,purchase_order_line,context=context)    
-                    pur_plan_obj.write(cr, uid, [line.id], {'purchase_line_id': order_line_id}, context=context)
+                    pur_plan_obj.write( [line.id], {'purchase_line_id': order_line_id}, context=context)
 
                            
         return {'type': 'ir.actions.act_window_close'}

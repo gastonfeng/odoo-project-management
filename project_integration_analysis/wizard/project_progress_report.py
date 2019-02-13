@@ -39,11 +39,11 @@ class project_progress(osv.osv_memory):
         'show_issues':True,        
     }
 
-    def check_report(self, cr, uid, ids, context=None):
+    def check_report(self,  ids, context=None):
         datas = {}
         if context is None:
             context = {}
-        data = self.read(cr, uid, ids)[0]
+        data = self.read( ids)[0]
         datas = {
              'ids': context.get('active_ids',[]),
              'model': 'project.project',

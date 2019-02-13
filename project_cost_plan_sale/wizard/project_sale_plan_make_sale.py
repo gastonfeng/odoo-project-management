@@ -25,7 +25,7 @@ from openerp.tools.translate import _
 class project_sale_plan_make_sale(osv.osv_memory):
     _name = "project.sale.plan.make.sale"
     _description = "Project sale plan make sale"
-    def make_sales_orders(self, cr, uid, ids, context=None):
+    def make_sales_orders(self,  ids, context=None):
         """
              To make sales.
 
@@ -44,7 +44,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
         record_ids = context and context.get('active_ids', False)
         if record_ids:            
             sale_plan_obj = self.pool.get('account.analytic.line.plan')
-            #company = self.pool.get('res.users').browse(cr, uid, uid, context).company_id
+            #company = self.pool.get('res.users').browse( uid, context).company_id
             order_obj = self.pool.get('sale.order')
             order_line_obj = self.pool.get('sale.order.line')
             partner_obj = self.pool.get('res.partner')                               
@@ -59,7 +59,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
             account_id = False
             sale_id = False
             price_unit = 0.0
-            for line in sale_plan_obj.browse(cr, uid, record_ids, context=context):
+            for line in sale_plan_obj.browse( record_ids, context=context):
                                                         
                     uom_id = line.product_uom_id
                     
@@ -76,7 +76,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
                         customer_data = line.customer_id
                         
                         
-                    partner_addr = partner_obj.address_get(cr, uid, [customer_data.id],
+                    partner_addr = partner_obj.address_get( [customer_data.id],
                             ['default', 'invoice', 'delivery', 'contact'])
                     newdate = datetime.today()
                     partner = customer_data
@@ -92,7 +92,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
                         company_id = line_company_id        
                     
                                 
-                    shop = self.pool.get('sale.shop').search(cr, uid, [('company_id', '=', company_id)])
+                    shop = self.pool.get('sale.shop').search( [('company_id', '=', company_id)])
                     shop_id = shop and shop[0] or False
                     
                     line_account_id = line.account_id and line.account_id.id or False
@@ -103,7 +103,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
                     else:
                         account_id = line_account_id
                     
-                    project_ids = project_obj.search(cr, uid, [('analytic_account_id','=',account_id)])                    
+                    project_ids = project_obj.search( [('analytic_account_id','=',account_id)])                    
                     project_id = False                    
                     if project_ids:
                         project_id = project_ids[0]
@@ -125,7 +125,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
                     taxes = False
                     if line.product_id:
                         taxes_ids = line.product_id.product_tmpl_id.taxes_id
-                        taxes = acc_pos_obj.map_tax(cr, uid, partner.property_account_position, taxes_ids)
+                        taxes = acc_pos_obj.map_tax( partner.property_account_position, taxes_ids)
                     
                     if taxes:
                         sale_order_line.update({
@@ -134,7 +134,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
                     list_line.append(sale_order_line)
                     
                     if sale_id is False:
-                        sale_id = order_obj.create(cr, uid, {
+                        sale_id = order_obj.create( {
                             'origin': '',
                             'shop_id': shop_id,
                             'partner_id': customer_data.id,
@@ -155,7 +155,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
                         })
                     
                     order_line_id = order_line_obj.create(cr,uid,sale_order_line,context=context)    
-                    sale_plan_obj.write(cr, uid, [line.id], {'sale_line_id': order_line_id}, context=context)
+                    sale_plan_obj.write( [line.id], {'sale_line_id': order_line_id}, context=context)
 
                            
         return {'type': 'ir.actions.act_window_close'}

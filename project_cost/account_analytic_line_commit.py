@@ -66,7 +66,7 @@ class account_analytic_line_commit(models.Model):
 
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d'),
-        'company_id': lambda self, cr, uid, c: self.env.get('res.company')._company_default_get('account.analytic.line',
+        'company_id': lambda self,  c: self.env.get('res.company')._company_default_get('account.analytic.line',
                                                                                                 context=c),
         'amount': 0.00,
         'period_id': _get_period, 

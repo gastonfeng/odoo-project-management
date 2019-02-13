@@ -40,7 +40,7 @@ class account_analytic_journal_plan(models.Model):
     _defaults = {
         'active': True,
         'type': 'general',
-        'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse(cr, uid, uid, c).company_id.id,        
+        'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse( uid, c).company_id.id,
     }
 
 

@@ -35,18 +35,16 @@ class analytic_account_category(models.Model):
             res.append((record['id'], name))
         return res
 
-    def name_search(self, name, args=None, operator='ilike', context=None, limit=100):
+    def name_search(self, name, args=None, operator='ilike', limit=100):
         if not args:
             args=[]
-        if not context:
-            context={}
         if name:
             # Be sure name_search is symetric to name_get
             name = name.split(' / ')[-1]
-            ids = self.search([('name', operator, name)] + args, limit=limit, context=context)
+            ids = self.search([('name', operator, name)] + args, limit=limit)
         else:
-            ids = self.search(args, limit=limit, context=context)
-        return self.name_get(ids, context)
+            ids = self.search(args, limit=limit)
+        return self.name_get(ids)
 
     def _name_get_fnc(self, ids, prop, unknow_none, context=None):
         res = self.name_get(ids, context=context)

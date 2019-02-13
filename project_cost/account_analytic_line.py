@@ -25,7 +25,7 @@ class account_analytic_line(models.Model):
 
     _inherit = 'account.analytic.line'
     
-    def _get_period(self, cr, uid, context=None):
+    def _get_period(self,  context=None):
         periods = self.env.get('account.period').find(cr, uid)
         if periods:
             return periods[0]

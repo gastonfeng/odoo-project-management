@@ -211,11 +211,10 @@ class project(models.Model):
     _name = "project.project"
     _inherit = "project.project"
 
-    def name_get(self, ids):
-        if not ids:
-            return []
+    @api.multi
+    def name_get(self):
         res = []
-        for project in self.browse(ids):
+        for project in self:
             data = []
             proj = project
             while proj:
@@ -226,7 +225,7 @@ class project(models.Model):
 
                 proj = proj.parent_id
             data = ' / '.join(data)
-            res2 = self.code_get([project.id])
+            res2 = project.code_get()
             if res2:
                 data = '[' + res2[0][1] + '] ' + data
                 # if project.partner_id.name:
@@ -235,11 +234,10 @@ class project(models.Model):
             res.append((project.id, data))
         return res
 
-    def code_get(self, ids):
-        if not ids:
-            return []
+    @api.multi
+    def code_get(self):
         res = []
-        for project in self.browse(ids):
+        for project in self:
             data = []
             proj = project
             while proj:
@@ -270,7 +268,8 @@ class project(models.Model):
                                              string="Project Hierarchy", type='many2many')
     parent_id=fields.Many2one('account.analytic.account',string='account')
 
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
         if not args:
             args = []
         args = args[:]
@@ -285,14 +284,14 @@ class project(models.Model):
         #            return self.name_get( project_ids, context=context)
         projectbycode = self.search([('complete_wbs_code', 'ilike', '%%%s%%' % name)] + args, limit=limit)
         projectbyname = self.search([('complete_wbs_name', 'ilike', '%%%s%%' % name)] + args, limit=limit)
-        project = list(set(projectbycode + projectbyname))
+        project = projectbycode or projectbyname
 
         #            newproj = project
         #            while newproj:
         #                newproj = self.search( [('parent_id', 'in', newproj)]+args, limit=limit, context=context)
         #                project += newproj
 
-        return self.name_get(project)
+        return project.name_get()
 
 
-project()
+
