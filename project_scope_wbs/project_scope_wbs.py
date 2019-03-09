@@ -24,10 +24,8 @@ from odoo import models, fields, api
 class task(models.Model):
     _inherit = 'project.task'
 
-    def _project_complete_wbs_name(self, ids, prop, unknow_none, unknow_dict):
-
-        if not ids:
-            return []
+    @api.multi
+    def _project_complete_wbs_name(self):
 
         res = []
 
@@ -35,22 +33,20 @@ class task(models.Model):
 
         project_obj = self.env.get('project.project')
 
-        tasks = self.browse(ids)
+        tasks = self
 
         for task in tasks:
             if task.project_id:
                 task_project_id = task.project_id.id
-                data_project = project_obj.read(task_project_id, ['complete_wbs_name'])
+                data_project = project_obj.browse(task_project_id)
             if data_project:
-                res.append((task.id, data_project['complete_wbs_name']))
+                res.append((task.id, data_project.complete_wbs_name))
             else:
                 res.append((task.id, ''))
         return dict(res)
 
-    def _project_complete_wbs_code(self, ids, prop, unknow_none, unknow_dict):
-
-        if not ids:
-            return []
+    @api.multi
+    def _project_complete_wbs_code(self):
 
         res = []
 
@@ -58,14 +54,12 @@ class task(models.Model):
 
         project_obj = self.env.get('project.project')
 
-        tasks = self.browse(ids)
-
-        for task in tasks:
+        for task in self:
             if task.project_id:
                 task_project_id = task.project_id.id
-                data_project = project_obj.read(task_project_id, ['complete_wbs_code'])
+                data_project = project_obj.browse(task_project_id)
             if data_project:
-                res.append((task.id, data_project['complete_wbs_code']))
+                res.append((task.id, data_project.complete_wbs_code))
             else:
                 res.append((task.id, ''))
         return dict(res)
@@ -75,10 +69,6 @@ class task(models.Model):
                                             store=True)
     project_complete_wbs_code = fields.Char(compute='_project_complete_wbs_code', type='char', string='WBS path code',
                                             size=250, help='Project Complete WBS path code', store=True)
-
-
-task()
-
 
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
@@ -96,11 +86,10 @@ class account_analytic_account(models.Model):
                 result.update(self.get_child_accounts(lchild_id))
         return result
 
-    def _complete_wbs_code_calc(self, ids, prop, unknow_none, unknow_dict):
-        if not ids:
-            return []
+    @api.multi
+    def _complete_wbs_code_calc(self):
         res = []
-        for account in self.browse(ids):
+        for account in self:
             data = []
             acc = account
             while acc:
@@ -114,11 +103,10 @@ class account_analytic_account(models.Model):
             res.append((account.id, data))
         return dict(res)
 
-    def _complete_wbs_name_calc(self, ids, prop, unknow_none, unknow_dict):
-        if not ids:
-            return []
+    @api.multi
+    def _complete_wbs_name_calc(self):
         res = []
-        for account in self.browse(ids):
+        for account in self:
             data = []
             acc = account
             while acc:
@@ -204,9 +192,6 @@ class account_analytic_account(models.Model):
         return res
 
 
-account_analytic_account()
-
-
 class project(models.Model):
     _name = "project.project"
     _inherit = "project.project"
@@ -251,10 +236,11 @@ class project(models.Model):
             res.append((project.id, data))
         return res
 
-    def _child_compute(self, ids, name, arg):
+    @api.multi
+    def _child_compute(self):
         result = {}
         project_child_ids = []
-        for project in self.browse(ids):
+        for project in self:
             for child in project.child_ids:
                 project_child_list = self.search([('analytic_account_id', '=', child.id)])
                 for project_child_id in project_child_list:
@@ -266,7 +252,7 @@ class project(models.Model):
 
     project_child_complete_ids = fields.Char(compute='_child_compute', relation='project.project',
                                              string="Project Hierarchy", type='many2many')
-    parent_id=fields.Many2one('account.analytic.account',string='account')
+    parent_id = fields.Many2one('account.analytic.account', string='account')
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -292,6 +278,3 @@ class project(models.Model):
         #                project += newproj
 
         return project.name_get()
-
-
-

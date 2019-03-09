@@ -36,7 +36,7 @@
     """,
     "init_xml": [
                 ],
-    "update_xml": [            
+    "data": [
         "purchase_order_view.xml",
         "purchase_requisition_view.xml",
         "project_view.xml",     

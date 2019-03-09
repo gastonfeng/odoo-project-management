@@ -32,13 +32,13 @@ from odoo.osv import osv
 class account_analytic_line_plan(models.Model):
     _inherit = 'account.analytic.line.plan'
 
-    purchase_line_id = fields.Many2one('purchase.order.line', 'Purchase Order Line', select=True)
+    purchase_line_id = fields.Many2one('purchase.order.line', 'Purchase Order Line', index=True)
     purchase_order_id = fields.Many2one(related='purchase_line_id.order_id', type='many2one', relation='purchase.order',
                                         string='Purchase Order', store=True, readonly=True)
     supplier_id = fields.Many2one('res.partner', 'Supplier', requrired=False, domain=[('supplier', '=', True)])
     pricelist_id = fields.Many2one('product.pricelist', 'Pricelist', required=False)
-    price_unit = fields.Float('Unit Price', required=True, digits_compute=dp.get_precision('Purchase Price'))
-    purchase_amount = fields.Float('Purchase Amount', required=True, digits_compute=dp.get_precision('Purchase Price'))
+    price_unit = fields.Float('Unit Price', required=True, digits=dp.get_precision('Purchase Price'))
+    purchase_amount = fields.Float('Purchase Amount', required=True, digits=dp.get_precision('Purchase Price'))
 
     def copy(self, id, default={}, context=None):
         if context is None:

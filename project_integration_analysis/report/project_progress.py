@@ -19,10 +19,12 @@
 #
 ##############################################################################
 
-import time
-from openerp.report import report_sxw
-from datetime import datetime
 import operator
+import time
+from datetime import datetime
+
+from openerp.report import report_sxw
+
 
 #
 # Use period and Journal for selection or resources

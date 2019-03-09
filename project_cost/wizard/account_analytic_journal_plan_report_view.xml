@@ -31,15 +31,16 @@
 			<field name="target">new</field>
 		</record>
 
-		<record model="ir.values" id="account_analytic_journal_plan_values">
-			<field name="model_id" ref="project_cost.model_account_analytic_journal_plan" />
-			<field name="object" eval="1" />
-			<field name="name">Account Analytic Journal</field>
-			<field name="key2">client_print_multi</field>
-			<field name="value" eval="'ir.actions.act_window,' + str(ref('action_account_analytic_journal_plan'))" />
-			<field name="key">action</field>
-			<field name="model">account.analytic.journal.plan</field>
-		</record>
-
+		<!--
+                <record model="ir.values" id="account_analytic_journal_plan_values">
+                    <field name="model_id" ref="project_cost.model_account_analytic_journal_plan" />
+                    <field name="object" eval="1" />
+                    <field name="name">Account Analytic Journal</field>
+                    <field name="key2">client_print_multi</field>
+                    <field name="value" eval="'ir.actions.act_window,' + str(ref('action_account_analytic_journal_plan'))" />
+                    <field name="key">action</field>
+                    <field name="model">account.analytic.journal.plan</field>
+                </record>
+        !-->
     </data>
 </openerp>

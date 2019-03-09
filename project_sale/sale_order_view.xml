@@ -7,7 +7,7 @@
             <field name="type">form</field>
             <field name="inherit_id" ref="sale.view_order_form" />
             <field name="arch" type="xml">
-                <xpath expr="//form[@name='Sales Order']//field[@name='project_id']" position="replace">
+                <xpath expr="//field[@name='partner_shipping_id']" position="after">
                 	<field name="project"/>      
                 	<field name="project_manager"/>    
                 </xpath>            
@@ -21,7 +21,7 @@
             <field name="type">tree</field>
             <field name="inherit_id" ref="sale.view_order_line_tree" />
             <field name="arch" type="xml">
-                <xpath expr="//tree[@name='Sales Order Lines']/field[@name='order_id']" position="after">
+                <xpath expr="//field[@name='order_id']" position="after">
            		 	<field name="order_project"/>
            		 	<field name="order_project_manager"/>
            		</xpath>
@@ -34,26 +34,26 @@
             <field name="type">search</field>
             <field name="inherit_id" ref="sale.view_sales_order_line_filter" />
             <field name="arch" type="xml">
-                <xpath expr="//search[@name='Search Sales Order']/field[@name='order_id']" position="after">
+                <xpath expr="//field[@name='order_id']" position="after">
            		 	<field name="order_project"/>
            		 	<field name="order_project_manager"/>
            		</xpath>
            	</field>
         </record>
-
-        <record id="view_sales_order_uninvoiced_line_filter" model="ir.ui.view">
-            <field name="name">sale.order.uninvoiced.line</field>
-            <field name="model">sale.order.line</field>
-            <field name="type">search</field>
-            <field name="inherit_id" ref="sale.view_sales_order_uninvoiced_line_filter" />
-            <field name="arch" type="xml">
-                <xpath expr="//search[@name='Search Uninvoiced Lines']/field[@name='order_id']" position="after">
-           		 	<field name="order_project"/>
-           		 	<field name="order_project_manager"/>
-           		</xpath>
-            </field>
-        </record>
-
+        <!--
+                <record id="view_sales_order_uninvoiced_line_filter" model="ir.ui.view">
+                    <field name="name">sale.order.uninvoiced.line</field>
+                    <field name="model">sale.order.line</field>
+                    <field name="type">search</field>
+                    <field name="inherit_id" ref="sale.view_sales_order_uninvoiced_line_filter" />
+                    <field name="arch" type="xml">
+                        <xpath expr="//field[@name='order_id']" position="after">
+                                <field name="order_project"/>
+                                <field name="order_project_manager"/>
+                           </xpath>
+                    </field>
+                </record>
+        !-->
         <record id="view_order_tree" model="ir.ui.view">
             <field name="name">sale.order.tree</field>
             <field name="model">sale.order</field>
@@ -61,7 +61,7 @@
             <field name="priority">2</field>
             <field name="inherit_id" ref="sale.view_order_tree" />
             <field name="arch" type="xml">
-                <xpath expr="//tree[@name='Sales Orders']/field[@name='name']" position="after">
+                <xpath expr="//field[@name='name']" position="after">
            		 	<field name="project"/>
            		 	<field name="project_manager"/>
            		</xpath>
@@ -74,7 +74,7 @@
             <field name="type">search</field>
             <field name="inherit_id" ref="sale.view_sales_order_filter" />
             <field name="arch" type="xml">
-                <xpath expr="//search[@name='Search Sales Order']/field[@name='name']" position="after">
+                <xpath expr="//field[@name='name']" position="after">
            		 	<field name="project"/>
            		 	<field name="project_manager"/>
            		</xpath>

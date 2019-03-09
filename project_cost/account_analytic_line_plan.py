@@ -24,7 +24,7 @@ import time
 import openerp.addons.decimal_precision as dp
 from openerp.tools.translate import _
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class account_analytic_line_plan(models.Model):
@@ -38,13 +38,13 @@ class account_analytic_line_plan(models.Model):
         return False
 
     name = fields.Char('Description', size=256, required=True)
-    date = fields.Date('Date', required=True, select=True)
+    date = fields.Date('Date', required=True, index=True)
     amount = fields.Float('Amount', required=True,
                           help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.',
-                          digits_compute=dp.get_precision('Account'))
+                          digits=dp.get_precision('Account'))
     unit_amount = fields.Float('Quantity', help='Specifies the amount of quantity to count.')
     account_id = fields.Many2one('account.analytic.account', 'Analytic Account', required=True, ondelete='cascade',
-                                 select=True, domain=[('type', '<>', 'view')])
+                                 index=True, domain=[('type', '<>', 'view')])
     user_id = fields.Many2one('res.users', 'User')
     company_id = fields.Many2one(related='account_id.company_id', type='many2one', relation='res.company',
                                  string='Company',
@@ -52,24 +52,23 @@ class account_analytic_line_plan(models.Model):
     product_uom_id = fields.Many2one('product.uom', 'UoM')
     product_id = fields.Many2one('product.product', 'Product')
     general_account_id = fields.Many2one('account.account', 'General Account', required=False, ondelete='restrict')
-    move_id = fields.Many2one('account.move.line', 'Move Line', ondelete='restrict', select=True)
+    move_id = fields.Many2one('account.move.line', 'Move Line', ondelete='restrict', index=True)
     journal_id = fields.Many2one('account.analytic.journal.plan', 'Planning Analytic Journal', required=True,
-                                 ondelete='restrict', select=True)
+                                 ondelete='restrict', index=True)
     code = fields.Char('Code', size=8)
     ref = fields.Char('Ref.', size=64)
     currency_id = fields.Many2one(related='move_id.currency_id', type='many2one', relation='res.currency',
                                   string='Account currency', store=True,
                                   help="The related account currency if not equal to the company one.", readonly=True)
-    amount_currency = fields.Float(related='move_id.amount_currency', type='float', string='Amount currency',
-                                   store=True,
-                                   help="The amount expressed in the related account currency if not equal to the company one.",
-                                   readonly=True)
-    period_id = fields.Many2one('account.period', 'Period', required=True, select=2)
+    amount_currency = fields.Monetary(related='move_id.amount_currency', string='Amount currency', store=True,
+                                      help="The amount expressed in the related account currency if not equal to the company one.",
+                                      readonly=True)
+    period_id = fields.Many2one('account.period', 'Period', required=True, index=True)
     notes = fields.Text('Notes')
 
     _defaults = {
         'date': lambda *a: time.strftime('%Y-%m-%d'),
-        'company_id': lambda self,  c: self.pool.get('res.company')._company_default_get(
+        'company_id': lambda self, c: self.pool.get('res.company')._company_default_get(
             'account.analytic.line', context=c),
         'amount': 0.00,
         'period_id': _get_period,
@@ -173,13 +172,13 @@ class account_analytic_line_plan(models.Model):
 
         return res
 
-    def view_header_get(self, cr, user, view_id, view_type, context=None):
-        if context is None:
-            context = {}
+    @api.model
+    def view_header_get(self, view_id, view_type):
+        context = self._context or {}
         if context.get('account_id', False):
             # account_id in context may also be pointing to an account.account.id
-            cr.execute('select name from account_analytic_account where id=%s', (context['account_id'],))
-            res = cr.fetchone()
+            self.cr.execute('select name from account_analytic_account where id=%s', (context['account_id'],))
+            res = self.cr.fetchone()
             if res:
                 res = _('Entries: ') + (res[0] or '')
             return res

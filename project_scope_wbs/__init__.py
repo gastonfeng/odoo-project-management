@@ -19,9 +19,5 @@
 #
 ##############################################################################
 
-import project_lifecycle
-import project_scope_wbs
-
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

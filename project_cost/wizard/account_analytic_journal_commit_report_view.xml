@@ -30,16 +30,16 @@
 			<field name="view_id" ref="account_analytic_journal_commit_view"/>
 			<field name="target">new</field>
 		</record>
-
-		<record model="ir.values" id="account_analytic_journal_commit_values">
-			<field name="model_id" ref="project_cost.model_account_analytic_journal_commit" />
-			<field name="object" eval="1" />
-			<field name="name">Account Analytic Journal</field>
-			<field name="key2">client_print_multi</field>
-			<field name="value" eval="'ir.actions.act_window,' + str(ref('action_account_analytic_journal_commit'))" />
-			<field name="key">action</field>
-			<field name="model">account.analytic.journal.commit</field>
-		</record>
-
+        <!--
+                <record model="ir.values" id="account_analytic_journal_commit_values">
+                    <field name="model_id" ref="project_cost.model_account_analytic_journal_commit" />
+                    <field name="object" eval="1" />
+                    <field name="name">Account Analytic Journal</field>
+                    <field name="key2">client_print_multi</field>
+                    <field name="value" eval="'ir.actions.act_window,' + str(ref('action_account_analytic_journal_commit'))" />
+                    <field name="key">action</field>
+                    <field name="model">account.analytic.journal.commit</field>
+                </record>
+        !-->
     </data>
 </openerp>

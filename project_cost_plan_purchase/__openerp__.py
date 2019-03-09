@@ -29,7 +29,7 @@
     "description": """Eficent Project Management. Maintain analytic planned costs associated to purchase orders         
     """,
     "init_xml": [],
-    "update_xml": [        
+    "data": [
         "wizard/project_purchase_plan_make_purchase.xml",
         "project_purchase_line_plan_view.xml",  
         "project_view.xml",

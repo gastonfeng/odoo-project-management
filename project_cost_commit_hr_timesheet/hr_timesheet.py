@@ -42,7 +42,7 @@ class hr_employee(models.Model):
 
 
 class hr_analytic_timesheet(models.Model):
-    _inherit = "hr.analytic.timesheet"
+    _inherit = "account.analytic.line"
 
     line_commit_id = fields.One2many('account.analytic.line.commit', 'hr_timesheet_id', 'Commitment Analytic line')
 

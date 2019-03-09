@@ -24,4 +24,4 @@ from odoo import models, fields
 class account_analytic_line_commit(models.Model):
     _inherit = 'account.analytic.line.commit'
 
-    purchase_line_id = fields.Many2one('purchase.order.line', 'Purchase Order Line', ondelete='cascade', select=True)
+    purchase_line_id = fields.Many2one('purchase.order.line', 'Purchase Order Line', ondelete='cascade', index=True)

@@ -35,7 +35,7 @@
     """,
     "init_xml": [
                 ],
-    "update_xml": [
+    "data": [
         "security/ir.model.access.csv",
         "security/project_communications_meetings_security.xml",
         "project_communications_meetings_view.xml",     

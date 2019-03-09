@@ -31,7 +31,7 @@ class account_analytic_line_plan(models.Model):
     _inherit = 'account.analytic.line.plan'
 
     employee_id = fields.Many2one('hr.employee', 'Employee', requrired=False)
-    time_amount = fields.Float('Time Amount', required=True, digits_compute=dp.get_precision('Amount'))
+    time_amount = fields.Float('Time Amount', required=True, digits=dp.get_precision('Amount'))
 
     def on_change_time_amount(self, id, time_amount, context=None):
         

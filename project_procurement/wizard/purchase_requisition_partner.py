@@ -20,8 +20,10 @@
 ##############################################################################
 
 from datetime import datetime
+
 from dateutil.relativedelta import relativedelta
-from openerp.osv import  osv
+from openerp.osv import osv
+
 
 class purchase_requisition_partner(osv.osv_memory):
     _inherit = "purchase.requisition.partner"

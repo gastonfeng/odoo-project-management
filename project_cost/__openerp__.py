@@ -25,7 +25,8 @@
     "author": "Jordi Ballester (Eficent)",
     "website": "http://www.eficent.com",
     "category": "Generic Modules/Projects & Services",
-    "depends": ["account","product", "analytic", "board", "project", "purchase","hr_timesheet", "sale"],
+    "depends": ["account", "product", "analytic", "board", "project", "purchase", "hr_timesheet", "sale",
+                'account_period', 'analytic_journal'],
     "description": """Eficent Project Management. Project Cost Planning
         - A planning analytic journal object is created. It is similar to the analytic journal, but used for planning purposes
         - The planning analytic journals can be configured
@@ -41,7 +42,7 @@
  
     """,
     "init_xml": [],
-    "update_xml": [            
+    "data": [
         "account_analytic_line_plan_view.xml",
         "account_analytic_line_commit_view.xml",        
         "account_analytic_account_view.xml",

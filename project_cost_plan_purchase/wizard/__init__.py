@@ -19,7 +19,5 @@
 #
 ##############################################################################
 
-import project_purchase_plan_make_purchase
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

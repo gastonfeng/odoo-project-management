@@ -18,42 +18,42 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import tools
-from openerp.osv import fields
+from odoo import models, fields, tools
 
 
 class report_account_analytic_resource_usage(models.Model):
     _name = "report.account.analytic.resource.usage"
     _description = "Resource Usage Analysis"
     _auto = False
-    _columns = {        
-        'date': fields.date('Date', readonly=True),
-        'day': fields.char('Day', size=128, readonly=True),
-        'month':fields.selection([('01','January'), ('02','February'), ('03','March'), ('04','April'), ('05','May'), ('06','June'), ('07','July'), ('08','August'), ('09','September'), ('10','October'), ('11','November'), ('12','December')], 'Month', readonly=True),
-        'year': fields.char('Year', size=64, required=False, readonly=True),
-        'period_id': fields.many2one('account.period', 'Period', readonly=True),
-        'account_id': fields.many2one('account.analytic.account', 'Analytic Account', readonly=True),
-        'product_id': fields.many2one('product.product', 'Product', readonly=True),
-        'product_uom_id': fields.many2one('product.uom', 'UoM', readonly=True),
-        'user_id': fields.many2one('res.users', 'User', readonly=True),
-        'amount_plan': fields.float('Planned Amount', readonly=True, help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.'),
-        'amount_commit': fields.float('Commited Amount', readonly=True, help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.'),
-        'unit_amount_plan': fields.float('Planned Quantity', help='Specifies the amount of quantity to count.'),
-        'unit_amount_commit': fields.float('Commited Quantity', help='Specifies the amount of quantity to count.'),
-        'amount_real': fields.float('Real Amount', readonly=True, help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.'),
-        'unit_amount_real': fields.float('Real Quantity', readonly=True, help='Specifies the amount of quantity to count.'),        
-    }
+    date = fields.Date('Date', readonly=True)
+    day = fields.Char('Day', size=128, readonly=True)
+    month = fields.Selection(
+        [('01', 'January'), ('02', 'February'), ('03', 'March'), ('04', 'April'), ('05', 'May'), ('06', 'June'),
+         ('07', 'July'), ('08', 'August'), ('09', 'September'), ('10', 'October'), ('11', 'November'),
+         ('12', 'December')], 'Month', readonly=True)
+    year = fields.Char('Year', size=64, required=False, readonly=True)
+    period_id = fields.Many2one('account.period', 'Period', readonly=True)
+    account_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True)
+    product_id = fields.Many2one('product.product', 'Product', readonly=True)
+    product_uom_id = fields.Many2one('product.uom', 'UoM', readonly=True)
+    user_id = fields.Many2one('res.users', 'User', readonly=True)
+    amount_plan = fields.Float('Planned Amount', readonly=True,
+                               help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.')
+    amount_commit = fields.Float('Commited Amount', readonly=True,
+                                 help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.')
+    unit_amount_plan = fields.Float('Planned Quantity', help='Specifies the amount of quantity to count.')
+    unit_amount_commit = fields.Float('Commited Quantity', help='Specifies the amount of quantity to count.')
+    amount_real = fields.Float('Real Amount', readonly=True,
+                               help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.')
+    unit_amount_real = fields.Float('Real Quantity', readonly=True, help='Specifies the amount of quantity to count.')
 
-
-    def init(self, cr):
-        
-        """ 
+    def init(self):
+        """
             @param cr: the current row, from the database cursor,
         """
-        tools.drop_view_if_exists(cr, 'report_account_analytic_resource_usage')
-        
-        cr.execute("""
+        tools.drop_view_if_exists(self._cr, 'report_account_analytic_resource_usage')
+
+        self._cr.execute("""
             create or replace view report_account_analytic_resource_usage as (
                 
               SELECT  
@@ -130,9 +130,7 @@ class report_account_analytic_resource_usage(models.Model):
                     user_id
                 ORDER BY tot.date
 
-            )""")               
+            )""")
 
-        
+
 report_account_analytic_resource_usage()
-
-

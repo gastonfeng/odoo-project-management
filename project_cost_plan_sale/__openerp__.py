@@ -29,7 +29,7 @@
     "description": """Maintain analytic planned costs associated to sales orders         
     """,
     "init_xml": [],
-    "update_xml": [        
+    "data": [
         "wizard/project_sale_plan_make_sale.xml",
         "project_sale_line_plan_view.xml",  
         "project_view.xml",

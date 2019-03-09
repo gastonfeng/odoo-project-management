@@ -43,7 +43,7 @@
     """,
     "init_xml": [
                 ],
-    "update_xml": [            
+    "data": [
         "project_progress_report.xml",
     ],
     'demo_xml': [

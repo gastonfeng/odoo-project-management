@@ -19,8 +19,10 @@
 #
 ##############################################################################
 from datetime import datetime
+
 from openerp.osv import osv
 from openerp.tools.translate import _
+
 
 class project_sale_plan_make_sale(osv.osv_memory):
     _name = "project.sale.plan.make.sale"
@@ -66,9 +68,9 @@ class project_sale_plan_make_sale(osv.osv_memory):
                     if not line.customer_id:
                         raise osv.except_osv(
                             _('Could not create sale order !'),
-                            _('You have to enter a customer.'))   
-                    
-                    if customer_data is not False and line.customer_id <> customer_data:
+                            _('You have to enter a customer.'))
+
+                    if customer_data is not False and line.customer_id != customer_data:
                         raise osv.except_osv(
                         _('Could not create sale order !'),
                         _('You have to select lines from the same customer.'))
@@ -84,7 +86,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
                     price_unit = line.price_unit
 
                     line_company_id = line.company_id and line.company_id.id or False
-                    if company_id is not False and line_company_id <> company_id:
+                    if company_id is not False and line_company_id != company_id:
                         raise osv.except_osv(
                         _('Could not create sale order !'),
                         _('You have to select lines from the same company.'))
@@ -96,7 +98,7 @@ class project_sale_plan_make_sale(osv.osv_memory):
                     shop_id = shop and shop[0] or False
                     
                     line_account_id = line.account_id and line.account_id.id or False
-                    if account_id is not False and line_account_id <> account_id:
+                    if account_id is not False and line_account_id != account_id:
                         raise osv.except_osv(
                         _('Could not create sale order !'),
                         _('You have to select lines from the same project.'))

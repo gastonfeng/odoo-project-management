@@ -20,12 +20,11 @@
 ##############################################################################
 
 import time
-from openerp.report import report_sxw
 
 #
 # Use period and Journal for selection or resources
 #
-class account_analytic_journal_commit(report_sxw.rml_parse):
+class account_analytic_journal_commit(object):
     def __init__(self,  name, context):
         super(account_analytic_journal_commit, self).__init__( name, context=context)
         self.localcontext.update( {
@@ -56,7 +55,7 @@ class account_analytic_journal_commit(report_sxw.rml_parse):
         res = self.cr.dictfetchone()
         return res['sum'] or 0
 
-report_sxw.report_sxw('report.account.analytic.journal.commit', 'account.analytic.journal.commit', 'addons/project_cost/report/account_analytic_journal_commit.rml',parser=account_analytic_journal_commit,header="internal")
+# report_sxw.report_sxw('report.account.analytic.journal.commit', 'account.analytic.journal.commit', 'addons/project_cost/report/account_analytic_journal_commit.rml',parser=account_analytic_journal_commit,header="internal")
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

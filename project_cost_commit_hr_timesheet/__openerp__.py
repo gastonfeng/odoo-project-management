@@ -30,7 +30,7 @@
         - When timesheets are recorded, the corresponding cost is registered as a commitment cost
     """,
     "init_xml": [],
-    "update_xml": [                                      
+    "data": [
         "hr_timesheet_view.xml", 
         "hr_timesheet_data.xml", 
         "hr_timesheet_workflow.xml",         

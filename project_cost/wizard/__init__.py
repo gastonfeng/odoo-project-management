@@ -19,9 +19,5 @@
 #
 ##############################################################################
 
-import account_analytic_journal_plan_report
-import account_analytic_journal_commit_report
-
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

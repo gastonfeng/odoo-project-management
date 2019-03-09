@@ -29,7 +29,7 @@
     "description": """Maintain analytic planned costs associated to internal time        
     """,
     "init_xml": [],
-    "update_xml": [        
+    "data": [
         "project_time_line_plan_view.xml",  
         "project_view.xml",
         "security/ir.model.access.csv",

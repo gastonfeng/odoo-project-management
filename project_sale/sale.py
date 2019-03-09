@@ -18,11 +18,10 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class sale_order(models.Model):
-    
     _inherit = "sale.order"
 
     project = fields.Many2one('project.project', 'Project', readonly=True, states={'draft': [('readonly', False)]},
@@ -32,7 +31,6 @@ class sale_order(models.Model):
 
 
 class sale_order_line(models.Model):
-    
     _inherit = 'sale.order.line'
 
     order_project = fields.Many2one(related='order_id.project', type='many2one', relation='project.project', store=True,
@@ -40,26 +38,27 @@ class sale_order_line(models.Model):
     order_project_manager = fields.Many2one(related='order_project.user_id', readonly=True, string='Project Manager',
                                             type='many2one', relation="res.users", store=True)
 
-    def _prepare_order_line_invoice_line(self,  line, account_id=False, context=None):
-        res = super(sale_order_line, self)._prepare_order_line_invoice_line( line, account_id, context)
+    def _prepare_order_line_invoice_line(self, line, account_id=False, context=None):
+        res = super(sale_order_line, self)._prepare_order_line_invoice_line(line, account_id, context)
         res['account_analytic_id'] = line.order_id.project and line.order_id.project.analytic_account_id \
-                                    and line.order_id.project.analytic_account_id.id or res['account_analytic_id']
+                                     and line.order_id.project.analytic_account_id.id or res['account_analytic_id']
         return res
 
 
 class project(models.Model):
     _inherit = "project.project"
-    
-    def _get_sale_project_id(self,  ids, context=None):
+
+    def _get_sale_project_id(self, ids):
         project_id = []
-        for sale_order_obj in self.pool.get('sale.order').browse(cr,uid,ids,context=context):
+        for sale_order_obj in self.pool.get('sale.order').browse(ids):
             project_id.append(sale_order_obj.project.id)
         return project_id
-    
-    def _order_count(self,  ids, field_name, arg, context=None):
+
+    @api.multi
+    def _order_count(self):
         res = {}
-        for id in ids:
-            order_ids = self.pool.get('sale.order').search(cr,uid,[('project.id','=',id)],context=context)
+        for id in self:
+            order_ids = self.env['sale.order'].search([('project.id', '=', id.id)])
             order_count = order_ids and len(order_ids) or 0
             res[id] = order_count
         return res
@@ -69,6 +68,5 @@ class project(models.Model):
                                  #                                                     'sale.order' : (_get_sale_project_id, ['project'],5),
                                  #                                                     }, help="Gives the number of sale order associated with the project"
                                  )
-
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

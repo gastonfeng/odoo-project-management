@@ -24,4 +24,4 @@ from odoo import models, fields
 class account_analytic_line_commit(models.Model):
     _inherit = 'account.analytic.line.commit'
 
-    sale_line_id = fields.Many2one('sale.order.line', 'Sale Order Line', ondelete='cascade', select=True)
+    sale_line_id = fields.Many2one('sale.order.line', 'Sale Order Line', ondelete='cascade', index=True)

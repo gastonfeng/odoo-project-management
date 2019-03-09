@@ -36,7 +36,7 @@
     """,
     "init_xml": [
                 ],
-    "update_xml": [    
+    "data": [
         "analytic_account_category.xml",
         "analytic_account_view.xml",
         "project_view.xml",
