@@ -20,17 +20,14 @@
 ##############################################################################
 
 
-
-
-from openerp import netsvc
-from openerp.tools.translate import _
+from odoo import netsvc
+from odoo.tools.translate import _
 
 from odoo import models, fields
 from odoo.osv import osv
 
 
 class purchase_order_line(models.Model):
-    
     _inherit = "purchase.order.line"
 
     order_project_id = fields.Many2one(related='order_id.project_id', type='many2one', relation='project.project',
@@ -38,39 +35,37 @@ class purchase_order_line(models.Model):
 
     def create(self, vals, *args, **kwargs):
         if 'order_id' in vals:
-            order_obj = self.env.get('purchase.order').browse(vals['order_id'], context=None)
-        
+            order_obj = self.env.get('purchase.order').browse(vals['order_id'])
+
         analytic_account_id = ''
-        
+
         if order_obj.project_id:
             project_obj = self.env.get('project.project')
-            #Read the project's analytic account
+            # Read the project's analytic account
             analytic_account_id = project_obj.read(order_obj.project_id.id, 'analytic_account_id')[
                 'analytic_account_id']
             vals['account_analytic_id'] = analytic_account_id
 
         return super(purchase_order_line, self).create(vals, *args, **kwargs)
 
-    def button_cancel(self, ids, context=None):
-        for line in self.browse(ids, context=context):
+    def button_cancel(self, ids):
+        for line in self.browse(ids):
             if line.invoiced:
-                raise osv.except_osv(_('Invalid action !'), _('You cannot cancel a purchase order line that has already been invoiced !'))
+                raise osv.except_osv(_('Invalid action !'),
+                                     _('You cannot cancel a purchase order line that has already been invoiced !'))
             for move_line in line.move_ids:
                 if move_line.state != 'cancel':
                     raise osv.except_osv(
-                            _('Could not cancel purchase order line!'),
-                            _('You must first cancel stock moves attached to this purchase order line.'))
+                        _('Could not cancel purchase order line!'),
+                        _('You must first cancel stock moves attached to this purchase order line.'))
         return self.write(ids, {'state': 'cancel'})
 
-    def button_confirm(self, ids, context=None):
+    def button_confirm(self, ids):
         return self.write(ids, {'state': 'confirmed'})
 
-    def button_done(self, ids, context=None):
+    def button_done(self, ids):
         wf_service = netsvc.LocalService("workflow")
         res = self.write(ids, {'state': 'done'})
-        for line in self.browse(ids, context=context):
-            wf_service.trg_write(uid, 'purchase.order', line.order_id.id, cr)
+        for line in self.browse(ids):
+            wf_service.trg_write(self.env.uid, 'purchase.order', line.order_id.id, self._cr)
         return res
-    
-    
-purchase_order_line()

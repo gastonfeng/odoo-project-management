@@ -19,5 +19,12 @@
 #
 ##############################################################################
 
+from . import purchase_requisition
+from . import purchase_order
+from . import purchase_order_line
+from . import project
+# from . import wizard
+
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

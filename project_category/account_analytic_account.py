@@ -20,20 +20,18 @@
 ##############################################################################
 
 
-from openerp import tools
+from odoo import tools
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class account_analytic_account(models.Model):
+    @api.multi
+    def _categories_name_calc(self):
 
-    def _categories_name_calc(self, ids, name, args, context=None):
-
-        if not ids:
-            return []
         res = []
 
-        accounts_br = self.browse(ids, context=context)
+        accounts_br = self
 
         for account in accounts_br:
             data = []
@@ -42,7 +40,7 @@ class account_analytic_account(models.Model):
                 for category_br in categories_br:
                     cat_name = category_br.complete_name or ''
                     data.insert(0, cat_name)
-                data.sort(cmp=None, key=None, reverse=False)
+                data.sort(key=None, reverse=False)
                 data_str = ', '.join(map(tools.ustr, data))
 
             else:
@@ -57,4 +55,4 @@ class account_analytic_account(models.Model):
     category_id = fields.Many2many('analytic.account.category', 'analytic_account_category_rel', 'account_id',
                                    'category_id', 'Categories')
     categories_name_str = fields.Text(compute='_categories_name_calc', method=True, type='text', string='Categories',
-                                      help='Analytic account categories'),
+                                      help='Analytic account categories')

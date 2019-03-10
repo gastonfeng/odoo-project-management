@@ -15,8 +15,8 @@
             <field name="inherit_id" ref="project.view_project_project_filter"/>
             <field name="arch" type="xml">            	 	
             	<field name="name" position="after">
-            			<field name="complete_wbs_name" string="WBS Path name"/>    
-            			<field name="complete_wbs_code" string="WBS Path code"/>              			 
+                    <!--<field name="complete_wbs_name" string="WBS Path name"/>    -->
+                    <!--<field name="complete_wbs_code" string="WBS Path code"/>              			 -->
 						<field name="class_" string="Class"/>
                     <field name="lifecycle_stage" string="Stage"
                            attrs="{'readonly':[('class_','in',['deliverable', 'work_package'])]}"/>
@@ -33,8 +33,8 @@
             <field name="field_parent">child_ids</field>
             <field name="arch" type="xml">                
                 <field name="name" position="after">
-            		<field name="complete_wbs_name" string="WBS Path name"/>
-            		<field name="complete_wbs_code" string="WBS Path code"/> 
+                    <!--<field name="complete_wbs_name" string="WBS Path name"/>-->
+                    <!--<field name="complete_wbs_code" string="WBS Path code"/> -->
             		<field name="class_" string="Class"/>
             		<field name="lifecycle_stage" string="Stage"/>     			            			            				            		
             	</field>            	                                         

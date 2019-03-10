@@ -36,16 +36,16 @@ class account_analytic_account(models.Model):
                     continue
                 res = recursive_computation(son.id, res)
                 repeated_account_ids.append(son.id)
-                for field in field_names:
-                    if account.currency_id.id == son.currency_id.id or field == 'quantity_plan':
-                        res[account.id][field] += res[son.id][field]
-                    else:
-                        res[account.id][field] += currency_obj.compute(son.currency_id.id, account.currency_id.id,
-                                                                       res[son.id][field])
+                # for field in field_names:
+                # if account.currency_id.id == son.currency_id.id or field == 'quantity_plan':
+                #     res[account.id][field] += res[son.id][field]
+                # else:
+                #     res[account.id][field] += currency_obj.compute(son.currency_id.id, account.currency_id.id,
+                #                                                    res[son.id][field])
             return res
 
-        for account in self.browse(ids):
-            if account.id not in child_ids:
+        for account in ids:
+            if account not in child_ids:
                 continue
             res = recursive_computation(account.id, res)
         return res
@@ -73,12 +73,13 @@ class account_analytic_account(models.Model):
             res = recursive_computation(account.id, res)
         return res
 
-    def _debit_credit_bal_qtty_plan(self, ids, name):
+    @api.one
+    def _debit_credit_bal_qtty_plan(self, name=[]):
         res = {}
         context = self._context or {}
-        child_ids = tuple(self.search([('parent_id', 'child_of', ids)]))
+        child_ids = self.search([('parent_id', 'child_of', self.id)])
         for i in child_ids:
-            res[i] = {}
+            res[i.id] = {}
             for n in name:
                 res[i][n] = 0.0
 
@@ -86,7 +87,7 @@ class account_analytic_account(models.Model):
             return res
 
         where_date = ''
-        where_clause_args = [tuple(child_ids)]
+        where_clause_args = [tuple(child_ids.mapped('id'))]
         if context.get('from_date', False):
             where_date += " AND l.date >= %s"
             where_clause_args += [context['from_date']]
@@ -117,13 +118,14 @@ class account_analytic_account(models.Model):
         for ac_id, debit, credit, balance, quantity in self._cr.fetchall():
             res[ac_id] = {'debit_plan': debit, 'credit_plan': credit, 'balance_plan': balance,
                           'quantity_plan': quantity}
-        return self._compute_level_tree_plan(ids, child_ids, res,
+        return self._compute_level_tree_plan(self, child_ids, res,
                                              ['debit_plan', 'credit_plan', 'balance_plan', 'quantity_plan'])
 
-    def _debit_credit_bal_qtty_commit(self, ids, name, arg):
+    @api.one
+    def _debit_credit_bal_qtty_commit(self, name=[]):
         res = {}
         context = self._context or {}
-        child_ids = tuple(self.search([('parent_id', 'child_of', ids)]))
+        child_ids = tuple(self.search([('parent_id', 'child_of', self)]))
         for i in child_ids:
             res[i] = {}
             for n in name:
@@ -164,9 +166,8 @@ class account_analytic_account(models.Model):
         for ac_id, debit, credit, balance, quantity in self._cr.fetchall():
             res[ac_id] = {'debit_commit': debit, 'credit_commit': credit, 'balance_commit': balance,
                           'quantity_commit': quantity}
-        return self._compute_level_tree_commit(ids, child_ids, res,
-                                               ['debit_commit', 'credit_commit', 'balance_commit', 'quantity_commit'],
-                                               context)
+        return self._compute_level_tree_commit(self, child_ids, res,
+                                               ['debit_commit', 'credit_commit', 'balance_commit', 'quantity_commit'])
 
     # In case that the parent is deleted, we also delete this entity
     parent_id = fields.Many2one('account.analytic.account', 'Parent Analytic Account', index=True, ondelete='cascade')
@@ -188,10 +189,11 @@ class account_analytic_account(models.Model):
     credit_commit = fields.Float(compute='_debit_credit_bal_qtty_commit', method=True, type='float',
                                  string='Commitments Credit', multi='debit_credit_bal_qtty_commit',
                                  digits=dp.get_precision('Account'))
-    state = fields.Selection(
-        [('draft', 'Draft'), ('ready', 'Ready'), ('open', 'Open'), ('pending', 'Pending'), ('cancelled', 'Cancelled'),
-         ('close', 'Closed'), ('template', 'Template')], 'State', required=True,
-        help='* When an account is created its in \'Draft\' state.\
+    state = fields.Selection(selection_add=
+                             [('draft', 'Draft'), ('ready', 'Ready'), ('open', 'Open'), ('pending', 'Pending'),
+                              ('cancelled', 'Cancelled'),
+                              ('close', 'Closed'), ('template', 'Template')], string='State', required=True,
+                             help='* When an account is created its in \'Draft\' state.\
                               \n* When is ready to be used, it can be in \'Ready\' state.\
                               \n* If any associated partner is there, it can be in \'Open\' state.\
                               \n* If any pending balance is there it can be in \'Pending\'. \

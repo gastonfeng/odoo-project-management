@@ -19,4 +19,13 @@
 #
 ##############################################################################
 
+from . import account_analytic_account
+from . import account_analytic_journal_plan
+from . import account_analytic_journal_commit
+from . import account_analytic_line
+from . import account_analytic_line_plan
+from . import account_analytic_line_commit
+from . import report
+from . import wizard
+
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
