@@ -1,0 +1,206 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* project_cost_plan_sale
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-09-10 21:27+0000\n"
+"PO-Revision-Date: 2019-03-10 22:58+0800\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.2.1\n"
+"Last-Translator: \n"
+"Language: zh_CN\n"
+
+#. module: project_cost_plan_sale
+#: model:ir.actions.act_window,name:project_cost_plan_sale.act_project_2_sale_line_plan
+msgid "Sale Plan"
+msgstr "销售计划"
+
+#. module: project_cost_plan_sale
+#: model:ir.actions.act_window,name:project_cost_plan_sale.action_view_project_sale_plan_make_sale
+msgid "Make sales orders"
+msgstr "制作销售订单"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:71
+#, python-format
+msgid "You have to enter a customer."
+msgstr "您必须输入客户."
+
+#. module: project_cost_plan_sale
+#: model:ir.model,name:project_cost_plan_sale.model_project_sale_line_plan
+msgid "Planned Sales Lines for Project"
+msgstr "项目的计划销售明细"
+
+#. module: project_cost_plan_sale
+#: view:account.analytic.line.plan:0
+#: model:ir.actions.act_window,name:project_cost_plan_sale.action_project_sale_line_plan_open_form
+#: model:ir.ui.menu,name:project_cost_plan_sale.project_sale_line_plan_entries
+#: model:ir.ui.menu,name:project_cost_plan_sale.project_sale_line_plan_entries_2
+msgid "Project sales plans"
+msgstr "项目销售计划"
+
+#. module: project_cost_plan_sale
+#: model:ir.actions.act_window,name:project_cost_plan_sale.action_project_sale_plan_make_sale
+#: view:project.sale.plan.make.sale:0
+msgid "Create Sales Orders"
+msgstr "创建销售订单"
+
+#. module: project_cost_plan_sale
+#: constraint:project.project:0
+msgid "Error! project start-date must be lower then project end-date."
+msgstr "错误！ 项目开始日期必须低于项目结束日期。"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/account_analytic_line_plan.py:103
+#: code:addons/project_cost_plan_sale/account_analytic_line_plan.py:112
+#, python-format
+msgid "Error !"
+msgstr "错误!"
+
+#. module: project_cost_plan_sale
+#: view:project.sale.plan.make.sale:0
+msgid "Do you really want to create the sale order(s) ?"
+msgstr "确定创建销售订单?"
+
+#. module: project_cost_plan_sale
+#: view:project.sale.plan.make.sale:0
+msgid "Create sales orders"
+msgstr "创建销售订单"
+
+#. module: project_cost_plan_sale
+#: view:account.analytic.line.plan:0
+msgid "Non-ordered"
+msgstr "非有序"
+
+#. module: project_cost_plan_sale
+#: field:account.analytic.line.plan,sale_amount:0
+msgid "Sale Amount"
+msgstr "销售金额"
+
+#. module: project_cost_plan_sale
+#: field:account.analytic.line.plan,sale_line_id:0
+msgid "Sale Order Line"
+msgstr "销售订单明细"
+
+#. module: project_cost_plan_sale
+#: constraint:project.project:0
+msgid "Error! You cannot assign escalation to the same project!"
+msgstr "错误！ 您无法将升级分配给同一个项目！"
+
+#. module: project_cost_plan_sale
+#: model:ir.model,name:project_cost_plan_sale.model_account_analytic_line_plan
+msgid "Analytic Line Plan"
+msgstr "分析明细计划"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/account_analytic_line_plan.py:104
+#, python-format
+msgid "There is no expense account defined for this product: \"%s\" (id:%d)"
+msgstr "没有为此产品定义费用帐户： \"%s\" (id:%d)"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:92
+#, python-format
+msgid "You have to select lines from the same company."
+msgstr "您必须从同一家公司选择行。"
+
+#. module: project_cost_plan_sale
+#: field:account.analytic.line.plan,customer_id:0
+msgid "Customer"
+msgstr "客户"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:70
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:75
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:91
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:103
+#, python-format
+msgid "Could not create sale order !"
+msgstr "无法创建销售订单！"
+
+#. module: project_cost_plan_sale
+#: view:account.analytic.line.plan:0
+msgid "Edit"
+msgstr "编辑"
+
+#. module: project_cost_plan_sale
+#: view:account.analytic.line.plan:0
+msgid "Notes"
+msgstr "备注"
+
+#. module: project_cost_plan_sale
+#: field:account.analytic.line.plan,sale_order_id:0
+msgid "Sale Order"
+msgstr "销售订单"
+
+#. module: project_cost_plan_sale
+#: model:ir.model,name:project_cost_plan_sale.model_project_project
+msgid "Project"
+msgstr "项目"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:114
+#, python-format
+msgid "Cannot create sales order !"
+msgstr "无法创建销售订单！"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:115
+#, python-format
+msgid "No project has been defined for the analytic account."
+msgstr "尚未为分析帐户定义任何项目。"
+
+#. module: project_cost_plan_sale
+#: view:account.analytic.line.plan:0
+msgid "Search project sales plans"
+msgstr "搜索项目销售计划"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/account_analytic_line_plan.py:113
+#, python-format
+msgid "There is no income account defined for this product: \"%s\" (id:%d)"
+msgstr "此产品没有定义收入帐户：\"%s\" (id:%d)"
+
+#. module: project_cost_plan_sale
+#: view:account.analytic.line.plan:0
+msgid "Analytic Information"
+msgstr "分析信息"
+
+#. module: project_cost_plan_sale
+#: model:ir.model,name:project_cost_plan_sale.model_project_sale_plan_make_sale
+msgid "Project sale plan make sale"
+msgstr "项目销售计划进行销售"
+
+#. module: project_cost_plan_sale
+#: view:account.analytic.line.plan:0
+msgid "Sale Order Information"
+msgstr "销售订单信息"
+
+#. module: project_cost_plan_sale
+#: view:project.sale.plan.make.sale:0
+msgid "Cancel"
+msgstr "取消"
+
+#. module: project_cost_plan_sale
+#: view:account.analytic.line.plan:0
+msgid "Total"
+msgstr "总计"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:104
+#, python-format
+msgid "You have to select lines from the same project."
+msgstr "您必须从同一项目中选择行。"
+
+#. module: project_cost_plan_sale
+#: code:addons/project_cost_plan_sale/wizard/project_sale_plan_make_sale.py:76
+#, python-format
+msgid "You have to select lines from the same customer."
+msgstr "您必须从同一客户中选择行。"

@@ -1,0 +1,244 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* project_cost_plan_purchase
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-09-02 18:36+0000\n"
+"PO-Revision-Date: 2019-03-10 22:53+0800\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.2.1\n"
+"Last-Translator: \n"
+"Language: zh_CN\n"
+
+#. module: project_cost_plan_purchase
+#: field:account.analytic.line.plan,purchase_line_id:0
+msgid "Purchase Order Line"
+msgstr "采购订单明细"
+
+#. module: project_cost_plan_purchase
+#: view:account.analytic.line.plan:0
+msgid "Search project purchasing plans"
+msgstr "搜索项目采购计划"
+
+#. module: project_cost_plan_purchase
+#: view:project.purchase.plan.make.purchase:0
+msgid "Do you really want to create the purchase order(s) ?"
+msgstr "确定创建采购订单?"
+
+#. module: project_cost_plan_purchase
+#: model:ir.model,name:project_cost_plan_purchase.model_account_analytic_line_plan_purchase
+msgid "Analytic Lines for Purchase"
+msgstr "采购的分析明细"
+
+#. module: project_cost_plan_purchase
+#: model:ir.model,name:project_cost_plan_purchase.model_project_purchase_line_plan
+msgid "Planned Purchase Lines for Project"
+msgstr "项目的计划采购明细"
+
+#. module: project_cost_plan_purchase
+#: field:account.analytic.line.plan,price_unit:0
+msgid "Unit Price"
+msgstr "价格单位"
+
+#. module: project_cost_plan_purchase
+#: field:account.analytic.line.plan,supplier_id:0
+msgid "Supplier"
+msgstr "供应商"
+
+#. module: project_cost_plan_purchase
+#: model:ir.actions.act_window,name:project_cost_plan_purchase.act_project_2_project_purchase_line_plan
+msgid "Purchasing Plan"
+msgstr "采购计划"
+
+#. module: project_cost_plan_purchase
+#: constraint:project.project:0
+msgid "Error! project start-date must be lower then project end-date."
+msgstr "错误！ 项目开始日期必须低于项目结束日期。"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/account_analytic_line_plan.py:144
+#, python-format
+msgid "The selected supplier only sells this product by %s"
+msgstr "所选供应商仅按%s销售此产品"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/account_analytic_line_plan.py:102
+#: code:addons/project_cost_plan_purchase/account_analytic_line_plan.py:111
+#, python-format
+msgid "Error !"
+msgstr "错误!"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:79
+#, python-format
+msgid "You have to select lines from the same supplier."
+msgstr "您必须从同一供应商中选择行。"
+
+#. module: project_cost_plan_purchase
+#: model:ir.model,name:project_cost_plan_purchase.model_
+#: analytic_purchase_line_plan
+#: model:ir.model,name:project_cost_plan_purchase.model_analytic_purchase_line_plan
+msgid "Planned Purchase Lines for Analytic Account"
+msgstr "分析帐户的计划采购行"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:112
+#, python-format
+msgid "Cannot create purchase order !"
+msgstr "无法创建采购订单！"
+
+#. module: project_cost_plan_purchase
+#: view:account.analytic.line.plan:0
+msgid "Non-ordered"
+msgstr "非有序"
+
+#. module: project_cost_plan_purchase
+#: field:account.analytic.line.plan,purchase_amount:0
+msgid "Purchase Amount"
+msgstr "采购量"
+
+#. module: project_cost_plan_purchase
+#: constraint:project.project:0
+msgid "Error! You cannot assign escalation to the same project!"
+msgstr "错误！ 您无法将升级分配给同一个项目！"
+
+#. module: project_cost_plan_purchase
+#: model:ir.model,name:project_cost_plan_purchase.model_account_analytic_line_plan
+msgid "Analytic Line Plan"
+msgstr "分析明细计划"
+
+#. module: project_cost_plan_purchase
+#: field:account.analytic.line.plan,pricelist_id:0
+msgid "Pricelist"
+msgstr "价格表"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/account_analytic_line_plan.py:103
+#, python-format
+msgid "There is no expense account defined for this product: \"%s\" (id:%d)"
+msgstr "没有为此产品定义费用帐户： \"%s\" (id:%d)"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:93
+#, python-format
+msgid "You have to select lines from the same company."
+msgstr "您必须从同一家公司选择行。"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:74
+#, python-format
+msgid "You have to enter a supplier."
+msgstr "您必须输入供应商。"
+
+#. module: project_cost_plan_purchase
+#: model:ir.actions.act_window,name:project_cost_plan_purchase.action_view_project_purchase_plan_make_purchase
+msgid "Make purchase orders"
+msgstr "下订单"
+
+#. module: project_cost_plan_purchase
+#: view:account.analytic.line.plan:0
+msgid "Edit"
+msgstr "编辑"
+
+#. module: project_cost_plan_purchase
+#: view:account.analytic.line.plan:0
+msgid "Notes"
+msgstr "备注"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:73
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:78
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:92
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:100
+#, python-format
+msgid "Could not create purchase order !"
+msgstr "无法创建采购订单！"
+
+#. module: project_cost_plan_purchase
+#: model:ir.model,name:project_cost_plan_purchase.model_project_project
+msgid "Project"
+msgstr "项目"
+
+#. module: project_cost_plan_purchase
+#: view:project.purchase.plan.make.purchase:0
+msgid "Cancel"
+msgstr "取消"
+
+#. module: project_cost_plan_purchase
+#: model:ir.actions.act_window,name:project_cost_plan_purchase.action_project_purchase_plan_make_purchase
+#: view:project.purchase.plan.make.purchase:0
+msgid "Create Purchase Orders"
+msgstr "创建采购订单"
+
+#. module: project_cost_plan_purchase
+#: field:account.analytic.line.plan,purchase_order_id:0
+msgid "Purchase Order"
+msgstr "采购订单"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:113
+#, python-format
+msgid "No project has been defined for the analytic account."
+msgstr "尚未为分析帐户定义任何项目。"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/account_analytic_line_plan.py:112
+#, python-format
+msgid "There is no income account defined for this product: \"%s\" (id:%d)"
+msgstr "此产品没有定义收入帐户：\"%s\" (id:%d)"
+
+#. module: project_cost_plan_purchase
+#: view:account.analytic.line.plan:0
+msgid "Analytic Information"
+msgstr "分析信息"
+
+#. module: project_cost_plan_purchase
+#: model:ir.model,name:project_cost_plan_purchase.model_project_purchase_plan_make_purchase
+msgid "Project purchase plan make purchase"
+msgstr "项目购买计划进行购买"
+
+#. module: project_cost_plan_purchase
+#: view:project.purchase.plan.make.purchase:0
+msgid "Create purchase orders"
+msgstr "创建采购订单"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/account_analytic_line_plan.py:144
+#, python-format
+msgid "Warning"
+msgstr "警告"
+
+#. module: project_cost_plan_purchase
+#: view:account.analytic.line.plan:0
+#: model:ir.actions.act_window,name:project_cost_plan_purchase.action_project_purchase_line_plan_open_form
+#: model:ir.ui.menu,name:project_cost_plan_purchase.project_purchase_line_plan_entries
+msgid "Project purchasing plans"
+msgstr "项目采购计划"
+
+#. module: project_cost_plan_purchase
+#: model:ir.model,name:project_cost_plan_purchase.model_analytic_purchase_plan_make_purchase
+msgid "Analytic purchase plan make purchase"
+msgstr "分析购买计划进行购买"
+
+#. module: project_cost_plan_purchase
+#: view:account.analytic.line.plan:0
+msgid "Purchase Order Information"
+msgstr "采购订单信息"
+
+#. module: project_cost_plan_purchase
+#: view:account.analytic.line.plan:0
+msgid "Total"
+msgstr "总计"
+
+#. module: project_cost_plan_purchase
+#: code:addons/project_cost_plan_purchase/wizard/project_purchase_plan_make_purchase.py:101
+#, python-format
+msgid "You have to select lines from the same analytic account."
+msgstr "您必须从同一分析帐户中选择行。"

@@ -1,0 +1,603 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* project_cost_analysis
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2013-02-10 23:41+0000\n"
+"PO-Revision-Date: 2019-03-10 22:42+0800\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.2.1\n"
+"Last-Translator: \n"
+"Language: zh_CN\n"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: view:report.account.analytic.resource.usage.product:0
+msgid "Group By..."
+msgstr "分组..."
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage.product,amount_credit_plan_commit:0
+msgid "Plan to Commit credit deviation"
+msgstr "计划承诺信用偏差"
+
+#. module: project_cost_analysis
+#: model:ir.ui.menu,name:project_cost_analysis.menu_board_resource_usage_product
+msgid "Resource Usage by Product Dashboard"
+msgstr "产品仪表板的资源使用情况"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "March"
+msgstr "三月"
+
+#. module: project_cost_analysis
+#: field:account.analytic.balance.plan,date1:0
+msgid "Start of period"
+msgstr "开始时期"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,name:project_cost_analysis.action_account_analytic_balance_plan
+msgid "Analytic Planning Balance"
+msgstr "分析计划余额"
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage.product,amount_debit_plan_commit:0
+msgid "Plan to Commit debit deviation"
+msgstr "计划提交借方偏差"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,unit_amount_commit:0
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,unit_amount_commit:0
+msgid "Commited Quantity"
+msgstr "承诺数量"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,day:0
+msgid "Day"
+msgstr "日"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,product_uom_id:0
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,product_uom_id:0
+msgid "UoM"
+msgstr "产品单位数量"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: view:report.account.analytic.resource.usage.product:0
+msgid "Account"
+msgstr "科目表"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Commited"
+msgstr "承诺"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,name:project_cost_analysis.open_board_resource_usage_product
+msgid "Project Resource Usage by Product"
+msgstr "按产品划分的项目资源使用"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,amount_debit_plan:0
+msgid "Planned Debit"
+msgstr "计划借记"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Code"
+msgstr "代码"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,name:project_cost_analysis.action_account_analytic_resource_usage_amounts_graph
+#: model:ir.ui.menu,name:project_cost_analysis.menu_action_account_analytic_resource_usage_amounts_graph
+msgid "Resource Usage (Amounts)"
+msgstr "资源使用（金额）"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,help:project_cost_analysis.action_account_analytic_resource_usage_amounts_graph
+#: model:ir.actions.act_window,help:project_cost_analysis.action_account_analytic_resource_usage_quantities_graph
+#: model:ir.actions.act_window,help:project_cost_analysis.action_account_analytic_resource_usage_tree
+msgid ""
+"This report allows you to anlalyze and control the planned usage of "
+"resources of your projects."
+msgstr "此报告允许您分析和控制项目资源的计划使用情况。"
+
+#. module: project_cost_analysis
+#: field:account.analytic.balance.plan,empty_acc:0
+msgid "Empty Accounts ? "
+msgstr "空帐户? "
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage,account_id:0
+#: field:report.account.analytic.resource.usage.product,account_id:0
+msgid "Analytic Account"
+msgstr "分析账户"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,amount_real:0
+msgid "Real Amount"
+msgstr "真实金额"
+
+#. module: project_cost_analysis
+#: help:report.account.analytic.resource.usage,unit_amount_commit:0
+#: help:report.account.analytic.resource.usage,unit_amount_plan:0
+#: help:report.account.analytic.resource.usage,unit_amount_real:0
+#: help:report.account.analytic.resource.usage.product,unit_amount_commit:0
+#: help:report.account.analytic.resource.usage.product,unit_amount_plan:0
+#: help:report.account.analytic.resource.usage.product,unit_amount_real:0
+msgid "Specifies the amount of quantity to count."
+msgstr "指定要计算的数量。"
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage.product,amount_credit_plan_real:0
+msgid "Plan to Real credit deviation"
+msgstr "计划实际信用偏差"
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage.product,amount_real_plan:0
+msgid "Real to Planned deviation"
+msgstr "真实到计划的偏差"
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage.product,user_id:0
+msgid "Account Manager"
+msgstr "客户经理"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Debit"
+msgstr "借方"
+
+#. module: project_cost_analysis
+#: model:ir.actions.report.xml,name:project_cost_analysis.account_analytic_balance_plan_print
+#: model:ir.model,name:project_cost_analysis.model_account_analytic_balance_plan
+msgid "Account Analytic Planning Balance"
+msgstr "帐户分析计划余额"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: view:report.account.analytic.resource.usage.product:0
+msgid "Resource Usage - Planned Amounts"
+msgstr "资源使用情况 - 计划金额"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid ";Status:"
+msgstr "状态:"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,unit_amount_plan:0
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,unit_amount_plan:0
+msgid "Planned Quantity"
+msgstr "计划数量"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "July"
+msgstr "七月"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+msgid "Real-Plan dev."
+msgstr "真实计划开发。"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,amount_credit_plan:0
+msgid "Planned Credit"
+msgstr "计划信贷"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+#: field:account.analytic.balance.plan,crossovered_budget_id:0
+msgid "Budget"
+msgstr "预算"
+
+#. module: project_cost_analysis
+#: view:account.analytic.balance.plan:0
+msgid "Cancel"
+msgstr "取消"
+
+#. module: project_cost_analysis
+#: model:ir.module.module,shortdesc:project_cost_analysis.module_meta_information
+msgid "Project Management"
+msgstr "项目管理"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Start Date:"
+msgstr "起始日期:"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: view:report.account.analytic.resource.usage.product:0
+msgid "Resource Usage - Planned Quantities"
+msgstr "资源使用情况 - 计划数量"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "September"
+msgstr "九月"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "December"
+msgstr "12月"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,month:0
+msgid "Month"
+msgstr "月"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,name:project_cost_analysis.action_account_analytic_resource_usage_product_tree
+#: model:ir.model,name:project_cost_analysis.model_report_account_analytic_resource_usage_product
+#: model:ir.ui.menu,name:project_cost_analysis.menu_action_account_analytic_resource_usage_pr_tree
+msgid "Resource Usage Analysis by Product"
+msgstr "按产品分析资源使用情况"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,user_id:0
+msgid "User"
+msgstr "用户"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: view:report.account.analytic.resource.usage.product:0
+msgid "Resource usage"
+msgstr "资源使用情况"
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage.product,amount_debit_real_commit:0
+msgid "Commit to Real debit deviation"
+msgstr "承诺实际借记偏差"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,help:project_cost_analysis.action_account_analytic_resource_usage_product_amounts_graph
+#: model:ir.actions.act_window,help:project_cost_analysis.action_account_analytic_resource_usage_product_quantities_graph
+#: model:ir.actions.act_window,help:project_cost_analysis.action_account_analytic_resource_usage_product_tree
+msgid ""
+"This report allows you to anlalyze and control the planned usage of "
+"resources of your projects by product."
+msgstr "此报告允许您按产品分析和控制项目资源的计划使用情况。"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,name:project_cost_analysis.action_account_analytic_resource_usage_tree
+#: model:ir.ui.menu,name:project_cost_analysis.menu_action_account_analytic_resource_usage_tree
+msgid "Resource Usage Analysis"
+msgstr "资源使用分析"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "August"
+msgstr "八月"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,name:project_cost_analysis.open_board_resource_usage
+msgid "Project Resource Usage"
+msgstr "项目资源使用"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "June"
+msgstr "六月"
+
+#. module: project_cost_analysis
+#: model:ir.ui.menu,name:project_cost_analysis.menu_board_resource_usage
+msgid "Resource Usage Dashboard"
+msgstr "资源使用仪表板"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,amount_commit:0
+msgid "Commited Balance"
+msgstr "承诺余额"
+
+#. module: project_cost_analysis
+#: view:board.board:0
+msgid "Resource Usage Graph (Quantities)"
+msgstr "资源使用图（数量）"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Plan"
+msgstr "计划"
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage,date:0
+msgid "Date"
+msgstr "日期"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "November"
+msgstr "11月"
+
+#. module: project_cost_analysis
+#: view:board.board:0
+msgid "Resource Usage by Product Graph (Quantities)"
+msgstr "按产品图表的资源使用情况（数量）"
+
+#. module: project_cost_analysis
+#: help:report.account.analytic.resource.usage,amount_commit:0
+#: help:report.account.analytic.resource.usage,amount_plan:0
+#: help:report.account.analytic.resource.usage,amount_real:0
+#: help:report.account.analytic.resource.usage.product,amount_commit:0
+#: help:report.account.analytic.resource.usage.product,amount_credit_commit:0
+#: help:report.account.analytic.resource.usage.product,amount_credit_plan:0
+#: help:report.account.analytic.resource.usage.product,amount_credit_real:0
+#: help:report.account.analytic.resource.usage.product,amount_debit_commit:0
+#: help:report.account.analytic.resource.usage.product,amount_debit_plan:0
+#: help:report.account.analytic.resource.usage.product,amount_debit_real:0
+#: help:report.account.analytic.resource.usage.product,amount_plan:0
+#: help:report.account.analytic.resource.usage.product,amount_real:0
+msgid ""
+"Calculated by multiplying the quantity and the price given in the Product's "
+"cost price. Always expressed in the company main currency."
+msgstr ""
+"通过乘以产品成本价格中给出的数量和价格来计算。 始终以公司主要货币表示。"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "October"
+msgstr "八月"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Actual"
+msgstr "实际"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "January"
+msgstr "一月"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,unit_amount_real:0
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,unit_amount_real:0
+msgid "Real Quantity"
+msgstr "真实数量"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Credit"
+msgstr "信用"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,amount_real:0
+msgid "Real Balance"
+msgstr "实际余额"
+
+#. module: project_cost_analysis
+#: view:board.board:0
+msgid "Dashboard"
+msgstr "仪表板"
+
+#. module: project_cost_analysis
+#: field:account.analytic.balance.plan,date2:0
+msgid "End of period"
+msgstr "期间结束"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Balance"
+msgstr "余额"
+
+#. module: project_cost_analysis
+#: help:account.analytic.balance.plan,empty_acc:0
+msgid "Check if you want to display Accounts with 0 balance too."
+msgstr "检查是否要显示余额为0的帐户。"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,amount_plan:0
+msgid "Planned Balance"
+msgstr "计划余额"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Quantity"
+msgstr "数量"
+
+#. module: project_cost_analysis
+#: view:board.board:0
+msgid "Resource Usage Graph (Amounts)"
+msgstr "资源使用图（金额）"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,period_id:0
+msgid "Period"
+msgstr "期间"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,name:project_cost_analysis.action_account_analytic_resource_usage_product_quantities_graph
+#: model:ir.ui.menu,name:project_cost_analysis.menu_action_account_analytic_resource_usage_pr_quants_graph
+msgid "Resource Usage by Product (Quantities)"
+msgstr "按产品图表的资源使用情况（数量）"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,amount_debit_commit:0
+msgid "Commited Debit"
+msgstr "承诺债务"
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage.product,amount_credit_commit_real:0
+msgid "Commit to Real credit deviation"
+msgstr "承诺真正的信用偏差"
+
+#. module: project_cost_analysis
+#: view:account.analytic.balance.plan:0
+msgid "Print"
+msgstr "打印"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Account Name"
+msgstr "科目名称"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,name:project_cost_analysis.action_account_analytic_resource_usage_product_amounts_graph
+#: model:ir.ui.menu,name:project_cost_analysis.menu_action_account_analytic_resource_usage_pr_amts_graph
+msgid "Resource Usage by product (Amounts)"
+msgstr "按产品划分的资源使用量（金额）"
+
+#. module: project_cost_analysis
+#: field:report.account.analytic.resource.usage.product,amount_debit_real_plan:0
+msgid "Plan to Real debit deviation"
+msgstr "计划实际借记偏差"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,product_id:0
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,product_id:0
+msgid "Product"
+msgstr "产品"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "May"
+msgstr "五月"
+
+#. module: project_cost_analysis
+#: view:board.board:0
+msgid "Resource Usage by Product Graph (Amounts)"
+msgstr "按产品图表的资源使用情况（金额）"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,amount_plan:0
+msgid "Planned Amount"
+msgstr "计划金额"
+
+#. module: project_cost_analysis
+#: model:ir.module.module,description:project_cost_analysis.module_meta_information
+msgid ""
+"Eficent Project Management. Project Cost Analysis\n"
+"        - The aim is to enable the project manager can see at all times the "
+"relationshipbetween the planned cost, budget, \n"
+"        current theoretical cost actual cost of the project.\n"
+"        - A report for analytic account Cost Analysis is provided. For each "
+"analytical account associated (taking into account the child accounts) "
+"breaks down the following information:\n"
+"            * Analytical Account Code\n"
+"            * Analytical Account Name\n"
+"            * Planned Cost\n"
+"            * Budgeted Cost\n"
+"            * Current theoretical cost\n"
+"            * Current Actual Cost\n"
+"        - A report view to display the analytic resource usage. That is, "
+"comparing the planned and actual costs with the possibility to group by "
+"product, analytic account, period,... \n"
+"    "
+msgstr ""
+"有效的项目管理。 项目成本分析\n"
+"          - 目的是使项目经理能够随时查看计划成本，预算，\n"
+"         当前理论成本项目的实际成本。\n"
+"          - 提供分析帐户成本分析报告。 对于每个关联的分析帐户（考虑子帐"
+"户），请分解以下信息：\n"
+"             *分析帐户代码\n"
+"             *分析帐户名称\n"
+"             *计划成本\n"
+"             *预算成本\n"
+"             *目前的理论成本\n"
+"             *当前实际成本\n"
+"          - 用于显示分析资源使用情况的报告视图。 也就是说，将计划成本和实际"
+"成本与按产品，分析账户，期间......分组的可能性进行比较。\n"
+"  "
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Analytic Balance -"
+msgstr "分析余额-"
+
+#. module: project_cost_analysis
+#: view:account.analytic.balance.plan:0
+msgid "Select Period"
+msgstr "选择期间"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "February"
+msgstr "二月"
+
+#. module: project_cost_analysis
+#: model:ir.actions.act_window,name:project_cost_analysis.action_account_analytic_resource_usage_quantities_graph
+#: model:ir.ui.menu,name:project_cost_analysis.menu_action_account_analytic_resource_usage_quantities_graph
+msgid "Resource Usage (Quantities)"
+msgstr "资源使用（数量）"
+
+#. module: project_cost_analysis
+#: selection:report.account.analytic.resource.usage,month:0
+msgid "April"
+msgstr "四月"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,amount_credit_commit:0
+msgid "Commited Credit"
+msgstr "承诺信用"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,amount_credit_real:0
+msgid "Real Credit"
+msgstr "真实信用"
+
+#. module: project_cost_analysis
+#: model:ir.model,name:project_cost_analysis.model_report_account_analytic_resource_usage
+msgid "Resouce Usage Analysis"
+msgstr "资源使用分析"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,amount_commit:0
+msgid "Commited Amount"
+msgstr "承诺金额"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage.product:0
+#: field:report.account.analytic.resource.usage.product,amount_debit_real:0
+msgid "Real Debit"
+msgstr "实际借记"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid ";End Date:"
+msgstr "结束日期:"
+
+#. module: project_cost_analysis
+#: view:report.account.analytic.resource.usage:0
+#: field:report.account.analytic.resource.usage,year:0
+msgid "Year"
+msgstr "年度"
+
+#. module: project_cost_analysis
+#: report:account.analytic.balance.plan:0
+msgid "Total"
+msgstr "总计"

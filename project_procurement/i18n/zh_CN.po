@@ -1,0 +1,155 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+# 	* project_procurement
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.0.3\n"
+"Report-Msgid-Bugs-To: support@openerp.com\n"
+"POT-Creation-Date: 2012-02-07 20:30+0000\n"
+"PO-Revision-Date: 2019-03-10 23:18+0800\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 2.2.1\n"
+"Last-Translator: \n"
+"Language: zh_CN\n"
+
+#. module: project_procurement
+#: model:ir.model,name:project_procurement.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "采购订单明细"
+
+#. module: project_procurement
+#: code:addons/project_procurement/purchase_order_line.py:61
+#, python-format
+msgid "You cannot cancel a purchase order line that has already been invoiced !"
+msgstr "您无法取消已开具发票的采购订单行！"
+
+#. module: project_procurement
+#: model:ir.model,name:project_procurement.model_purchase_requisition
+msgid "Purchase Requisition"
+msgstr "采购申请"
+
+#. module: project_procurement
+#: constraint:project.project:0
+msgid "Error! project start-date must be lower then project end-date."
+msgstr "错误！ 项目开始日期必须低于项目结束日期。"
+
+#. module: project_procurement
+#: code:addons/project_procurement/purchase_order_line.py:66
+#, python-format
+msgid "You must first cancel stock moves attached to this purchase order line."
+msgstr "您必须先取消附加到此采购订单行的库存移动。"
+
+#. module: project_procurement
+#: sql_constraint:purchase.order:0
+msgid "Order Reference must be unique !"
+msgstr "订单引用必须唯一！"
+
+#. module: project_procurement
+#: field:purchase.order,project_manager:0
+msgid "Project Manager"
+msgstr "项目管理者"
+
+#. module: project_procurement
+#: model:ir.actions.act_window,name:project_procurement.act_project_2_purchase_requisition
+#: field:project.project,purchase_requisitions:0
+msgid "Purchase requisitions"
+msgstr "采购申请"
+
+#. module: project_procurement
+#: model:ir.module.module,description:project_procurement.module_meta_information
+msgid ""
+"Extensions for the Project management module.     \n"
+"    "
+msgstr "项目管理模块的扩展. "
+
+#. module: project_procurement
+#: view:project.project:0
+msgid "Members"
+msgstr "成员"
+
+#. module: project_procurement
+#: constraint:project.project:0
+msgid "Error! You cannot assign escalation to the same project!"
+msgstr "错误！ 您无法将升级分配给同一个项目！"
+
+#. module: project_procurement
+#: code:addons/project_procurement/purchase_order_line.py:61
+#, python-format
+msgid "Invalid action !"
+msgstr "行动无效！"
+
+#. module: project_procurement
+#: model:ir.ui.menu,name:project_procurement.project_procurement_menu_purchase_requisition_pro_mgt
+msgid "Purchase Requisitions"
+msgstr "采购申请"
+
+#. module: project_procurement
+#: model:ir.ui.menu,name:project_procurement.project_procurement_menu_product_by_category_purchase_form
+msgid "Products by Category"
+msgstr "产品分类"
+
+#. module: project_procurement
+#: model:ir.model,name:project_procurement.model_purchase_order
+msgid "Purchase Order"
+msgstr "采购订单"
+
+#. module: project_procurement
+#: model:ir.model,name:project_procurement.model_project_project
+#: field:purchase.order,project_id:0
+#: field:purchase.order.line,order_project_id:0
+#: field:purchase.requisition,project_id:0
+msgid "Project"
+msgstr "项目"
+
+#. module: project_procurement
+#: model:ir.ui.menu,name:project_procurement.project_procurement_menu_procurement
+#: view:project.project:0
+msgid "Procurement"
+msgstr "操作"
+
+#. module: project_procurement
+#: model:ir.ui.menu,name:project_procurement.project_procurement_menu_procurement_partner_contact_form
+#: model:ir.ui.menu,name:project_procurement.project_procurement_menu_product
+msgid "Products"
+msgstr "产品"
+
+#. module: project_procurement
+#: code:addons/project_procurement/purchase_order_line.py:65
+#, python-format
+msgid "Could not cancel purchase order line!"
+msgstr "无法取消采购订单行！"
+
+#. module: project_procurement
+#: model:ir.model,name:project_procurement.model_purchase_requisition_partner
+msgid "Purchase Requisition Partner"
+msgstr "采购申请合作伙伴"
+
+#. module: project_procurement
+#: model:ir.module.module,shortdesc:project_procurement.module_meta_information
+msgid "Project Management"
+msgstr "项目管理"
+
+#. module: project_procurement
+#: field:project.project,purchase_orders:0
+msgid "Purchase orders"
+msgstr "采购订单"
+
+#. module: project_procurement
+#: model:ir.ui.menu,name:project_procurement.project_procurement_menu_purchase_rfq
+msgid "Requests for Quotation"
+msgstr "报价请求"
+
+#. module: project_procurement
+#: model:ir.actions.act_window,name:project_procurement.act_project_2_purchase_order_lines
+msgid "Purchase Lines Not Invoiced"
+msgstr "购买行未开票"
+
+#. module: project_procurement
+#: model:ir.ui.menu,name:project_procurement.project_procurement_menu_purchase_form_action
+msgid "Purchase Orders"
+msgstr "采购订单"
