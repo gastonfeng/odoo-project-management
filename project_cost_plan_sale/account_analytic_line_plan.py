@@ -33,13 +33,13 @@ class account_analytic_line_plan(models.Model):
 
     _inherit = 'account.analytic.line.plan'
 
-    sale_line_id = fields.Many2one('sale.order.line', 'Sale Order Line', select=True)
+    sale_line_id = fields.Many2one('sale.order.line', 'Sale Order Line', index=True)
     sale_order_id = fields.Many2one(related='sale_line_id.order_id', type='many2one', relation='sale.order',
                                     string='Sale Order', store=True, readonly=True)
     customer_id = fields.Many2one('res.partner', 'Customer', requrired=False, domain=[('customer', '=', True)])
     pricelist_id = fields.Many2one('product.pricelist', 'Pricelist', required=False)
-    price_unit = fields.Float('Unit Price', required=True, digits_compute=dp.get_precision('Sale Price'))
-    sale_amount = fields.Float('Sale Amount', required=True, digits_compute=dp.get_precision('Sale Price')),
+    price_unit = fields.Float('Unit Price', required=True, digits=dp.get_precision('Sale Price'))
+    sale_amount = fields.Float('Sale Amount', required=True, digits=dp.get_precision('Sale Price')),
 
     def copy(self, id, default={}, context=None):
         if context is None:

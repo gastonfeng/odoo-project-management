@@ -19,11 +19,11 @@
 #
 ##############################################################################
 
-import purchase_requisition
-import purchase_order
-import purchase_order_line
-import project
-import wizard
+from . import purchase_requisition
+from . import purchase_order
+from . import purchase_order_line
+from . import project
+from . import wizard
 
 
 

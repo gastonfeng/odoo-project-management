@@ -41,7 +41,7 @@
     """,
     "init_xml": [
                 ],
-    "update_xml": [        
+    "data": [
         "security/ir.model.access.csv",               
         "account_analytic_balance_plan_report.xml",
         "wizard/account_analytic_balance_plan_report_view.xml",

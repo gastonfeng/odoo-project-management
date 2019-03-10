@@ -42,7 +42,7 @@
      
     """,
     "init_xml": [],
-    "update_xml": [    
+    "data": [
         "project_lifecycle_view.xml",
         "project_scope_wbs_view.xml",        
         "security/ir.model.access.csv",

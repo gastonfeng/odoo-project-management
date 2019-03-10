@@ -34,16 +34,14 @@
 
          
     """,
-    "init_xml": [
-                ],
-    "update_xml": [            
-        "project_view.xml",     
+    "data": [
+        "project_view.xml",
         "sale_order_view.xml",
     ],
     'demo_xml': [
 
     ],
-    'test':[
+    'test': [
     ],
     'installable': True,
     'active': False,

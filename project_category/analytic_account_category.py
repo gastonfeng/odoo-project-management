@@ -53,12 +53,12 @@ class analytic_account_category(models.Model):
     _description='Analytic account & project Categories'
     _name = 'analytic.account.category'
     name = fields.Char('Category Name', required=True, size=64, translate=True)
-    parent_id = fields.Many2one('analytic.account.category', 'Parent Category', select=True, ondelete='cascade')
+    parent_id = fields.Many2one('analytic.account.category', 'Parent Category', index=True, ondelete='cascade')
     complete_name = fields.Char(compute='_name_get_fnc', method=True, type="char", string='Full Name')
     child_ids = fields.One2many('analytic.account.category', 'parent_id', 'Child Categories')
     active = fields.Boolean('Active', help="The active field allows you to hide the category without removing it.")
-    parent_left = fields.Integer('Left parent', select=True)
-    parent_right = fields.Integer('Right parent', select=True)
+    parent_left = fields.Integer('Left parent', index=True)
+    parent_right = fields.Integer('Right parent', index=True)
     account_ids = fields.Many2many('account.analytic.account', 'analytic_account_category_rel', 'category_id',
                                    'account_id', 'Categories')
     _constraints = [

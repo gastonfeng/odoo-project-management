@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-import account_analytic_journal_plan_report
-import account_analytic_journal_commit_report
+from . import account_analytic_journal_plan_report
+from  . import account_analytic_journal_commit_report
 
 
 

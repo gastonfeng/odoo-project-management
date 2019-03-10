@@ -171,25 +171,25 @@ class account_analytic_account(models.Model):
                                                context)
 
     # In case that the parent is deleted, we also delete this entity
-    parent_id = fields.Many2one('account.analytic.account', 'Parent Analytic Account', select=2, ondelete='cascade')
+    parent_id = fields.Many2one('account.analytic.account', 'Parent Analytic Account', index=True, ondelete='cascade')
 
     balance_plan = fields.Float(compute='_debit_credit_bal_qtty_plan', method=True, type='float',
                                 string='Planned Balance', multi='debit_credit_bal_qtty_plan',
-                                digits_compute=dp.get_precision('Account'))
+                                digits=dp.get_precision('Account'))
     balance_commit = fields.Float(compute='_debit_credit_bal_qtty_commit', method=True, type='float',
                                   string='Commitment Balance', multi='debit_credit_bal_qtty_commit',
-                                  digits_compute=dp.get_precision('Account'))
+                                  digits=dp.get_precision('Account'))
     debit_plan = fields.Float(compute='_debit_credit_bal_qtty_plan', method=True, type='float', string='Planned Debit',
-                              multi='debit_credit_bal_qtty_plan', digits_compute=dp.get_precision('Account'))
+                              multi='debit_credit_bal_qtty_plan', digits=dp.get_precision('Account'))
     debit_commit = fields.Float(compute='_debit_credit_bal_qtty_commit', method=True, type='float',
                                 string='Planned Commitments', multi='debit_credit_bal_qtty_commit',
-                                digits_compute=dp.get_precision('Account'))
+                                digits=dp.get_precision('Account'))
     credit_plan = fields.Float(compute='_debit_credit_bal_qtty_plan', method=True, type='float',
                                string='Planned Credit', multi='debit_credit_bal_qtty_plan',
-                               digits_compute=dp.get_precision('Account'))
+                               digits=dp.get_precision('Account'))
     credit_commit = fields.Float(compute='_debit_credit_bal_qtty_commit', method=True, type='float',
                                  string='Commitments Credit', multi='debit_credit_bal_qtty_commit',
-                                 digits_compute=dp.get_precision('Account'))
+                                 digits=dp.get_precision('Account'))
     state = fields.Selection(
         [('draft', 'Draft'), ('ready', 'Ready'), ('open', 'Open'), ('pending', 'Pending'), ('cancelled', 'Cancelled'),
          ('close', 'Closed'), ('template', 'Template')], 'State', required=True,

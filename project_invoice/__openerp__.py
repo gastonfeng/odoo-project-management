@@ -33,7 +33,7 @@ This module lets you search for invoices on the basis of an analytic account.
         'account',"project"
         ],
     'init_xml': [],
-    'update_xml': [        
+    'data': [
         'account_invoice_view.xml',        
 
     ],

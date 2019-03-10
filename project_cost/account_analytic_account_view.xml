@@ -11,7 +11,7 @@
 			sequence="2"
 			groups="analytic.group_analytic_accounting"/>
 		
-		<menuitem action="account.action_account_analytic_account_form" id="account_analytic_def_account"
+		<menuitem action="analytic.action_account_analytic_account_form" id="account_analytic_def_account"
             parent="project_cost_analytic_account_menu"
             groups="analytic.group_analytic_accounting"/>
 
@@ -19,17 +19,17 @@
             action="action_account_analytic_journal_plan_open_form"
             id="account_analytic_journal_plan_entries_2"
             parent="project_cost_analytic_account_menu"/>   
-            
+     <!--
 		<menuitem groups="analytic.group_analytic_accounting"
             action="account.action_account_analytic_line_form"
             id="account_analytic_journal_entries"
             parent="project_cost_analytic_account_menu"/>               
-			
+		!-->
 ---------------------------------------------------------------------------------------------------------
 #   Extend the analytic account
 #---------------------------------------------------------------------------------------------------------
           
-
+<!--
 		<record id="view_account_analytic_account_tree_inh" model="ir.ui.view">
             <field name="name">account.analytic.account.tree</field>
             <field name="model">account.analytic.account</field>
@@ -147,7 +147,7 @@
 				</notebook>	 
             </field>            	        
         </record>   						        	            	        
-         	                    
+     !-->
     </data>
 </openerp>
         	

@@ -77,10 +77,11 @@
             <field name="view_type">tree</field>
             <field name="help">To print a commitments analytics (or costs) journal for a given period. The report give code, move name, account number, general amount and analytic amount.</field>
         </record>
+        <!--
         <menuitem groups="analytic.group_analytic_accounting"
             action="action_account_analytic_journal_commit_tree" 
             id="account_analytic_journal_commit_print" parent="account.next_id_40"/>
-        	            	        
+        	!-->
          	                    
     </data>
 </openerp>

@@ -43,7 +43,7 @@
     """,
     "init_xml": [
                 ],
-    "update_xml": [            
+    "data": [
         "project_integration_view.xml",
         "process/project_task_process.xml",
         "email_template_view.xml",    

@@ -24,4 +24,4 @@ from odoo import models, fields
 class account_analytic_line_commit(models.Model):
     _inherit = 'account.analytic.line.commit'
 
-    hr_timesheet_id = fields.Many2one('hr.analytic.timesheet', 'Timesheet', ondelete='cascade', select=True)
+    hr_timesheet_id = fields.Many2one('hr.analytic.timesheet', 'Timesheet', ondelete='cascade', index=True)

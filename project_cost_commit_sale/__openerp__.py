@@ -29,7 +29,7 @@
     "description": """Maintain analytic commitments associated to purchase orders         
     """,
     "init_xml": [],
-    "update_xml": [          
+    "data": [
         "account_analytic_line_commit_view.xml",
     ],
     'demo_xml': [

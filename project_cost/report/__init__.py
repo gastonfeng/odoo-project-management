@@ -18,8 +18,8 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-import account_analytic_journal_plan
-import account_analytic_journal_commit
+from  . import account_analytic_journal_plan
+from . import account_analytic_journal_commit
 
 
 

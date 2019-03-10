@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-import project_lifecycle
-import project_scope_wbs
+from . import project_lifecycle
+from . import project_scope_wbs
 
 
 

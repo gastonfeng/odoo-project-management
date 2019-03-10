@@ -7,7 +7,7 @@
 #   Extend the analytic line
 #---------------------------------------------------------------------------------------------------------
           
-
+<!--
         <record id="view_account_analytic_line_form" model="ir.ui.view">
             <field name="name">account.analytic.line.form</field>
             <field name="model">account.analytic.line</field>
@@ -19,7 +19,7 @@
         		</field>                 
             </field>
         </record>        	
-        	
+    !-->
         	            	        
          	                    
     </data>

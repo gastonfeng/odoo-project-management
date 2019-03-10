@@ -19,8 +19,8 @@
 #
 ##############################################################################
 
-import project
-import project_task
+from . import project
+from . import project_task
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

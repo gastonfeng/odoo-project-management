@@ -41,7 +41,7 @@
  
     """,
     "init_xml": [],
-    "update_xml": [            
+    "data": [
         "account_analytic_line_plan_view.xml",
         "account_analytic_line_commit_view.xml",        
         "account_analytic_account_view.xml",
