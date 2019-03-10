@@ -55,7 +55,7 @@ class account_analytic_journal_plan(object):
         res = self.cr.dictfetchone()
         return res['sum'] or 0
 
-# report_sxw.report_sxw('report.account.analytic.journal.plan', 'account.analytic.journal.plan', 'addons/project_cost/report/account_analytic_journal_plan.rml',parser=account_analytic_journal_plan,header="internal")
+#report_sxw.report_sxw('report.account.analytic.journal.plan', 'account.analytic.journal.plan', 'addons/project_cost/report/account_analytic_journal_plan.rml',parser=account_analytic_journal_plan,header="internal")
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

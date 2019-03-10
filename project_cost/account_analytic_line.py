@@ -24,7 +24,7 @@ from odoo import fields, models
 class account_analytic_line(models.Model):
 
     _inherit = 'account.analytic.line'
-
+    
     def _get_period(self):
         periods = self.env.get('account.period').find()
         if periods:

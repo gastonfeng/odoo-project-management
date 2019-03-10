@@ -55,7 +55,7 @@ class account_analytic_journal_commit(object):
         res = self.cr.dictfetchone()
         return res['sum'] or 0
 
-# report_sxw.report_sxw('report.account.analytic.journal.commit', 'account.analytic.journal.commit', 'addons/project_cost/report/account_analytic_journal_commit.rml',parser=account_analytic_journal_commit,header="internal")
+#report_sxw.report_sxw('report.account.analytic.journal.commit', 'account.analytic.journal.commit', 'addons/project_cost/report/account_analytic_journal_commit.rml',parser=account_analytic_journal_commit,header="internal")
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
