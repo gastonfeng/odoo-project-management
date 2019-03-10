@@ -35,36 +35,36 @@ class purchase_order(models.Model):
                                  states={'confirmed': [('readonly', True)], 'approved': [('readonly', True)],
                                          'done': [('readonly', True)]})
 
-    def wkf_confirm_order(self, ids, context=None):
+    def wkf_confirm_order(self, ids):
         purch_order_line = self.env.get('purchase.order.line')
 
-        res = super(purchase_order, self).wkf_confirm_order(ids, context)
+        res = super(purchase_order, self).wkf_confirm_order(ids)
 
-        for po in self.browse(ids, context=context):
-            purch_order_line.create_analytic_lines_commit([line.id for line in po.order_line], context)
+        for po in self.browse(ids):
+            purch_order_line.create_analytic_lines_commit([line.id for line in po.order_line])
 
         return res
 
-    def wkf_purchase_cancel(self, ids, context=None):
+    def wkf_purchase_cancel(self, ids):
 
         self.write(ids, {'state': 'cancel'})
 
         obj_commitment_analytic_line = self.env.get('account.analytic.line.commit')
 
-        for purchase in self.browse(ids, context=context):
+        for purchase in self.browse(ids):
             for po_lines in purchase.order_line:
                 for ana_lines in po_lines.analytic_lines_commit:
                     obj_commitment_analytic_line.unlink(ana_lines.id)
                       
         return True
 
-    def action_cancel(self, ids, context=None):
+    def action_cancel(self, ids):
 
-        super(purchase_order, self).action_cancel(ids, context)
+        super(purchase_order, self).action_cancel(ids)
 
         obj_commitment_analytic_line = self.env.get('account.analytic.line.commit')
 
-        for purchase in self.browse(ids, context=context):
+        for purchase in self.browse(ids):
             for po_lines in purchase.order_line:
                 for ana_lines in po_lines.analytic_lines_commit:
                     obj_commitment_analytic_line.unlink(ana_lines.id)
@@ -72,25 +72,24 @@ class purchase_order(models.Model):
         return True
 
 
-purchase_order()
+
 
 
 class purchase_order_line(models.Model):
     
-    _inherit = 'purchase.order.line'     
-          
-    _columns = {
-            'analytic_lines_commit': fields.one2many('account.analytic.line.commit', 'purchase_line_id', 'Commitment Analytic lines'),
-    }
+    _inherit = 'purchase.order.line'
 
-    def create_analytic_lines_commit(self, ids, context=None):
+    analytic_lines_commit = fields.One2many('account.analytic.line.commit', 'purchase_line_id',
+                                            'Commitment Analytic lines')
+
+    def create_analytic_lines_commit(self, ids):
         acc_ana_line_obj = self.env.get('account.analytic.line.commit')
         journal_obj = self.env.get('account.analytic.journal.commit')
-        journal_id = journal_obj.search([('type', '=', 'purchase')], context=None)
+        journal_id = journal_obj.search([('type', '=', 'purchase')])
         journal_id = journal_id and journal_id[0] or False
         cur_obj = self.env.get('res.currency')
 
-        for obj_line in self.browse(ids, context=context):
+        for obj_line in self.browse(ids):
             cur = obj_line.order_id and obj_line.order_id.pricelist_id and obj_line.order_id.pricelist_id.currency_id
             
             if obj_line.account_analytic_id:                
@@ -104,8 +103,8 @@ class purchase_order_line(models.Model):
                     'amount': -1 * obj_line.price_subtotal,
                     'general_account_id': False,
                     'journal_id': journal_id or False,
-                    'ref': obj_line.name,                    
-                    'user_id': uid,
+                    'ref': obj_line.name,
+                    'user_id': self.uid,
                     'purchase_line_id': obj_line.id,
                     'currency_id': cur.id,
                     'amount_currency': -1 * cur_obj.round(cur, obj_line.price_subtotal),
@@ -115,6 +114,5 @@ class purchase_order_line(models.Model):
 
                  
                  
-purchase_order_line()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -18,7 +18,8 @@
             			<field name="complete_wbs_name" string="WBS Path name"/>    
             			<field name="complete_wbs_code" string="WBS Path code"/>              			 
 						<field name="class_" string="Class"/>
-						<field name="lifecycle_stage" string="Stage" attrs="{'readonly':[('class_','in',['deliverable', 'work_package'])]}"/>
+                    <field name="lifecycle_stage" string="Stage"
+                           attrs="{'readonly':[('class_','in',['deliverable', 'work_package'])]}"/>
             	</field>
             </field>
         </record>

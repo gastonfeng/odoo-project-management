@@ -20,41 +20,37 @@
 ##############################################################################
 import time
 
-from openerp.osv import osv, fields
+from odoo import fields, models
 
-class account_analytic_balance_plan(osv.osv_memory):
+
+class account_analytic_balance_plan(models.TransientModel):
     _name = 'account.analytic.balance.plan'
     _description = 'Account Analytic Planning Balance'
 
-    _columns = {
-        'date1': fields.date('Start of period', required=True),
-        'date2': fields.date('End of period', required=True),
-        'empty_acc': fields.boolean('Empty Accounts ? ', help='Check if you want to display Accounts with 0 balance too.'),
-        'crossovered_budget_id': fields.many2one('crossovered.budget', 'Budget', required=False),
-    }
+    date1 = fields.Date('Start of period', required=True)
+    date2 = fields.Date('End of period', required=True)
+    empty_acc = fields.Boolean('Empty Accounts ? ', help='Check if you want to display Accounts with 0 balance too.')
+    crossovered_budget_id = fields.Many2one('crossovered.budget', 'Budget', required=False)
 
     _defaults = {
         'date1': lambda *a: time.strftime('%Y-01-01'),
         'date2': lambda *a: time.strftime('%Y-%m-%d')
     }
 
-    def check_report(self,  ids, context=None):
+    def check_report(self, ids, context=None):
         datas = {}
         if context is None:
             context = {}
-        data = self.read( ids)[0]
+        data = self.read(ids)[0]
         datas = {
-             'ids': context.get('active_ids',[]),
-             'model': 'account.analytic.account',
-             'form': data
-                 }
+            'ids': context.get('active_ids', []),
+            'model': 'account.analytic.account',
+            'form': data
+        }
         return {
             'type': 'ir.actions.report.xml',
             'report_name': 'account.analytic.account.balance.plan',
             'datas': datas,
-            }
-
-account_analytic_balance_plan()
+        }
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-

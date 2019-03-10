@@ -20,11 +20,13 @@
 ##############################################################################
 
 
-from openerp.osv import fields
 
 #
 # Model definition
 #
+from odoo import models, fields
+
+
 class sale_order(models.Model):
 
     _inherit = 'sale.order'
@@ -33,8 +35,8 @@ class sale_order(models.Model):
         sale_order_line = self.pool.get('sale.order.line') 
         
         res = super(sale_order, self).action_wait( ids, args)
-        
-        for so in self.browse( ids, context=None):
+
+        for so in self.browse(ids):
             sale_order_line.create_analytic_lines_commit( [line.id for line in so.order_line], None)
 
         return res
@@ -44,34 +46,31 @@ class sale_order(models.Model):
         super(sale_order, self).action_cancel( ids, context)
         
         obj_commitment_analytic_line = self.pool.get('account.analytic.line.commit')
-        
-        for sale in self.browse( ids, context=context):
+
+        for sale in self.browse(ids):
             for so_lines in sale.order_line:
                 for ana_lines in so_lines.analytic_lines_commit:
-                    obj_commitment_analytic_line.unlink(cr,uid,ana_lines.id)
+                    obj_commitment_analytic_line.unlink(ana_lines.id)
                       
         return True
 
 
-sale_order()
 
 
 class sale_order_line(models.Model):
     
-    _inherit = 'sale.order.line'     
-          
-    _columns = {
-            'analytic_lines_commit': fields.one2many('account.analytic.line.commit', 'sale_line_id', 'Commitment Analytic lines'),
-    }
-    
-    def create_analytic_lines_commit(self,  ids, context=None):
+    _inherit = 'sale.order.line'
+
+    analytic_lines_commit = fields.One2many('account.analytic.line.commit', 'sale_line_id', 'Commitment Analytic lines')
+
+    def create_analytic_lines_commit(self, ids):
         acc_ana_line_obj = self.pool.get('account.analytic.line.commit')
         journal_obj = self.pool.get('account.analytic.journal.commit')
         journal_id = journal_obj.search( [('type', '=', 'sale')], context=None)
         journal_id = journal_id and journal_id[0] or False
         cur_obj=self.pool.get('res.currency')
-        
-        for obj_line in self.browse( ids, context=context):
+
+        for obj_line in self.browse(ids):
             cur = obj_line.order_id and obj_line.order_id.pricelist_id and obj_line.order_id.pricelist_id.currency_id
             
             if obj_line.order_id and obj_line.order_id.project:                
@@ -85,17 +84,13 @@ class sale_order_line(models.Model):
                     'amount': obj_line.price_subtotal,
                     'general_account_id': False,
                     'journal_id': journal_id or False,
-                    'ref': obj_line.name,                    
-                    'user_id': uid,
+                    'ref': obj_line.name,
+                    'user_id': self.uid,
                     'sale_line_id': obj_line.id,
                     'currency_id': cur.id,
                     'amount_currency': cur_obj.round( cur, obj_line.price_subtotal),
                 }
                 acc_ana_line_obj.create( vals_lines)
         return True
-
-                 
-                 
-sale_order_line()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

@@ -19,15 +19,15 @@
 #
 ##############################################################################
 
-import openerp.addons.decimal_precision as dp
+import odoo.addons.decimal_precision as dp
 
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
 
-    def _compute_level_tree_plan(self, ids, child_ids, res, field_names, context=None):
+    def _compute_level_tree_plan(self, ids, child_ids, res, field_names):
         def recursive_computation(account_id, res, repeated_account_ids=[]):
             currency_obj = self.env.get('res.currency')
             account = self.browse(account_id)
@@ -41,16 +41,16 @@ class account_analytic_account(models.Model):
                         res[account.id][field] += res[son.id][field]
                     else:
                         res[account.id][field] += currency_obj.compute(son.currency_id.id, account.currency_id.id,
-                                                                       res[son.id][field], context=context)
+                                                                       res[son.id][field])
             return res
 
-        for account in self.browse(ids, context=context):
+        for account in self.browse(ids):
             if account.id not in child_ids:
                 continue
             res = recursive_computation(account.id, res)
         return res
 
-    def _compute_level_tree_commit(self, ids, child_ids, res, field_names, context=None):
+    def _compute_level_tree_commit(self, ids, child_ids, res, field_names):
         def recursive_computation(account_id, res, repeated_account_ids=[]):
             currency_obj = self.env.get('res.currency')
             account = self.browse(account_id)
@@ -64,19 +64,18 @@ class account_analytic_account(models.Model):
                         res[account.id][field] += res[son.id][field]
                     else:
                         res[account.id][field] += currency_obj.compute(son.currency_id.id, account.currency_id.id,
-                                                                       res[son.id][field], context=context)
+                                                                       res[son.id][field])
             return res
 
-        for account in self.browse(ids, context=context):
+        for account in self.browse(ids):
             if account.id not in child_ids:
                 continue
             res = recursive_computation(account.id, res)
         return res
 
-    def _debit_credit_bal_qtty_plan(self, ids, name, arg, context=None):
+    def _debit_credit_bal_qtty_plan(self, ids, name):
         res = {}
-        if context is None:
-            context = {}
+        context = self._context or {}
         child_ids = tuple(self.search([('parent_id', 'child_of', ids)]))
         for i in child_ids:
             res[i] = {}
@@ -94,7 +93,7 @@ class account_analytic_account(models.Model):
         if context.get('to_date', False):
             where_date += " AND l.date <= %s"
             where_clause_args += [context['to_date']]
-        cr.execute("""
+        self._cr.execute("""
               SELECT a.id,
                      sum(
                          CASE WHEN l.amount > 0
@@ -115,16 +114,15 @@ class account_analytic_account(models.Model):
               WHERE a.id IN %s
               """ + where_date + """
               GROUP BY a.id""", where_clause_args)
-        for ac_id, debit, credit, balance, quantity in cr.fetchall():
+        for ac_id, debit, credit, balance, quantity in self._cr.fetchall():
             res[ac_id] = {'debit_plan': debit, 'credit_plan': credit, 'balance_plan': balance,
                           'quantity_plan': quantity}
         return self._compute_level_tree_plan(ids, child_ids, res,
-                                             ['debit_plan', 'credit_plan', 'balance_plan', 'quantity_plan'], context)
+                                             ['debit_plan', 'credit_plan', 'balance_plan', 'quantity_plan'])
 
-    def _debit_credit_bal_qtty_commit(self, ids, name, arg, context=None):
+    def _debit_credit_bal_qtty_commit(self, ids, name, arg):
         res = {}
-        if context is None:
-            context = {}
+        context = self._context or {}
         child_ids = tuple(self.search([('parent_id', 'child_of', ids)]))
         for i in child_ids:
             res[i] = {}
@@ -142,7 +140,7 @@ class account_analytic_account(models.Model):
         if context.get('to_date', False):
             where_date += " AND l.date <= %s"
             where_clause_args += [context['to_date']]
-        cr.execute("""
+        self._cr.execute("""
               SELECT a.id,
                      sum(
                          CASE WHEN l.amount > 0
@@ -163,7 +161,7 @@ class account_analytic_account(models.Model):
               WHERE a.id IN %s
               """ + where_date + """
               GROUP BY a.id""", where_clause_args)
-        for ac_id, debit, credit, balance, quantity in cr.fetchall():
+        for ac_id, debit, credit, balance, quantity in self._cr.fetchall():
             res[ac_id] = {'debit_commit': debit, 'credit_commit': credit, 'balance_commit': balance,
                           'quantity_commit': quantity}
         return self._compute_level_tree_commit(ids, child_ids, res,
@@ -207,13 +205,14 @@ class account_analytic_account(models.Model):
         'state': 'draft',
     }
 
-    def set_ready(self, ids, context=None):
-        self.write(ids, {'state': 'ready'}, context=context)
+    def set_ready(self, ids):
+        self.write(ids, {'state': 'ready'})
         return True
 
-    def copy(self, id, default=None, context=None):
+    @api.multi
+    def copy(self, default=None):
         if not default:
             default = {}
         default['plan_line_ids'] = []
         default['commit_line_ids'] = []
-        return super(account_analytic_account, self).copy(id, default, context=context)
+        return super(account_analytic_account, self).copy(self, default)

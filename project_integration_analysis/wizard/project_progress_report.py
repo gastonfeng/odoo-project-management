@@ -25,12 +25,10 @@ class project_progress(osv.osv_memory):
     _name = 'project.progress'
     _description = 'Project Progress'
 
-    _columns = {
-        'show_milestones': fields.boolean('Milestones', help='Show milestones'),
-        'show_tasks': fields.boolean('Tasks', help='Show tasks'),
-        'show_meetings': fields.boolean('Meetings', help='Show meetings'),
-        'show_issues': fields.boolean('Issues', help='Show issues'),
-    }
+    show_milestones = fields.Boolean('Milestones', help='Show milestones')
+    show_tasks = fields.Boolean('Tasks', help='Show tasks')
+    show_meetings = fields.Boolean('Meetings', help='Show meetings')
+    show_issues = fields.Boolean('Issues', help='Show issues')
 
     _defaults = {
         'show_milestones':True,

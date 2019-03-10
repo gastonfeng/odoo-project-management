@@ -108,11 +108,15 @@
             <field name="view_id" ref="view_account_analytic_resource_usage_product_amounts_graph"/>
             <field name="search_view_id" ref="view_account_analytic_resource_usage_product_search"/>            
             <field name="help">This report allows you to anlalyze and control the planned usage of resources of your projects by product.</field>
-        </record>           
-        
-		<menuitem action="action_account_analytic_resource_usage_product_tree" id="menu_action_account_analytic_resource_usage_pr_tree" parent="base.menu_project_report"/>        
-		<menuitem action="action_account_analytic_resource_usage_product_amounts_graph" id="menu_action_account_analytic_resource_usage_pr_amts_graph" parent="base.menu_project_report"/>        
-		<menuitem action="action_account_analytic_resource_usage_product_quantities_graph" id="menu_action_account_analytic_resource_usage_pr_quants_graph" parent="base.menu_project_report"/>        
+        </record>
+
+        <menuitem action="action_account_analytic_resource_usage_product_tree"
+                  id="menu_action_account_analytic_resource_usage_pr_tree" parent="project.menu_project_report"/>
+        <menuitem action="action_account_analytic_resource_usage_product_amounts_graph"
+                  id="menu_action_account_analytic_resource_usage_pr_amts_graph" parent="project.menu_project_report"/>
+        <menuitem action="action_account_analytic_resource_usage_product_quantities_graph"
+                  id="menu_action_account_analytic_resource_usage_pr_quants_graph"
+                  parent="project.menu_project_report"/>
 
 
   
