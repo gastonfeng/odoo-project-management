@@ -189,7 +189,7 @@ class account_analytic_account(models.Model):
     credit_commit = fields.Float(compute='_debit_credit_bal_qtty_commit', method=True, type='float',
                                  string='Commitments Credit', multi='debit_credit_bal_qtty_commit',
                                  digits=dp.get_precision('Account'))
-    state = fields.Selection(selection_add=
+    state = fields.Selection(selection=
                              [('draft', 'Draft'), ('ready', 'Ready'), ('open', 'Open'), ('pending', 'Pending'),
                               ('cancelled', 'Cancelled'),
                               ('close', 'Closed'), ('template', 'Template')], string='State', required=True,
