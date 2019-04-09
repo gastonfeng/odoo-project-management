@@ -70,6 +70,7 @@ class task(models.Model):
     project_complete_wbs_code = fields.Char(compute='_project_complete_wbs_code', type='char', string='WBS path code',
                                             size=250, help='Project Complete WBS path code', store=True)
 
+
 class account_analytic_account(models.Model):
     _inherit = 'account.analytic.account'
 
@@ -101,7 +102,7 @@ class account_analytic_account(models.Model):
 
             data = ' / '.join(data)
             res.append((account.id, data))
-        return dict(res)
+        self.complete_wbs_code = dict(res)
 
     @api.multi
     def _complete_wbs_name_calc(self):
@@ -118,7 +119,7 @@ class account_analytic_account(models.Model):
 
             data = ' / '.join(data)
             res.append((account.id, data))
-        return dict(res)
+        self.complete_wbs_name = dict(res)
 
     complete_wbs_code = fields.Char(compute='_complete_wbs_code_calc', type='char', string='Full WBS Code', size=250,
                                     help='The full WBS code describes the full path of this component within the project WBS hierarchy',
