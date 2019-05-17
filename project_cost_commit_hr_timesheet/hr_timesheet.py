@@ -18,7 +18,7 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class hr_employee(models.Model):
@@ -26,7 +26,7 @@ class hr_employee(models.Model):
     _inherit = "hr.employee"
     commitment_journal_id = fields.Many2one('account.analytic.journal.commit', 'Analytic Commitment Journal')
 
-    def _getAnalyticCommitmentJournal(self, context=None):
+    def _getAnalyticCommitmentJournal(self):
         md = self.env.get('ir.model.data')
         try:
             result = md.get_object_reference('hr_timesheet', 'analytic_commitment_journal')
@@ -46,20 +46,18 @@ class hr_analytic_timesheet(models.Model):
 
     line_commit_id = fields.One2many('account.analytic.line.commit', 'hr_timesheet_id', 'Commitment Analytic line')
 
-    def _getAnalyticCommitmentJournal(self, context=None):
+    def _getAnalyticCommitmentJournal(self):
         emp_obj = self.env.get('hr.employee')
-        if context is None:
-            context = {}
-        emp_id = emp_obj.search([('user_id', '=', context.get('user_id', uid))], context=context)
+        emp_id = emp_obj.search([('user_id', '=', self.env.uid)])
         if emp_id:
-            emp = emp_obj.browse(emp_id[0], context=context)
+            emp = emp_obj.browse(emp_id[0])
             if emp.commitment_journal_id:
                 return emp.commitment_journal_id.id
         return False
 
-    def wkf_analytic_line_commit(self, ids, context=None):
+    def wkf_analytic_line_commit(self, ids):
         acc_ana_line_obj = self.env.get('account.analytic.line.commit')
-        for obj in self.browse(ids, context=context):
+        for obj in self.browse(ids):
             vals_lines = {
                 'name': obj.name,
                 'date': obj.date,
@@ -79,23 +77,25 @@ class hr_analytic_timesheet(models.Model):
 
             if obj.line_commit_id:
                 for commit_line_id in obj.line_commit_id:
-                    acc_ana_line_obj.write([commit_line_id.id], vals_lines, context=context)
+                    acc_ana_line_obj.write([commit_line_id.id], vals_lines)
             else:
-                acc_ana_line_obj.create(vals_lines, context=context)
+                acc_ana_line_obj.create(vals_lines)
 
-    def write(self, ids, vals, context=None):
-        res = super(hr_analytic_timesheet, self).write(ids, vals, context=context)
+    @api.multi
+    def write(self,  vals):
+        res = super(hr_analytic_timesheet, self).write( vals)
 
-        self.wkf_analytic_line_commit(ids, context=context)
+        self.wkf_analytic_line_commit()
 
         return res
 
-    def unlink(self, ids, context=None):
+    @api.multi
+    def unlink(self, ):
         toremove = {}
-        for obj in self.browse(ids, context=context):
+        for obj in self:
             if obj.line_commit_id:
                 for line in obj.line_commit_id:
                     toremove[line.id] = True
         if toremove:
-            self.env.get('account.analytic.line.commit').unlink(toremove.keys(), context=context)
-        return super(hr_analytic_timesheet, self).unlink(ids, context=context)
+            self.env.get('account.analytic.line.commit').unlink(toremove.keys())
+        return super(hr_analytic_timesheet, self).unlink()

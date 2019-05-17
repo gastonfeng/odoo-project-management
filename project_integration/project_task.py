@@ -83,7 +83,8 @@ class task(models.Model):
             
         return {}
 
-    def write(self, ids, vals, *args, **kwargs):
+    @api.multi
+    def write(self,  vals):
         if isinstance(ids, (int, long)):
             ids = [ids]
         if vals.get('user_id', False):
@@ -94,7 +95,7 @@ class task(models.Model):
                 if old_user_id != new_user_id:
                     self.send_onchange_user_id(ids, vals['user_id'])
 
-        return super(task, self).write(ids, vals, *args, **kwargs)
+        return super(task, self).write( vals)
 
     def send_onchange_user_id(self, ids, user_id):
         
