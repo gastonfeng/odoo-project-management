@@ -27,15 +27,15 @@ class account_analytic_balance_plan(models.TransientModel):
     _name = 'account.analytic.balance.plan'
     _description = 'Account Analytic Planning Balance'
 
-    date1 = fields.Date('Start of period', required=True)
-    date2 = fields.Date('End of period', required=True)
+    date1 = fields.Date('Start of period', required=True,default=lambda *a: time.strftime('%Y-01-01'),)
+    date2 = fields.Date('End of period', required=True,default=lambda *a: time.strftime('%Y-%m-%d'))
     empty_acc = fields.Boolean('Empty Accounts ? ', help='Check if you want to display Accounts with 0 balance too.')
     crossovered_budget_id = fields.Many2one('crossovered.budget', 'Budget', required=False)
 
-    _defaults = {
-        'date1': lambda *a: time.strftime('%Y-01-01'),
-        'date2': lambda *a: time.strftime('%Y-%m-%d')
-    }
+    # _defaults = {
+    #     'date1': lambda *a: time.strftime('%Y-01-01'),
+    #     'date2': lambda *a: time.strftime('%Y-%m-%d')
+    # }
 
     def check_report(self, ids, context=None):
         datas = {}

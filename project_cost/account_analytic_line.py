@@ -21,20 +21,20 @@
 from odoo import fields, models
 
 
-class account_analytic_line(models.Model):
+# class account_analytic_line(models.Model):
+#
+#     _inherit = 'account.analytic.line'
+#
+#     def _get_period(self):
+#         periods = self.env['account.period'].find()
+#         if periods:
+#             return periods[0]
+#         return False
+#
+#     period_id = fields.Many2one('account.period', 'Period', required=True, index=True,default=_get_period)
 
-    _inherit = 'account.analytic.line'
-    
-    def _get_period(self):
-        periods = self.env.get('account.period').find()
-        if periods:
-            return periods[0]
-        return False
-
-    period_id = fields.Many2one('account.period', 'Period', required=True, index=True)
-
-    _defaults = {
-        'period_id': _get_period, 
-    }
+    # _defaults = {
+    #     'period_id': _get_period,
+    # }
 
 

@@ -25,10 +25,10 @@ class project_progress(osv.osv_memory):
     _name = 'project.progress'
     _description = 'Project Progress'
 
-    show_milestones = fields.Boolean('Milestones', help='Show milestones')
-    show_tasks = fields.Boolean('Tasks', help='Show tasks')
-    show_meetings = fields.Boolean('Meetings', help='Show meetings')
-    show_issues = fields.Boolean('Issues', help='Show issues')
+    show_milestones = fields.Boolean('Milestones', help='Show milestones',default=True)
+    show_tasks = fields.Boolean('Tasks', help='Show tasks',default=True)
+    show_meetings = fields.Boolean('Meetings', help='Show meetings',default=True)
+    show_issues = fields.Boolean('Issues', help='Show issues',default=True)
 
     _defaults = {
         'show_milestones':True,

@@ -192,7 +192,7 @@ class account_analytic_account(models.Model):
     state = fields.Selection(selection=
                              [('draft', 'Draft'), ('ready', 'Ready'), ('open', 'Open'), ('pending', 'Pending'),
                               ('cancelled', 'Cancelled'),
-                              ('close', 'Closed'), ('template', 'Template')], string='State', required=True,
+                              ('close', 'Closed'), ('template', 'Template')], string='State', required=True,default='draft',
                              help='* When an account is created its in \'Draft\' state.\
                               \n* When is ready to be used, it can be in \'Ready\' state.\
                               \n* If any associated partner is there, it can be in \'Open\' state.\
@@ -203,9 +203,9 @@ class account_analytic_account(models.Model):
     plan_line_ids = fields.One2many('account.analytic.line.plan', 'account_id', 'Analytic Entries')
     commit_line_ids = fields.One2many('account.analytic.line.commit', 'account_id', 'Commitment Analytic Entries')
 
-    _defaults = {
-        'state': 'draft',
-    }
+    # _defaults = {
+    #     'state': 'draft',
+    # }
 
     def set_ready(self, ids):
         self.write(ids, {'state': 'ready'})

@@ -27,13 +27,13 @@ class account_analytic_journal_plan_report(models.TransientModel):
     _name = 'account.analytic.journal.plan.report'
     _description = 'Account Analytic Planning Journal'
 
-    date1 = fields.Date('Start of period', required=True)
-    date2 = fields.Date('End of period', required=True)
+    date1 = fields.Date('Start of period', required=True,default=lambda *a: time.strftime('%Y-01-01'),)
+    date2 = fields.Date('End of period', required=True,default=lambda *a: time.strftime('%Y-%m-%d'))
 
-    _defaults = {
-        'date1': lambda *a: time.strftime('%Y-01-01'),
-        'date2': lambda *a: time.strftime('%Y-%m-%d')
-    }
+    # _defaults = {
+    #     'date1': lambda *a: time.strftime('%Y-01-01'),
+    #     'date2': lambda *a: time.strftime('%Y-%m-%d')
+    # }
 
     def check_report(self,  ids, context=None):
         datas = {}

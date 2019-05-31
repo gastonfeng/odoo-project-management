@@ -134,7 +134,7 @@ class account_analytic_account(models.Model):
     child_projects = fields.One2many('project.project', 'parent_id', 'WBS Components')
 
     @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
         if not args:
             args = []
 

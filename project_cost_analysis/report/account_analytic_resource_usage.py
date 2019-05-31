@@ -32,7 +32,7 @@ class report_account_analytic_resource_usage(models.Model):
          ('07', 'July'), ('08', 'August'), ('09', 'September'), ('10', 'October'), ('11', 'November'),
          ('12', 'December')], 'Month', readonly=True)
     year = fields.Char('Year', size=64, required=False, readonly=True)
-    period_id = fields.Many2one('account.period', 'Period', readonly=True)
+    # period_id = fields.Many2one('account.period', 'Period', readonly=True)
     account_id = fields.Many2one('account.analytic.account', 'Analytic Account', readonly=True)
     product_id = fields.Many2one('product.product', 'Product', readonly=True)
     product_uom_id = fields.Many2one('product.uom', 'UoM', readonly=True)
@@ -68,7 +68,6 @@ class report_account_analytic_resource_usage(models.Model):
                     sum(tot.amount_real) as amount_real, 
                     sum(tot.amount_plan) as amount_plan,  
                     sum(tot.amount_commit) as amount_commit,
-                    tot.period_id, 
                     tot.account_id, 
                     tot.product_id, 
                     tot.product_uom_id, 
@@ -82,7 +81,6 @@ class report_account_analytic_resource_usage(models.Model):
                          CAST( 0 AS FLOAT) AS amount_plan,
                          CAST( 0 AS FLOAT) AS amount_commit, 
                          date, 
-                         period_id, 
                          account_id, 
                          product_id, 
                          product_uom_id, 
@@ -98,7 +96,6 @@ class report_account_analytic_resource_usage(models.Model):
                         CAST( amount AS FLOAT) AS amount_plan, 
                         CAST( 0 AS FLOAT) AS amount_commit,
                         date, 
-                        period_id, 
                         account_id, 
                         product_id, 
                         product_uom_id, 
@@ -113,7 +110,6 @@ class report_account_analytic_resource_usage(models.Model):
                         CAST( 0 AS FLOAT) AS amount_plan,
                         CAST( amount AS FLOAT) AS amount_commit, 
                         date, 
-                        period_id, 
                         account_id, 
                         product_id, 
                         product_uom_id, 
@@ -123,7 +119,6 @@ class report_account_analytic_resource_usage(models.Model):
                 ) AS tot
                 GROUP BY 
                     tot.date, 
-                    tot.period_id, 
                     tot.account_id, 
                     tot.product_id, 
                     tot.product_uom_id, 

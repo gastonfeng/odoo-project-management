@@ -27,11 +27,11 @@ class project_lifecycle(models.Model):
     _order = 'sequence'
 
     name = fields.Char('Stage Name', size=32, required=True, translate=True)
-    sequence = fields.Integer('Sequence')
+    sequence = fields.Integer('Sequence',default=1)
 
-    _defaults = {
-        'sequence': 1
-    }
+    # _defaults = {
+    #     'sequence': 1
+    # }
 
 
-project_lifecycle()
+# project_lifecycle()

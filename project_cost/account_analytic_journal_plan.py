@@ -28,19 +28,19 @@ class account_analytic_journal_plan(models.Model):
 
     name = fields.Char('Planning Journal Name', size=64, required=True)
     code = fields.Char('Planning Journal Code', size=8)
-    active = fields.Boolean('Active',
+    active = fields.Boolean('Active',default=True,
                             help="If the active field is set to False, it will allow you to hide the analytic journal without removing it.")
     type = fields.Selection([('sale', 'Sale'), ('purchase', 'Purchase'), ('cash', 'Cash'), ('general', 'General'),
-                             ('situation', 'Situation')], 'Type', size=32, required=True,
+                             ('situation', 'Situation')], 'Type', size=32, required=True,default='general',
                             help="Gives the type of the analytic journal. When it needs for a document (eg: an invoice) to create analytic entries, OpenERP will look for a matching journal of the same type.")
     line_ids = fields.One2many('account.analytic.line.plan', 'journal_id', 'Lines')
-    company_id = fields.Many2one('res.company', 'Company', required=True)
+    company_id = fields.Many2one('res.company', 'Company', required=True,default=lambda self: self.env.user.company_id.id)
     analytic_journal = fields.Many2one('account.analytic.journal', 'Actual Analytic journal', required=False)
 
-    _defaults = {
-        'active': True,
-        'type': 'general',
-        'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse( uid, c).company_id.id,
-    }
+    # _defaults = {
+    #     'active': True,
+    #     'type': 'general',
+    #     'company_id': lambda self,cr,uid,c: self.pool.get('res.users').browse( uid, c).company_id.id,
+    # }
 
 

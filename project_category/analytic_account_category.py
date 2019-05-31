@@ -18,15 +18,14 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-from odoo import models, fields
+from odoo import models, fields, api
 from odoo.osv import osv
 
 
 class analytic_account_category(models.Model):
-    def name_get(self, ids, context=None):
-        if not len(ids):
-            return []
-        reads = self.read(ids, ['name', 'parent_id'], context=context)
+    @api.multi
+    def name_get(self):
+        reads = self
         res = []
         for record in reads:
             name = record['name']
@@ -35,7 +34,8 @@ class analytic_account_category(models.Model):
             res.append((record['id'], name))
         return res
 
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
         if not args:
             args=[]
         if name:
@@ -56,7 +56,7 @@ class analytic_account_category(models.Model):
     parent_id = fields.Many2one('analytic.account.category', 'Parent Category', index=True, ondelete='cascade')
     complete_name = fields.Char(compute='_name_get_fnc', method=True, type="char", string='Full Name')
     child_ids = fields.One2many('analytic.account.category', 'parent_id', 'Child Categories')
-    active = fields.Boolean('Active', help="The active field allows you to hide the category without removing it.")
+    active = fields.Boolean('Active', help="The active field allows you to hide the category without removing it.",default=lambda *a: 1)
     parent_left = fields.Integer('Left parent', index=True)
     parent_right = fields.Integer('Right parent', index=True)
     account_ids = fields.Many2many('account.analytic.account', 'analytic_account_category_rel', 'category_id',
@@ -64,9 +64,9 @@ class analytic_account_category(models.Model):
     _constraints = [
         (osv.osv._check_recursion, 'Error ! You can not create recursive categories.', ['parent_id'])
     ]
-    _defaults = {
-        'active' : lambda *a: 1,
-    }
+    # _defaults = {
+    #     'active' : lambda *a: 1,
+    # }
     _parent_store = True
     _parent_order = 'name'
     _order = 'parent_left'

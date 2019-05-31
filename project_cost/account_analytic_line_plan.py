@@ -38,8 +38,8 @@ class account_analytic_line_plan(models.Model):
         return False
 
     name = fields.Char('Description', size=256, required=True)
-    date = fields.Date('Date', required=True, index=True)
-    amount = fields.Float('Amount', required=True,
+    date = fields.Date('Date', required=True, index=True,default=lambda *a: time.strftime('%Y-%m-%d'),)
+    amount = fields.Float('Amount', required=True,default=0.00,
                           help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.',
                           digits=dp.get_precision('Account'))
     unit_amount = fields.Float('Quantity', help='Specifies the amount of quantity to count.')
@@ -47,13 +47,13 @@ class account_analytic_line_plan(models.Model):
                                  index=True, domain=[('type', '<>', 'view')])
     user_id = fields.Many2one('res.users', 'User')
     company_id = fields.Many2one(related='account_id.company_id', type='many2one', relation='res.company',
-                                 string='Company',
+                                 string='Company',default=lambda self: self.env.user.company_id.id,
                                  store=True, readonly=True)
     product_uom_id = fields.Many2one('product.uom', 'UoM')
     product_id = fields.Many2one('product.product', 'Product')
     general_account_id = fields.Many2one('account.account', 'General Account', required=False, ondelete='restrict')
     move_id = fields.Many2one('account.move.line', 'Move Line', ondelete='restrict', index=True)
-    journal_id = fields.Many2one('account.analytic.journal.plan', 'Planning Analytic Journal', required=True,
+    journal_id = fields.Many2one('account.analytic.journal.plan', 'Planning Analytic Journal', required=True,default=lambda self, context: context['journal_id'] if context and 'journal_id' in context else None,
                                  ondelete='restrict', index=True)
     code = fields.Char('Code', size=8)
     ref = fields.Char('Ref.', size=64)
@@ -63,17 +63,17 @@ class account_analytic_line_plan(models.Model):
     amount_currency = fields.Monetary(related='move_id.amount_currency', string='Amount currency', store=True,
                                       help="The amount expressed in the related account currency if not equal to the company one.",
                                       readonly=True)
-    period_id = fields.Many2one('account.period', 'Period', required=True, index=True)
+    # period_id = fields.Many2one('account.period', 'Period', required=True, index=True,default=_get_period)
     notes = fields.Text('Notes')
 
-    _defaults = {
-        'date': lambda *a: time.strftime('%Y-%m-%d'),
-        'company_id': lambda self, c: self.pool.get('res.company')._company_default_get(
-            'account.analytic.line', context=c),
-        'amount': 0.00,
-        'period_id': _get_period,
-        'journal_id': lambda self, context: context['journal_id'] if context and 'journal_id' in context else None,
-    }
+    # _defaults = {
+    #     'date': lambda *a: time.strftime('%Y-%m-%d'),
+    #     'company_id': lambda self, c: self.pool.get('res.company')._company_default_get(
+    #         'account.analytic.line', context=c),
+    #     'amount': 0.00,
+    #     'period_id': _get_period,
+    #     'journal_id': lambda self, context: context['journal_id'] if context and 'journal_id' in context else None,
+    # }
     _order = 'date desc'
 
     def search(self, args, offset=0, limit=None, order=None, count=False):

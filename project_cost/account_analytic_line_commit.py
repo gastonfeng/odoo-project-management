@@ -38,15 +38,15 @@ class account_analytic_line_commit(models.Model):
         return False
 
     name = fields.Char('Description', size=256, required=True)
-    date = fields.Date('Date', required=True, index=True)
-    amount = fields.Float('Amount', required=True,
+    date = fields.Date('Date', required=True, index=True,default=lambda *a: time.strftime('%Y-%m-%d'),)
+    amount = fields.Float('Amount', required=True,default=0.00,
                           help='Calculated by multiplying the quantity and the price given in the Product\'s cost price. Always expressed in the company main currency.',
                           digits=dp.get_precision('Account'))
     unit_amount = fields.Float('Quantity', help='Specifies the amount of quantity to count.')
     account_id = fields.Many2one('account.analytic.account', 'Analytic Account', required=True, ondelete='cascade',
                                  index=True, domain=[('type', '<>', 'view')])
     user_id = fields.Many2one('res.users', 'User')
-    company_id = fields.Many2one(related='account_id.company_id', type='many2one', relation='res.company',
+    company_id = fields.Many2one(related='account_id.company_id', type='many2one', relation='res.company',default=lambda self: self.env.user.company_id.id,
                                  string='Company', store=True, readonly=True)
     product_uom_id = fields.Many2one('product.uom', 'UoM')
     product_id = fields.Many2one('product.product', 'Product')
@@ -60,15 +60,15 @@ class account_analytic_line_commit(models.Model):
     amount_currency = fields.Float('Amount Currency',
                                    help="The amount expressed in an optional other currency if it is a multi-currency entry.",
                                    digits=dp.get_precision('Account'))
-    period_id = fields.Many2one('account.period', 'Period', required=True, index=True)
+    # period_id = fields.Many2one('account.period', 'Period', required=True, index=True,default=_get_period)
 
-    _defaults = {
-        'date': lambda *a: time.strftime('%Y-%m-%d'),
-        'company_id': lambda self, c: self.env.get('res.company')._company_default_get('account.analytic.line',
-                                                                                       context=c),
-        'amount': 0.00,
-        'period_id': _get_period,
-    }
+    # _defaults = {
+    #     'date': lambda *a: time.strftime('%Y-%m-%d'),
+    #     'company_id': lambda self, c: self.env.get('res.company')._company_default_get('account.analytic.line',
+    #                                                                                    context=c),
+    #     'amount': 0.00,
+    #     'period_id': _get_period,
+    # }
     _order = 'date desc'
 
     def search(self, args, offset=0, limit=None, order=None, context=None, count=False):

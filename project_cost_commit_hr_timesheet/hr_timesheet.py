@@ -24,7 +24,6 @@ from odoo import models, fields, api
 class hr_employee(models.Model):
     _name = "hr.employee"
     _inherit = "hr.employee"
-    commitment_journal_id = fields.Many2one('account.analytic.journal.commit', 'Analytic Commitment Journal')
 
     def _getAnalyticCommitmentJournal(self):
         md = self.env.get('ir.model.data')
@@ -34,11 +33,12 @@ class hr_employee(models.Model):
         except ValueError:
             pass
         return False
+    commitment_journal_id = fields.Many2one('account.analytic.journal.commit', 'Analytic Commitment Journal',default=_getAnalyticCommitmentJournal)
 
-    _defaults = {
-        'commitment_journal_id': _getAnalyticCommitmentJournal,
-
-    }
+    # _defaults = {
+    #     'commitment_journal_id': _getAnalyticCommitmentJournal,
+    #
+    # }
 
 
 class hr_analytic_timesheet(models.Model):
@@ -47,17 +47,17 @@ class hr_analytic_timesheet(models.Model):
     line_commit_id = fields.One2many('account.analytic.line.commit', 'hr_timesheet_id', 'Commitment Analytic line')
 
     def _getAnalyticCommitmentJournal(self):
-        emp_obj = self.env.get('hr.employee')
+        emp_obj = self.env['hr.employee']
         emp_id = emp_obj.search([('user_id', '=', self.env.uid)])
         if emp_id:
-            emp = emp_obj.browse(emp_id[0])
+            emp = emp_id[0]
             if emp.commitment_journal_id:
                 return emp.commitment_journal_id.id
         return False
 
-    def wkf_analytic_line_commit(self, ids):
+    def wkf_analytic_line_commit(self):
         acc_ana_line_obj = self.env.get('account.analytic.line.commit')
-        for obj in self.browse(ids):
+        for obj in self:
             vals_lines = {
                 'name': obj.name,
                 'date': obj.date,

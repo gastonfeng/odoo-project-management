@@ -27,14 +27,14 @@ class account_analytic_journal_commit_report(models.TransientModel):
     _name = 'account.analytic.journal.commit.report'
     _description = 'Account Analytic Commitment Journal'
 
-    date1 = fields.Date('Start of period', required=True)
-    date2 = fields.Date('End of period', required=True)
+    date1 = fields.Date('Start of period', required=True,default=lambda *a: time.strftime('%Y-01-01'),)
+    date2 = fields.Date('End of period', required=True,default=lambda *a: time.strftime('%Y-%m-%d'))
     
 
-    _defaults = {
-        'date1': lambda *a: time.strftime('%Y-01-01'),
-        'date2': lambda *a: time.strftime('%Y-%m-%d')
-    }
+    # _defaults = {
+    #     'date1': lambda *a: time.strftime('%Y-01-01'),
+    #     'date2': lambda *a: time.strftime('%Y-%m-%d')
+    # }
 
     def check_report(self, ids, context=None):
         datas = {}
